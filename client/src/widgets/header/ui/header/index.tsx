@@ -5,7 +5,7 @@ import { headerModal } from "@widgets/header";
 import styles from "./styles.module.css";
 import { NAVIGATION } from "@entities/navigation";
 import { Logo } from "@ui/logo";
-import { ThemeSwitcher } from "@features/theme-switcher";
+import { UserMenu } from "@widgets/user-menu";
 
 export const Header = () => {
   const {
@@ -15,7 +15,7 @@ export const Header = () => {
   })
 
   return (
-    <AppShell.Header>
+    <AppShell.Header className={styles.header}>
       <Group h="100%" px="md">
         <Burger opened={isBurgerOpened} onClick={() => headerModal.toggleBurger(!isBurgerOpened)} hiddenFrom="sm" size="sm" />
         <Group justify="space-between" style={{ flex: 1 }}>
@@ -27,7 +27,7 @@ export const Header = () => {
               </UnstyledButton>
             ))}
           </Group>
-          <ThemeSwitcher />
+          <UserMenu />
         </Group>
       </Group>
     </AppShell.Header>

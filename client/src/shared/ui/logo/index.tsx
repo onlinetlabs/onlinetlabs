@@ -6,7 +6,7 @@ export const Logo = () => {
 
   return (
     <IconCookie
-      style={{ width: rem(32), height: rem(32) }}
+      style={{ width: rem(40), height: rem(40) }}
       stroke={2}
       color={theme.colors.blue[6]}
     />
