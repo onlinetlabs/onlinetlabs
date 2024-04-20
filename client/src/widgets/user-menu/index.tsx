@@ -1,18 +1,9 @@
-import { Menu, Group, Text, Avatar, useMantineTheme, rem } from '@mantine/core';
-import {
-  IconLogout,
-  IconHeart,
-  IconStar,
-  IconMessage,
-  IconSettings,
-  IconPlayerPause,
-  IconTrash,
-  IconSwitchHorizontal,
-} from '@tabler/icons-react';
+import { useState } from 'react';
+import { Avatar, Group, Menu, rem, Text, useMantineTheme } from '@mantine/core';
+import { IconLogout, IconSettings, IconStar } from '@tabler/icons-react';
 import { clsx } from 'clsx';
 
 import styles from './styles.module.css';
-import { useState } from 'react';
 
 const user = {
   name: 'Иван Иванов',
@@ -28,7 +19,7 @@ export const UserMenu = () => {
     <Group justify="center">
       <Menu
         withArrow
-        width={300}
+        width={250}
         position="bottom"
         transitionProps={{ transition: 'pop' }}
         onClose={() => setUserMenuOpened(false)}
@@ -36,18 +27,23 @@ export const UserMenu = () => {
         withinPortal
       >
         <Menu.Target>
-          <Avatar className={clsx(styles.user, { [styles.userActive]: userMenuOpened })} src={null} alt={user.name} radius="xl" size={40}>
-            {user.name.split(' ').map((part) => part[0]).join('')}
+          <Avatar
+            className={clsx(styles.user, { [styles.userActive]: userMenuOpened })}
+            src={null}
+            alt={user.name}
+            radius="xl"
+            size={40}
+          >
+            {user.name
+              .split(' ')
+              .map((part) => part[0])
+              .join('')}
           </Avatar>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item
-          >
+          <Menu.Item>
             <Group>
-              <Avatar
-                radius="xl"
-                src={user.image}
-              />
+              <Avatar radius="xl" src={user.image} />
 
               <div>
                 <Text fw={500}>{user.name}</Text>
@@ -62,14 +58,14 @@ export const UserMenu = () => {
 
           <Menu.Item
             leftSection={
-              <IconHeart
+              <IconStar
                 style={{ width: rem(16), height: rem(16) }}
                 stroke={1.5}
                 color={theme.colors.red[6]}
               />
             }
           >
-            Liked posts
+            Мои курсы
           </Menu.Item>
           <Menu.Item
             leftSection={
@@ -80,57 +76,22 @@ export const UserMenu = () => {
               />
             }
           >
-            Saved posts
-          </Menu.Item>
-          <Menu.Item
-            leftSection={
-              <IconMessage
-                style={{ width: rem(16), height: rem(16) }}
-                stroke={1.5}
-                color={theme.colors.blue[6]}
-              />
-            }
-          >
-            Your comments
+            Мои лабы
           </Menu.Item>
 
-          <Menu.Label>Settings</Menu.Label>
+          <Menu.Divider />
           <Menu.Item
             leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           >
-            Account settings
-          </Menu.Item>
-          <Menu.Item
-            leftSection={
-              <IconSwitchHorizontal style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-            }
-          >
-            Change account
+            Настройки
           </Menu.Item>
           <Menu.Item
             leftSection={<IconLogout style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           >
-            Logout
-          </Menu.Item>
-
-          <Menu.Divider />
-
-          <Menu.Label>Danger zone</Menu.Label>
-          <Menu.Item
-            leftSection={
-              <IconPlayerPause style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-            }
-          >
-            Pause subscription
-          </Menu.Item>
-          <Menu.Item
-            color="red"
-            leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-          >
-            Delete account
+            Выйти
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
     </Group>
   );
-}
+};
