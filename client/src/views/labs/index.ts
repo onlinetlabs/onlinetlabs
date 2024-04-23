@@ -1,0 +1,1 @@
+export { LabsPage } from './page';

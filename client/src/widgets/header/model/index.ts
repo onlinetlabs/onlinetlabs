@@ -1,6 +1,4 @@
-'use client';
-
-import { createEvent, restore } from '@lib/state-engine';
+import { createEvent, restore } from 'effector';
 
 export const toggleBurger = createEvent<boolean>();
 

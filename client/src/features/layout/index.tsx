@@ -1,29 +1,35 @@
+'use client';
+
 import type { PropsWithChildren, ReactNode } from 'react';
-import { headerModal } from "@widgets/header";
-import { AppShell } from '@mantine/core';
-import { useUnit } from '@lib/state-engine';
+import { AppShell, AppShellMain } from '@mantine/core';
+import { headerModal } from '@widgets/header';
+import { useUnit } from 'effector-react';
+
+import styles from './styles.module.css';
 
 export const Layout = ({ header, navbar, children, aside, footer }: PropsWithChildren<Props>) => {
-  const {
-    isBurgerOpened,
-  } = useUnit({
+  const { isBurgerOpened } = useUnit({
     isBurgerOpened: headerModal.$isBurgerOpen,
-  })
+  });
 
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: true, mobile: !isBurgerOpened } }}
+      navbar={{
+        width: 300,
+        breakpoint: 'sm',
+        collapsed: { desktop: true, mobile: !isBurgerOpened },
+      }}
       padding="md"
     >
       {header}
       {navbar}
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShellMain className={styles.main}>{children}</AppShellMain>
       {aside}
       {footer}
     </AppShell>
   );
-}
+};
 
 type Props = Partial<{
   header: ReactNode;
@@ -31,5 +37,4 @@ type Props = Partial<{
   aside: ReactNode;
   footer: ReactNode;
   children: ReactNode;
-}>
-
+}>;

@@ -1,0 +1,78 @@
+.label {
+  border-radius: 9999px;
+  padding-inline: 6px;
+
+  &.default {
+    background-color: #1f2937;
+    color: #d1d5db;
+  }
+
+  &.pink {
+    background-color: pink;
+    color: #fff;
+  }
+
+  &.blue {
+    background-color: blue;
+    color: #fff;
+  }
+
+  &.cyan {
+    background-color: cyan;
+    color: #fff;
+  }
+
+  &.violet {
+    background-color: violet;
+    color: #fff;
+  }
+
+  &.orange {
+    background-color: orange;
+    color: #fff;
+  }
+}
+
+.boundary {
+  position: relative;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: dashed;
+  padding: 32px;
+
+  &.default {
+    border-color: #374151;
+  }
+
+  &.pink {
+    border-color: pink;
+  }
+
+  &.blue {
+    border-color: blue;
+  }
+
+  &.cyan {
+    border-color: cyan;
+  }
+
+  &.violet {
+    border-color: violet;
+  }
+
+  &.orange {
+    border-color: orange;
+  }
+}
+
+.blabel {
+  position: absolute;
+  top: 0px;
+  display: flex;
+  column-gap: 4px;
+  font-size: 9px;
+  text-transform: uppercase;
+  line-height: 20px;
+  letter-spacing: 0.1em;
+  left: 12px;
+}

@@ -1,6 +1,9 @@
+'use client';
+
+import { ActionIcon, Group, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
+import { IconMoon, IconSun } from '@tabler/icons-react';
 import cx from 'clsx';
-import { ActionIcon, useMantineColorScheme, useComputedColorScheme, Group } from '@mantine/core';
-import { IconSun, IconMoon } from '@tabler/icons-react';
+
 import styles from './styles.module.css';
 
 export const ThemeSwitcher = () => {
@@ -20,4 +23,4 @@ export const ThemeSwitcher = () => {
       </ActionIcon>
     </Group>
   );
-}
+};

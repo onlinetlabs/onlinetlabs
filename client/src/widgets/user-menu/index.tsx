@@ -1,5 +1,15 @@
 import { useState } from 'react';
-import { Avatar, Group, Menu, rem, Text, useMantineTheme } from '@mantine/core';
+import {
+  Avatar,
+  Group,
+  Menu,
+  MenuDropdown,
+  MenuItem,
+  MenuTarget,
+  rem,
+  Text,
+  useMantineTheme,
+} from '@mantine/core';
 import { IconLogout, IconSettings, IconStar } from '@tabler/icons-react';
 import { clsx } from 'clsx';
 
@@ -26,7 +36,7 @@ export const UserMenu = () => {
         onOpen={() => setUserMenuOpened(true)}
         withinPortal
       >
-        <Menu.Target>
+        <MenuTarget>
           <Avatar
             className={clsx(styles.user, { [styles.userActive]: userMenuOpened })}
             src={null}
@@ -39,9 +49,9 @@ export const UserMenu = () => {
               .map((part) => part[0])
               .join('')}
           </Avatar>
-        </Menu.Target>
-        <Menu.Dropdown>
-          <Menu.Item>
+        </MenuTarget>
+        <MenuDropdown>
+          <MenuItem>
             <Group>
               <Avatar radius="xl" src={user.image} />
 
@@ -52,11 +62,11 @@ export const UserMenu = () => {
                 </Text>
               </div>
             </Group>
-          </Menu.Item>
+          </MenuItem>
 
           <Menu.Divider />
 
-          <Menu.Item
+          <MenuItem
             leftSection={
               <IconStar
                 style={{ width: rem(16), height: rem(16) }}
@@ -66,8 +76,8 @@ export const UserMenu = () => {
             }
           >
             Мои курсы
-          </Menu.Item>
-          <Menu.Item
+          </MenuItem>
+          <MenuItem
             leftSection={
               <IconStar
                 style={{ width: rem(16), height: rem(16) }}
@@ -77,20 +87,20 @@ export const UserMenu = () => {
             }
           >
             Мои лабы
-          </Menu.Item>
+          </MenuItem>
 
           <Menu.Divider />
-          <Menu.Item
+          <MenuItem
             leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           >
             Настройки
-          </Menu.Item>
-          <Menu.Item
+          </MenuItem>
+          <MenuItem
             leftSection={<IconLogout style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           >
             Выйти
-          </Menu.Item>
-        </Menu.Dropdown>
+          </MenuItem>
+        </MenuDropdown>
       </Menu>
     </Group>
   );

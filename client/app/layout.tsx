@@ -1,23 +1,23 @@
+import { EffectorNext } from '@effector/next';
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import type { Metadata } from 'next';
+
 import '@mantine/core/styles.css';
 
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
-
-export const metadata = {
-  title: 'onlinetlabs',
+export const metadata: Metadata = {
+  title: 'Обучающая платформа | onlinetlabs',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
       <head>
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <EffectorNext>
+          <MantineProvider>{children}</MantineProvider>
+        </EffectorNext>
       </body>
     </html>
   );

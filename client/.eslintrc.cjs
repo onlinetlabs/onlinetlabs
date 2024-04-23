@@ -7,6 +7,8 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
+    'plugin:effector/react',
+    'plugin:effector/future'
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
@@ -20,7 +22,7 @@ module.exports = {
       experimentalObjectRestSpread: true,
     },
   },
-  plugins: ['react-refresh', '@typescript-eslint', 'simple-import-sort', 'import'],
+  plugins: ['react-refresh', '@typescript-eslint', 'simple-import-sort', 'import', 'effector'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     '@typescript-eslint/no-namespace': 'off',
