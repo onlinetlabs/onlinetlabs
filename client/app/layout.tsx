@@ -3,6 +3,7 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import type { Metadata } from 'next';
 
 import '@mantine/core/styles.css';
+import '@app/global.css';
 
 export const metadata: Metadata = {
   title: 'Обучающая платформа | onlinetlabs',

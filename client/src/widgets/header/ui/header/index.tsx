@@ -1,7 +1,7 @@
 'use client';
 
 import { NAVIGATION } from '@entities/navigation';
-import { AppShellHeader, Burger, Group, UnstyledButton } from '@mantine/core';
+import { Burger, Group, Text } from '@mantine/core';
 import { headerModal } from '@widgets/header';
 import { UserMenu } from '@widgets/user-menu';
 import { useUnit } from 'effector-react';
@@ -21,34 +21,55 @@ export const Header = () => {
   const toggleBurger = useUnit(headerModal.toggleBurger);
 
   return (
-    <AppShellHeader className={styles.header}>
-      <Group h="100%" px="md">
-        <Burger
-          opened={isBurgerOpened}
-          onClick={() => toggleBurger(!isBurgerOpened)}
-          hiddenFrom="sm"
-          size="sm"
-        />
-        <Group justify="space-between" style={{ flex: 1 }}>
-          <Link href="/" className={styles.logo}>
-            <Logo />
-          </Link>
-          <Group gap={5} visibleFrom="sm" mx="auto">
-            {NAVIGATION.map((item) => (
-              <UnstyledButton
-                component={Link}
-                key={item.id}
-                data-active={item.path === pathname || undefined}
-                className={styles.link}
-                href={item.path}
-              >
-                {item.label}
-              </UnstyledButton>
-            ))}
-          </Group>
-          <UserMenu />
-        </Group>
-      </Group>
-    </AppShellHeader>
+    <div className={styles.root}>
+      <header className={styles.header}>
+        <div className={styles.container}>
+          <div className={styles.left}>
+            <Link href="/">
+              <Group className={styles.logo} gap="xs" justify="center" wrap="nowrap">
+                <Logo />
+                <Text component="span" className={styles.onlinetlabs}>
+                  onlinetlabs
+                </Text>
+              </Group>
+            </Link>
+          </div>
+          <div className={styles.right}>
+            <Group visibleFrom="xs">
+              <UserMenu />
+            </Group>
+            <Burger
+              opened={isBurgerOpened}
+              onClick={() => toggleBurger(!isBurgerOpened)}
+              size="sm"
+              hiddenFrom="xs"
+            />
+          </div>
+        </div>
+
+        <div className={styles.inner}>
+          <div className={styles.content}>
+            <div className={styles.overflow}>
+              <div className={styles.wrapper}>
+                <nav>
+                  <ul className={styles.navigation}>
+                    {NAVIGATION.map((item, idx) => (
+                      <Link key={idx} href={item.href} className={styles.link}>
+                        <li
+                          className={styles.item}
+                          data-active={item.href === pathname || undefined}
+                        >
+                          {item.label}
+                        </li>
+                      </Link>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
   );
 };

@@ -37,7 +37,7 @@ export const UserMenu = () => {
         withinPortal
       >
         <MenuTarget>
-          <Avatar
+          {/* <Avatar
             className={clsx(styles.user, { [styles.userActive]: userMenuOpened })}
             src={null}
             alt={user.name}
@@ -48,19 +48,20 @@ export const UserMenu = () => {
               .split(' ')
               .map((part) => part[0])
               .join('')}
-          </Avatar>
+          </Avatar> */}
+          <Avatar
+            className={clsx(styles.user, { [styles.userActive]: userMenuOpened })}
+            src={null}
+            alt={user.name}
+            radius="xl"
+            size={40}
+          />
         </MenuTarget>
         <MenuDropdown>
           <MenuItem>
             <Group>
-              <Avatar radius="xl" src={user.image} />
-
-              <div>
-                <Text fw={500}>{user.name}</Text>
-                <Text size="xs" c="dimmed">
-                  {user.email}
-                </Text>
-              </div>
+              <Avatar radius="xl" src={null} />
+              <Text>{user.name}</Text>
             </Group>
           </MenuItem>
 

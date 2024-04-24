@@ -2,11 +2,11 @@ export const NAVIGATION = [
   {
     id: 'lectures',
     label: 'Лекции',
-    path: '/lectures'
+    href: '/lectures',
   },
   {
     id: 'labs',
-    label: 'Лабы',
-    path: '/labs'
+    label: 'Лабораторные работы',
+    href: '/labs',
   },
 ] as const;
