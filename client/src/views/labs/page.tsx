@@ -1,10 +1,11 @@
 import { Layout } from '@features/layout';
 import { Header } from '@widgets/header';
+import { Hero } from './ui/hero';
 
 export const LabsPage = () => {
   return (
     <Layout header={<Header />}>
-      <h1>Labs page</h1>
+      <Hero />
     </Layout>
   );
 };

@@ -1,0 +1,87 @@
+.hero {
+  padding: var(--mantine-spacing-md) 0;
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  padding-bottom: 0;
+}
+
+.container {
+  padding: 0;
+  max-width: 1328px;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1440px;
+  transform: translateX(-50%);
+  max-width: 98vw;
+  height: 100%;
+  border-radius: var(--mantine-spacing-lg);
+  z-index: 5;
+  overflow: hidden;
+}
+
+.cover {
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.controls {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--mantine-spacing-lg);
+  padding-bottom: rem(20px);
+  z-index: 10;
+}
+
+.title {
+  font-size: rem(48px);
+  line-height: rem(52px);
+  padding-top: rem(112px);
+  padding-bottom: rem(96px);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: rem(32px);
+  }
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.filter {
+  margin-right: rem(8px);
+  margin-left: rem(8px);
+  margin-bottom: rem(12px);
+  min-width: rem(230px);
+  flex-grow: 1;
+  max-width: 240px;
+}
+
+.bookmark {
+  width: auto;
+  min-width: auto;
+  flex-grow: 0;
+  font-weight: 400;
+}
