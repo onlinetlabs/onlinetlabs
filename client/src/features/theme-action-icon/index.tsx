@@ -6,7 +6,7 @@ import cx from 'clsx';
 
 import styles from './styles.module.css';
 
-export const ThemeSwitcher = () => {
+export const ThemeActionIcon = () => {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 

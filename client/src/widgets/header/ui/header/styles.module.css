@@ -19,7 +19,7 @@
 .container {
   display: flex;
   justify-content: space-between;
-  height: 36px;
+  height: 42px;
 }
 
 .left {
@@ -113,7 +113,7 @@
   font-weight: 800;
   font-size: rem(28px);
   line-height: 40px;
-  color: var(--mantine-color-blue-light-color);
+  color: var(--mantine-color-blue-6);
   letter-spacing: rem(0.5px);
 
   @media (max-width: $mantine-breakpoint-xs) {

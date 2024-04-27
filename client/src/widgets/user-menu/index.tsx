@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import {
-  Avatar,
+  Button,
   Group,
   Menu,
   MenuDropdown,
@@ -8,10 +7,13 @@ import {
   MenuTarget,
   rem,
   Text,
+  useComputedColorScheme,
+  useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core';
-import { IconLogout, IconSettings, IconStar } from '@tabler/icons-react';
-import { clsx } from 'clsx';
+import { IconLogout, IconPalette, IconSettings, IconStar } from '@tabler/icons-react';
+import Image from 'next/image';
+import { ThemeSwitcher } from './ui/theme-switcher';
 
 import styles from './styles.module.css';
 
@@ -23,61 +25,31 @@ const user = {
 
 export const UserMenu = () => {
   const theme = useMantineTheme();
-  const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+  const { setColorScheme } = useMantineColorScheme();
 
   return (
     <Group justify="center">
       <Menu
-        withArrow
         width={250}
-        position="bottom"
+        position="bottom-end"
         transitionProps={{ transition: 'pop' }}
-        onClose={() => setUserMenuOpened(false)}
-        onOpen={() => setUserMenuOpened(true)}
+        closeOnItemClick={false}
         withinPortal
       >
         <MenuTarget>
-          {/* <Avatar
-            className={clsx(styles.user, { [styles.userActive]: userMenuOpened })}
-            src={null}
-            alt={user.name}
-            radius="xl"
-            size={40}
-          >
-            {user.name
-              .split(' ')
-              .map((part) => part[0])
-              .join('')}
-          </Avatar> */}
-          <Avatar
-            className={clsx(styles.user, { [styles.userActive]: userMenuOpened })}
-            src={null}
-            alt={user.name}
-            radius="xl"
-            size={40}
-          />
+          <Button variant="transparent" className={styles.target}>
+            <Image src="/assets/avatar.png" width={42} height={42} alt={user.name} />
+          </Button>
         </MenuTarget>
         <MenuDropdown>
           <MenuItem>
             <Group>
-              <Avatar radius="xl" src={null} />
+              <Image src="/assets/avatar.png" width={32} height={32} alt={user.name} />
               <Text>{user.name}</Text>
             </Group>
           </MenuItem>
 
-          <Menu.Divider />
-
-          <MenuItem
-            leftSection={
-              <IconStar
-                style={{ width: rem(16), height: rem(16) }}
-                stroke={1.5}
-                color={theme.colors.red[6]}
-              />
-            }
-          >
-            Мои курсы
-          </MenuItem>
           <MenuItem
             leftSection={
               <IconStar
@@ -87,10 +59,16 @@ export const UserMenu = () => {
               />
             }
           >
-            Мои лабы
+            Успеваемость
           </MenuItem>
-
-          <Menu.Divider />
+          <MenuItem
+            leftSection={<IconPalette style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+            rightSection={<ThemeSwitcher />}
+            onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+            style={{ cursor: 'pointer' }}
+          >
+            Темная тема
+          </MenuItem>
           <MenuItem
             leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
           >
