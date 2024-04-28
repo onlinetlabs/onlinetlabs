@@ -28,16 +28,7 @@
   border-radius: var(--mantine-spacing-lg);
   z-index: 5;
   overflow: hidden;
-}
-
-.cover {
-  left: 0;
-  top: 0;
-  pointer-events: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  background-color: light-dark(var(--mantine-color-indigo-0), var(--mantine-color-dark-6));
 }
 
 .controls {
@@ -84,4 +75,12 @@
   min-width: auto;
   flex-grow: 0;
   font-weight: 400;
+}
+
+.dots {
+  position: absolute;
+  color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-2));
+  @media (max-width: $mantine-breakpoint-sm) {
+    display: none;
+  }
 }

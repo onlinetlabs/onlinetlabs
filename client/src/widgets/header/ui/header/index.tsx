@@ -2,8 +2,10 @@
 
 import { NAVIGATION } from '@entities/navigation';
 import { Burger, Group, Text } from '@mantine/core';
+import { useWindowScroll } from '@mantine/hooks';
 import { headerModal } from '@widgets/header';
 import { UserMenu } from '@widgets/user-menu';
+import { clsx } from 'clsx';
 import { useUnit } from 'effector-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,10 +21,11 @@ export const Header = () => {
   });
 
   const toggleBurger = useUnit(headerModal.toggleBurger);
+  const [scroll] = useWindowScroll();
 
   return (
     <div className={styles.root}>
-      <header className={styles.header}>
+      <header className={clsx(styles.header, { [styles.shadow]: scroll.y > 0 })}>
         <div className={styles.container}>
           <div className={styles.left}>
             <Link href="/">

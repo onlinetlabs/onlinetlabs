@@ -6,7 +6,7 @@ export const NAVIGATION = [
   },
   {
     id: 'labs',
-    label: 'Лабораторные работы',
-    href: '/labs',
+    label: 'Курсы',
+    href: '/courses',
   },
 ] as const;

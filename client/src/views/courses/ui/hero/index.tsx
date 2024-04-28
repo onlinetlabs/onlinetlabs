@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button, rem, Select, Text, TextInput } from '@mantine/core';
 import { IconBookmark, IconBookmarkFilled, IconSearch } from '@tabler/icons-react';
 import { clsx } from 'clsx';
+import { Dots } from '@ui/dots';
 
 import styles from './styles.module.css';
 
@@ -15,16 +16,14 @@ export const Hero = () => {
       <div className={styles.content}>
         <div className={styles.container}>
           <div className={styles.background}>
-            <picture>
-              <img
-                className={styles.cover}
-                src="https://storage.yandexcloud.net/cloud-www-assets/blog-assets/cover_blog.png"
-              />
-            </picture>
+            <Dots className={styles.dots} style={{ left: 140, top: 0 }} />
+            <Dots className={styles.dots} style={{ left: 0, top: 140 }} />
+            <Dots className={styles.dots} style={{ right: 0, top: 60 }} />
           </div>
+
           <div className={styles.controls}>
             <Text component="h1" fw={500} className={styles.title}>
-              Лабораторные работы
+              Курсы
             </Text>
             <div className={styles.filters}>
               <TextInput
@@ -33,6 +32,7 @@ export const Hero = () => {
                 leftSection={
                   <IconSearch style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
                 }
+                radius="md"
                 className={styles.filter}
               />
               <Select
@@ -40,6 +40,7 @@ export const Hero = () => {
                 defaultValue={'Все темы'}
                 data={['Все темы', 'Тема 1', 'Тема 2', 'Тема 3']}
                 className={styles.filter}
+                radius="md"
               />
               <Button
                 variant={checked ? 'filled' : 'default'}
@@ -49,6 +50,7 @@ export const Hero = () => {
                   checked ? <IconBookmarkFilled size={14} /> : <IconBookmark size={14} />
                 }
                 className={clsx(styles.filter, styles.bookmark)}
+                radius="md"
               >
                 Сохранённые
               </Button>
