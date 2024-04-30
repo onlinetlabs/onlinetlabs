@@ -10,8 +10,8 @@
   flex-grow: 1;
   margin-top: 124px;
 
-  @media (max-width: $mantine-breakpoint-xs) {
-    margin-top: 52px;
+  @media (max-width: $mantine-breakpoint-sm) {
+    margin-top: 72px;
   }
 }
 

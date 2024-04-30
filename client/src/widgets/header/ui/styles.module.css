@@ -1,0 +1,47 @@
+.root {
+  z-index: 103;
+  position: fixed;
+  width: 100%;
+}
+
+.header {
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+  max-width: min(100% - var(--mantine-spacing-xl), 1296px);
+  margin: 0 auto;
+  padding: var(--mantine-spacing-sm) var(--mantine-spacing-xl) 0px;
+  border-radius: 24px;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    max-width: 100%;
+    padding: var(--mantine-spacing-md);
+  }
+}
+
+.header.shadow {
+  box-shadow: light-dark(0px 0px 24px rgba(0, 0, 0, 0.08), 0px 0px 24px rgba(0, 0, 0, 0.16));
+}
+
+.header.square {
+  border-radius: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  height: 42px;
+}
+
+.left {
+  margin-right: var(--mantine-spacing-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-md);
+}
+
+.right {
+  justify-content: flex-end;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-md);
+}

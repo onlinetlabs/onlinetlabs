@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Button,
   Group,
@@ -23,7 +25,7 @@ const user = {
   image: 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
 };
 
-export const UserMenu = () => {
+export const Profile = () => {
   const theme = useMantineTheme();
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
   const { setColorScheme } = useMantineColorScheme();

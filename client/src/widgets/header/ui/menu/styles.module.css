@@ -1,0 +1,23 @@
+.nav {
+  inset-inline-start: 0;
+  width: 100%;
+  transition-property: transform, top, height;
+  transform: translateX(calc(100% * -1));
+  z-index: calc(100 + 1);
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 74px;
+  height: 100dvh;
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+  /* transition-duration: 200ms;
+  transition-timing-function: ease; */
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    display: none;
+  }
+}
+
+.opened {
+  transform: translateX(0);
+}

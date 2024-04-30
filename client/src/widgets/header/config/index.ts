@@ -1,4 +1,4 @@
-export const NAVIGATION = [
+export const HEADER_ITEMS = [
   {
     id: 'lectures',
     label: 'Лекции',
