@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { Button, rem, Select, Text, TextInput } from '@mantine/core';
 import { IconBookmark, IconBookmarkFilled, IconSearch } from '@tabler/icons-react';
 import { clsx } from 'clsx';
+import { useState } from 'react';
 import { Dots } from '@ui/dots';
 
 import styles from './styles.module.css';
@@ -37,7 +37,7 @@ export const Hero = () => {
               />
               <Select
                 size="md"
-                defaultValue={'Все темы'}
+                defaultValue="Все темы"
                 data={['Все темы', 'Тема 1', 'Тема 2', 'Тема 3']}
                 className={styles.filter}
                 radius="md"

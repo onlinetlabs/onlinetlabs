@@ -1,7 +1,25 @@
 {
+  "$schema": "http://json.schemastore.org/prettierrc",
   "printWidth": 100,
-  "tabWidth": 2,
+  "quoteProps": "consistent",
+  "semi": true,
   "singleQuote": true,
   "arrowParens": "always",
-  "trailingComma": "all"
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "endOfLine": "auto",
+  "overrides": [
+    {
+      "files": ["*.json", "*.yml", "*.md"],
+      "options": {
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": ["*.{ts,tsx}"],
+      "options": {
+        "parser": "typescript"
+      }
+    }
+  ]
 }

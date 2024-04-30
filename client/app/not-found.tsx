@@ -1,5 +1,5 @@
-import { NotFoundPage } from '@views/not-found';
 import type { Metadata } from 'next';
+import { NotFoundPage } from '@views/not-found';
 
 export const metadata: Metadata = {
   title: 'Страница не найдена | onlinetlabs',

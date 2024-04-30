@@ -1,10 +1,10 @@
-import { Layout } from '@features/layout';
+import { BaseLayout } from '@views/layouts';
 import { Header } from '@widgets/header';
 
 export const RootPage = () => {
   return (
-    <Layout header={<Header />}>
+    <BaseLayout header={<Header />}>
       <h1>Root page</h1>
-    </Layout>
+    </BaseLayout>
   );
 };

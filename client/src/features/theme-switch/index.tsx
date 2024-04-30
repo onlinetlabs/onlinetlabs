@@ -1,7 +1,7 @@
 import { Group, rem, Switch, useComputedColorScheme, useMantineTheme } from '@mantine/core';
 import { IconMoonStars, IconSun } from '@tabler/icons-react';
 
-export const ThemeSwitcher = () => {
+export const ThemeSwitch = () => {
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
   const theme = useMantineTheme();
 

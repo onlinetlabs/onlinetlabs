@@ -1,1 +1,1 @@
-export { NAVIGATION } from './constants'
+export { NAVIGATION } from './constants';

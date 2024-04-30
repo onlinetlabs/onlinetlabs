@@ -1,15 +1,14 @@
 'use client';
 
-import { NAVIGATION } from '@entities/navigation';
 import { Burger, Group, Text } from '@mantine/core';
 import { useWindowScroll } from '@mantine/hooks';
-import { headerModal } from '@widgets/header';
-import { UserMenu } from '@widgets/user-menu';
 import { clsx } from 'clsx';
 import { useUnit } from 'effector-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Logo } from '@ui/logo';
+import { headerModal, UserMenu } from '@widgets/header';
+import { NAVIGATION } from '@entities/navigation';
 
 import styles from './styles.module.css';
 

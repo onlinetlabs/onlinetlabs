@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { IconLogout, IconPalette, IconSettings, IconStar } from '@tabler/icons-react';
 import Image from 'next/image';
-import { ThemeSwitcher } from './ui/theme-switcher';
+import { ThemeSwitch } from '@features/theme-switch';
 
 import styles from './styles.module.css';
 
@@ -63,7 +63,7 @@ export const UserMenu = () => {
           </MenuItem>
           <MenuItem
             leftSection={<IconPalette style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-            rightSection={<ThemeSwitcher />}
+            rightSection={<ThemeSwitch />}
             onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
             style={{ cursor: 'pointer' }}
           >

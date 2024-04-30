@@ -1,5 +1,5 @@
-import { rem, useMantineTheme } from "@mantine/core";
-import { IconCookie } from "@tabler/icons-react"
+import { rem, useMantineTheme } from '@mantine/core';
+import { IconCookie } from '@tabler/icons-react';
 
 export const Logo = () => {
   const theme = useMantineTheme();
@@ -10,5 +10,5 @@ export const Logo = () => {
       stroke={2}
       color={theme.colors.blue[6]}
     />
-  )
-}
+  );
+};

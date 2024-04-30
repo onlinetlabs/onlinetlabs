@@ -1,1 +1,1 @@
-export { NAVIGATION } from './model'
+export { NAVIGATION } from './model';
