@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
 
@@ -32,7 +32,7 @@ services:
     # This instructs Docker Compose to load environment variables
     # from the .env file located in the same directory as the
     # docker-compose.yaml.
-    env_file: ./src/server/.env
+    env_file: .env
     environment:
       # Setting this to 0 prevents Python from buffering stdout and stderr,
       # which means logs can be viewed immediately.
@@ -44,6 +44,8 @@ services:
       #  This could control debug mode for the application; commonly used
       # in web frameworks.
       - DEBUG=False
+      # Set the hostname to connect to the database.
+      - POSTGRES_HOST=netlab_database
     # Indicates that the service should restart automatically under
     # certain conditions (e.g., if it crashes).
     restart: always
@@ -60,6 +62,12 @@ services:
     # access through the specified port.
     ports:
       - '8000:${SERVER_PORT:-8000}'
+      # To enable communication between two Docker containers,
+      # (core - server and database) don't necessarily need to map the
+      # ports to the host machine. Instead, you can use Docker's internal
+      # networking. Docker Compose automatically sets up a bridge network
+      # and allows containers to communicate with each other using their
+      # service names as hostnames. Check 'environment' - 'POSTGRES_HOST'
 
     # This mounts the ./src/server directory from the host machine to
     # the /app directory within the container. This setup
@@ -117,4 +125,4 @@ services:
     # This instructs Docker Compose to load environment variables
     # from the .env file located in the same directory as the
     # docker-compose.yaml.
-    env_file: ./src/database/.env
+    env_file: .env

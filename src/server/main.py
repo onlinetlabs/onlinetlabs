@@ -20,7 +20,9 @@ from app.model import PostSchema, UserSignupSchema, UserLoginSchema
 from app.auth.auth_bearer import JWTBearer
 from app.auth.auth_handler import signJWT, decodeJWT
 
-from common import common_router
+from db_api     import Database
+
+# from common import common_router
 # from config.settings import get_settings
 
 
@@ -58,6 +60,8 @@ fake_users_db = {
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
+database = Database()
+
 def on_startup():
     print(f"App startup.")
 
@@ -67,7 +71,7 @@ def create_app():
         title="APP",
         version="0.0.1",
         docs_url="/api/docs",
-        redocs_url="/api/redocs",
+        redoc_url="/api/redoc",
         openapi_url="/api/openapi.json",
         # servers=[
         #     # {"url": "https://stag.example.com", "Desc": "Staging env"},
@@ -184,6 +188,23 @@ def token_refresh(refresh_token: str):
         return {"access_token": access_token, "refresh_token": refresh_token}
     raise HTTPException(status_code=403, detail="Invalid token or expired token.")
 
+
+
+# DATABASE TEST
+
+@app.get("/db_users/get")
+def get_single_post():
+    users = database.table_read_users()
+    return users
+
+
+@app.post("/posts", dependencies=[Depends(JWTBearer())], tags=["posts"])
+def add_post(post: PostSchema):
+    post.id = len(posts) + 1
+    posts.append(post.dict())
+    return {
+        "data": "post added."
+    }
 
 
 if __name__ == "__main__":
