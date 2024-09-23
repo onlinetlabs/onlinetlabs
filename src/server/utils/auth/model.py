@@ -17,19 +17,17 @@ class PostSchema(BaseModel):
 class UserSignupSchema(BaseModel):
     firstname: str = Field(...)
     secondname: str = Field(...)
-    thirdname: str  = Field(...)
     email: EmailStr = Field(...)
     password: str = Field(...)
-    disabled: bool | None = None
+    disabled: bool = False
 
     class Config:
         json_schema_extra = {
             "example": {
                 "firstname":    "John",
                 "secondname":   "Doe",
-                "thirdname":    "Markov",
                 "email":        "example@mail.ru",
-                "password":     "Any",
+                "password":     "My_Ultra_Krypto_Passwd",
             }
         }
 
@@ -41,6 +39,6 @@ class UserLoginSchema(BaseModel):
         json_schema_extra = {
             "example": {
                 "email":    "example@mail.ru",
-                "password": "Any",
+                "password":     "My_Ultra_Krypto_Passwd",
             }
         }

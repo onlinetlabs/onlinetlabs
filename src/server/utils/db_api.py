@@ -3,19 +3,25 @@
 
 import asyncio
 import os
-from typing     import Self
-from types      import TracebackType
+from typing         import Self
+from types          import TracebackType
 
 
 # ------------------- #
 # Third party imports #
 
 import psycopg2
+from psycopg2.extras import RealDictCursor, RealDictRow
+from passlib.context import CryptContext
 
 
 # ------------- #
 # Local imports #
 
+from .auth.model      import UserSignupSchema, UserLoginSchema
+
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 ###########
@@ -55,7 +61,8 @@ class Database:
         self.cursor     = self._db_create_cursor()
 
 
-    def table_read_users(self) -> list:
+    # RealDictRow is like python dict
+    def table_read_users(self) -> list[RealDictRow]:
         print("Called: table_read_users")
         cmd = f"SELECT * FROM USERS;"
         self.cursor.execute(cmd)
@@ -67,26 +74,42 @@ class Database:
         print("\n")
         return rows
 
-    def table_add_user(self, id:int|None=None) -> None:
-        print("Called: table_add_user")
-        if id is not None:
-            print(f"Using with id")
-            cmd = f"""
-            INSERT INTO users (id, name, surname, email, password_hash, role, last_seen)
-            VALUES ({id}, 'John', 'Doe', 'john.doe@example.com', 'hashed_password_123', 'admin', '2024-06-17');"""
-        else:
-            print(f"Using without")
-            cmd = f"""
-            INSERT INTO users (name, surname, email, password_hash, role, last_seen)
-            VALUES ('John', 'Doe', 'john.doe@example.com', 'hashed_password_123', 'admin', '2024-06-17');"""
+    def table_get_user(self,
+                       user:UserSignupSchema|UserLoginSchema
+                ) -> RealDictRow|None:
+        cmd = f"SELECT * FROM USERS WHERE email = '{user.email}';"
+        self.cursor.execute(cmd)
+        user_db = self.cursor.fetchall()
+        print(f"Found user: {user_db}")
+        if len(user_db) == 0:
+            return None
+        # TODO: 'users' should be only one.
+        return user_db[0]
+
+
+    def table_add_user(self, user:UserSignupSchema) -> bool:
+        name            = user.firstname
+        surname         = user.secondname
+        email           = user.email
+        password_hash   = pwd_context.encrypt(user.password)
+        role            = "student"
+        last_seen       = '2024-06-17'
+
+        print(password_hash)
+        print(type(password_hash))
+        password_hash = str(password_hash)
+
+        cmd = f"""
+        INSERT INTO users (name, surname, email, password_hash, role, last_seen)
+        VALUES ('{name}', '{surname}', '{email}', '{password_hash}', '{role}', '{last_seen}');"""
         try:
             self.cursor.execute(cmd)
             self.commit()
+            return True
         except Exception:
             print(f"error")
+            return False
 
-        print("table USERS: New entry added successfully.")
-        print("\n")
 
     def commit(self) -> None:
         """ If you have made changes to the database
@@ -185,7 +208,8 @@ class Database:
         """ A cursor is used to interact with the database. """
 
         if hasattr(self, "connection"):
-            cursor = self.connection.cursor()
+            # cursor = self.connection.cursor()
+            cursor = self.connection.cursor(cursor_factory=RealDictCursor)
             return cursor
         else:
             print("Cant create cursor!")
@@ -220,13 +244,22 @@ class Database:
 # MAIN #
 ########
 
+user_schema = UserSignupSchema(
+    firstname="123",
+    secondname="321",
+    email="example@mail.ru",
+    password="",
+    disabled=False)
+
 async def main():
 
     async with Database() as db:
         db.table_read_users()
         while True:
-            db.table_add_user()
-            db.table_read_users()
+            # db.table_add_user()
+            # db.table_read_users()
+            user = db.table_get_user(user_schema)
+            print(user)
             input(f"Make new entry:> ")
 
 

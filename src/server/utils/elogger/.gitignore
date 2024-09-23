@@ -1,6 +1,7 @@
 #   - Ignore all files of a type: *.log.
 *.log
 logs/
+log*/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -20,6 +21,3 @@ dist/
 *.egg-info/
 .installed.cfg
 *.egg
-
-# Ignore database volumes
-*volume
