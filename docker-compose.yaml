@@ -119,8 +119,7 @@ services:
     volumes:
       # Common dir for scripts etc
       # If using bind mount - .dockerignore will be ignored itself :)
-      # - ./src/database:/app
-      # DB dir.
+      # Database volume. May be saved as regular folder and used as backup.
       - ./database_volume/data:/var/lib/postgresql/data
     # This instructs Docker Compose to load environment variables
     # from the .env file located in the same directory as the
