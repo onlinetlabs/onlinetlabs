@@ -15,9 +15,8 @@ COPY ./* /app/
 # COPY --exclude=venv ./* /app/
 
 # Run script which creates DB table
-COPY init-entrypoint.sh /docker-entrypoint-initdb.d/
 COPY init.sql /docker-entrypoint-initdb.d/
-RUN chmod +x /docker-entrypoint-initdb.d/init-entrypoint.sh
+
 # Database Initialization: This is the moment right after the container
 # checks if the data directory is empty. If it is empty, PostgreSQL will
 # create a new database cluster (the filesystem structure that PostgreSQL
@@ -33,12 +32,3 @@ RUN chmod +x /docker-entrypoint-initdb.d/init-entrypoint.sh
 # 2. You start the container with a clean environment or a new volume.
 # If you delete the volume or the data directory is empty when you start
 # the container, the scripts will run.
-
-# If 
-
-
-
-
-# COPY init-entrypoint.sh /docker-entrypoint-initdb.d/
-# COPY init.sql /docker-entrypoint-initdb.d/
-# RUN chmod +x /docker-entrypoint-initdb.d/init-entrypoint.sh
