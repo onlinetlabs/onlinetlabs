@@ -37,20 +37,6 @@ CREATE TABLE courses (
     description TEXT
 );
 
-CREATE TABLE materials_text (
-    id SERIAL PRIMARY KEY,
-    path TEXT,
-    name TEXT,
-    description TEXT
-);
-
-CREATE TABLE materials_video (
-    id SERIAL PRIMARY KEY,
-    video_url TEXT,
-    name TEXT,
-    description TEXT
-);
-
 CREATE TABLE users_courses (
     id BIGSERIAL PRIMARY KEY,
     user_id SERIAL REFERENCES users(id),
@@ -68,18 +54,6 @@ CREATE TABLE courses_tasks (
 CREATE TABLE courses_labs (
     id SMALLSERIAL PRIMARY KEY,
     lab_id SMALLINT REFERENCES labs(id),
-    course_id SMALLINT REFERENCES courses(id)
-);
-
-CREATE TABLE courses_materials_text (
-    id SMALLSERIAL PRIMARY KEY,
-    material_id SMALLINT REFERENCES materials_text(id),
-    course_id SMALLINT REFERENCES courses(id)
-);
-
-CREATE TABLE courses_materials_video (
-    id SMALLSERIAL PRIMARY KEY,
-    material_id SMALLINT REFERENCES materials_video(id),
     course_id SMALLINT REFERENCES courses(id)
 );
 
