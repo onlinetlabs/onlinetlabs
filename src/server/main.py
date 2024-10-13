@@ -14,7 +14,8 @@ import uvicorn
 
 # Import FastAPI app
 from utils.endpoints.core   import app
-# Add endpoints by importing modules
+# Need call (import) rest endpoints sequentially
+# to add endpoints to the 'app'
 import utils.endpoints.auth
 import utils.endpoints.posts
 import utils.endpoints.test
