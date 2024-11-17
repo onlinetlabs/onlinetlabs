@@ -52,8 +52,8 @@ TAGS:List = [
 # DATABASE TEST
 
 @app.get("/db_users/get", tags=TAGS)
-def get_users_dict():
-    users:list[RealDictRow] = database.table_read_users()
+async def get_users_dict():
+    users:list[RealDictRow] | None = await database.test_get_users()
     return JSONResponse(
             status_code=200,
             # 'jsonable_encoder' fixes problem when JSONResponse cant

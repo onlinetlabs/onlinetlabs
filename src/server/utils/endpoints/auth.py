@@ -2,6 +2,7 @@
 # System imports #
 
 import asyncio
+from enum               import Enum
 from typing             import List
 
 
@@ -35,7 +36,7 @@ from .core                   import app
 # --------- #
 # CONSTANTS #
 
-TAGS:List = [
+TAGS:list[str|Enum]|None = [
         "auth",
         ]
 
@@ -57,16 +58,16 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # USER SIGNUP/LOGIN FUNCTIONS
 
-def get_user_from_db(
-        user:UserSignupSchema|UserLoginSchema) -> RealDictRow|None:
-    # Request DB to get user.
-    user_db = database.table_get_user(user)
-    if user_db is None: return None
-    return user_db
+# def get_user_from_db(
+#         user:UserSignupSchema|UserLoginSchema) -> RealDictRow|None:
+#     # Request DB to get user.
+#     user_db = database.table_get_user(user)
+#     if user_db is None: return None
+#     return user_db
 
-def user_password_correct(user:UserLoginSchema) -> bool:
+async def user_password_correct(user:UserLoginSchema) -> bool:
     # Request DB to get user.
-    user_db = get_user_from_db(user)
+    user_db = await database.auth_get_user_by_email(user)
     if user_db is None: return False
     # check password
     plain_password = user.password
@@ -95,14 +96,19 @@ async def create_user(user: UserSignupSchema = Body(...)) -> Token:
         before.
     """
 
-    user_db = get_user_from_db(user)
+    # Check user.email is unique:
+    user_db = await database.auth_get_user_by_email(user)
     if user_db is not None:
         raise HTTPException(
                 status_code=400,
                 detail="User already exists. Try to login.")
 
     # Write new user into the DB.
-    database.table_add_user(user)
+    success:bool = await database.auth_signup(user)
+    if not success:
+        logger.main.error(f"Cant signup user: {user.email} {user.firstname}")
+    else:
+        logger.main.debug(f"User signed up: {user.email} {user.firstname} {user.secondname}")
 
     # Create and return access and refresh tokens.
     access_token = signJWT(user.email, ttl=JWT_ACC_TTL)
@@ -155,8 +161,8 @@ async def token_refresh(refresh_token: str) -> Token:
                 status_code=403, detail="Invalid or expired token.")
 
     # Refresh token is good - refresh and return tokens.
-    access_token = signJWT(payload['user_id'], ttl=JWT_ACC_TTL)
-    refresh_token = signJWT(payload['user_id'], ttl=JWT_REF_TTL)
+    access_token = signJWT(payload['email'], ttl=JWT_ACC_TTL)
+    refresh_token = signJWT(payload['email'], ttl=JWT_REF_TTL)
     token = Token(
             access_token=access_token,
             refresh_token=refresh_token,

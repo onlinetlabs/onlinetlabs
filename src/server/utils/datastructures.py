@@ -13,7 +13,7 @@ from pydantic       import BaseModel
 # ------------- #
 # Local imports #
 
-from .db_api         import Database
+from .database_api  import Database
 
 
 # --------- #

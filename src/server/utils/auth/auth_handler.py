@@ -16,6 +16,7 @@ from decouple               import config
 # Local imports #
 
 from utils.datastructures   import logger
+from .model                 import JWTPayloadSchema
 
 
 JWT_SECRET:str = config("JWT_SECRET", cast=str)
@@ -23,13 +24,13 @@ JWT_ALGORITHM:str = config("JWT_ALGORITHM", cast=str)
 
 
 # function used for signing the JWT string
-def signJWT(user_id: str, ttl: int) -> str:
+def signJWT(user_email: str, ttl: int) -> str:
     """
         The signJWT function is used to create (or "sign") a JWT for
         a specific user. It takes a user ID and a time-to-live (TTL)
         value as inputs and returns a signed JWT string.
         
-        - user_id: A string representing the unique identifier of the
+        - user_email: A string representing the unique identifier of the
         user for whom the token is being created.
         - ttl: An integer representing the time-to-live in seconds for
         the token. This determines how long the token will be valid before
@@ -38,11 +39,17 @@ def signJWT(user_id: str, ttl: int) -> str:
         The function returns the signed JWT as a string.
     """
 
-    payload = {
-        "user_id": user_id,
-        "expires": time.time() + ttl
-    }
-    token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+    # payload = {
+    #     "user_id": user_id,
+    #     "expires": time.time() + ttl
+    # }
+
+    payload:JWTPayloadSchema = JWTPayloadSchema(
+            email=user_email, expires=time.time() + ttl)
+        # "user_id": user_id,
+        # "expires": time.time() + ttl
+    # }
+    token = jwt.encode(payload.model_dump(), JWT_SECRET, algorithm=JWT_ALGORITHM)
 
     return token
 

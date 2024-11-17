@@ -24,10 +24,10 @@ class UserSignupSchema(BaseModel):
     class Config:
         json_schema_extra = {
             "example": {
-                "firstname":    "John",
-                "secondname":   "Doe",
+                "firstname":    "Ivan",
+                "secondname":   "Ivanov",
                 "email":        "example@mail.ru",
-                "password":     "My_Ultra_Krypto_Passwd",
+                "password":     "1234",
             }
         }
 
@@ -39,6 +39,19 @@ class UserLoginSchema(BaseModel):
         json_schema_extra = {
             "example": {
                 "email":    "example@mail.ru",
-                "password":     "My_Ultra_Krypto_Passwd",
+                "password":     "1234",
+            }
+        }
+
+
+class JWTPayloadSchema(BaseModel):
+    email:EmailStr = Field(...)
+    expires:float = Field(...)
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "email":        "example@mail.ru",
+                "expires":      1730206683.777908,
             }
         }
