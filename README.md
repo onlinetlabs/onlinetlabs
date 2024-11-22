@@ -1,40 +1,91 @@
-# Install Docker
+# Установка Docker
 
-```bash
-# Add Docker repository
+```shell
+# Добавим Docker репозиторий:
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
 
-# Download and install docker
+```shell
+# Установим Docker
 sudo apt update
 sudo apt install docker-ce vim -y
+```
 
-# Check that Docker installed correctly
+```shell
+# Убедимся в успешности установки Docker
 sudo systemctl status docker
-# If not - got response:
+# Если установка прошла неуспешно, команда выдаст ответ:
 # Unit docker.service could not be found.
+```
 
-# Add Docker to autostartup
+```shell
+# Добавим Docker в автозагрузку:
 sudo systemctl enable docker
+```
 
-# (Optional) add regular user to docker group to work with docker
-# without root prev.
+```shell
+# Запуск Docker не из под sudo (Опционально):
 sudo groupadd docker
 sudo usermod -aG docker ${USER}
-newgrp docker       # No need to relogin.
+newgrp docker
+```
 
-# Test Docker
+```shell
+# Протестируем Docker:
 docker run hello-world
+```
 
-# Output example:
+```shell
+# Вывод команды:
+
 # Hello from Docker!
 # This message shows that your installation appears to be working correctly.
 # ...
 ```
 
-# Deploy docker containers
 
-See docker-compose.yaml for example.
-Also src/server/Dockerfile
+# Управление приложением
 
-# qwe
+
+### Первоначальный запуск (deploy) приложения в контейнерах
+
+```shell
+./scripts/docker_deploy.sh
+```
+
+### Остановка всех контейнеров приложения, и удаление образов
+
+```shell
+./scripts/docker_delete.sh
+```
+
+### Остановка всех контейнров приложения
+
+```shell
+./scripts/docker_stop.sh
+```
+
+### Запуск (уже созданных с помощью deploy) образов контейнера
+
+```shell
+./scripts/docker_start.sh
+```
+
+### Посмотреть список запущенных контейнеров
+
+```shell
+docker ps -a
+```
+
+### Логи контейнера
+
+```shell
+docker logs <container_name>
+```
+
+### Зайти в shell контейнера
+
+```shell
+docker exec -it <container_name> bash
+```
