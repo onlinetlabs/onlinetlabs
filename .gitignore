@@ -23,3 +23,5 @@ dist/
 
 # Ignore database volumes
 *volume
+
+database_volume
