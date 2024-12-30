@@ -4,10 +4,7 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@components/page-header"
-import { Circle, CircuitBoard } from "lucide-react"
-import { Badge } from "@ui/badge"
 import { navConfig } from "@shared/config/nav"
-import { Icons } from "@components/icons"
 
 export default function CoursesPage() {
   return (
@@ -23,12 +20,12 @@ export default function CoursesPage() {
           {navConfig.courses.map((item, idx) => (
             <li key={idx} className="list-none min-h-[136px]">
               <article className="h-full">
-                <a className="group flex flex-col h-full p-4 bg-background rounded-md transition-all relative border shadow hover:shadow-md" href="/mobile-app-design/?from=catalog" target="_blank">
+                <Link className="group flex flex-col h-full p-4 bg-background rounded-md transition-all relative border shadow hover:-translate-y-[5px] hover:shadow-[0_16px_24px_rgb(0_0_0_/_7%),0_6px_30px_rgb(0_0_0_/_6%),0_8px_10px_rgb(0_0_0_/_10%)]" href={item.href || '#'} target="_blank">
                   <header className="mb-4">
                     <div className="mb-1">
-                      <p className="inline-block m-0 text-xs text-muted-foreground after:content-['•'] after:px-[0.33em]">Дизайн</p>
-                      <p className="inline-block m-0 text-xs text-muted-foreground after:content-['•'] after:px-[0.33em]">3 месяца</p>
-                      <p className="inline-block m-0 text-xs text-muted-foreground">С опытом</p>
+                      <p className="inline-block m-0 text-xs text-muted-foreground after:content-['•'] after:px-[0.33em]">Тэг 1</p>
+                      <p className="inline-block m-0 text-xs text-muted-foreground after:content-['•'] after:px-[0.33em]">Тэг 2</p>
+                      <p className="inline-block m-0 text-xs text-muted-foreground">Тэг 3</p>
                     </div>
                     <h2 className="text-xl">{item.title}</h2>
                   </header>
@@ -36,10 +33,10 @@ export default function CoursesPage() {
                     <div className="max-w-full h-[132px]" role="img" />
                   </div>
                   <footer className="mt-3">
-                    <p className="m-0 text-lg">от 3&nbsp;497 ₽/мес </p>
-                    <p className="m-0 mr-auto text-xs text-muted-foreground">или сразу 68&nbsp;000&nbsp;₽</p>
+                    <p className="m-0 text-lg">от 4&nbsp;часов</p>
+                    <p className="m-0 mr-auto text-xs text-muted-foreground">пройдено 0% курса</p>
                   </footer>
-                </a>
+                </Link>
               </article>
             </li>
           ))}
