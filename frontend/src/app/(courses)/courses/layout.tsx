@@ -1,5 +1,5 @@
 // import { SiteFooter } from "@components/site-footer"
-import { SiteHeader } from "@components/site-header"
+import { SiteHeader } from "@widgets/site-header"
 
 interface CoursesLayoutProps {
   children: React.ReactNode;

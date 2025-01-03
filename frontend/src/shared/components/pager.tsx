@@ -1,17 +1,15 @@
 import Link from "next/link"
-import { Course } from "contentlayer/generated"
+import { Chapter, allChapters } from "contentlayer/generated"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { NavItem, NavItemWithChildren } from "@shared/types/nav"
-
-import { navConfig } from "@shared/config/nav"
 import { Button } from "@ui/button"
 
-interface CoursesPagerProps {
-  course: Course
+interface ChaptersPagerProps {
+  chapter: Chapter
 }
 
-export function CoursesPager({ course }: CoursesPagerProps) {
-  const pager = getPagerForCourse(course)
+export function ChaptersPager({ chapter }: ChaptersPagerProps) {
+  const pager = getPagerForChapter(chapter)
 
   if (!pager) {
     return null
@@ -19,17 +17,17 @@ export function CoursesPager({ course }: CoursesPagerProps) {
 
   return (
     <div className="flex flex-row items-center justify-between">
-      {pager?.prev?.href && (
+      {pager?.prev?.slug && (
         <Button variant="ghost" asChild>
-          <Link href={pager.prev.href}>
+          <Link href={pager.prev.slug}>
             <ChevronLeft />
             {pager.prev.title}
           </Link>
         </Button>
       )}
-      {pager?.next?.href && (
+      {pager?.next?.slug && (
         <Button variant="ghost" className="ml-auto" asChild>
-          <Link href={pager.next.href}>
+          <Link href={pager.next.slug}>
             {pager.next.title}
             <ChevronRight />
           </Link>
@@ -39,16 +37,19 @@ export function CoursesPager({ course }: CoursesPagerProps) {
   )
 }
 
-export function getPagerForCourse(course: Course) {
-  const nav = navConfig.courses
-  const flattenedLinks = [null, ...flatten(nav), null]
-  const activeIndex = flattenedLinks.findIndex(
-    (link) => course.slug === link?.href
+export function getPagerForChapter(chapter: Chapter) {
+  const links = allChapters
+    .filter((c) => c.slugAsParams.startsWith(chapter.folder))
+    .toSorted((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+
+  const activeIndex = links.findIndex(
+    (link) => chapter.slug === link.slug
   )
-  const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
+
+  const prev = activeIndex !== 0 ? links[activeIndex - 1] : null
   const next =
-    activeIndex !== flattenedLinks.length - 1
-      ? flattenedLinks[activeIndex + 1]
+    activeIndex !== links.length - 1
+      ? links[activeIndex + 1]
       : null
   return {
     prev,

@@ -5,6 +5,13 @@ import {
   PageHeaderHeading,
 } from "@components/page-header"
 import { navConfig } from "@shared/config/nav"
+import { Badge } from "@ui/badge"
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Список курсов",
+  description: "Полный список всех доступных курсов.",
+};
 
 export default function CoursesPage() {
   return (
@@ -20,21 +27,22 @@ export default function CoursesPage() {
           {navConfig.courses.map((item, idx) => (
             <li key={idx} className="list-none min-h-[136px]">
               <article className="h-full">
-                <Link className="group flex flex-col h-full p-4 bg-background rounded-md transition-all relative border shadow hover:-translate-y-[5px] hover:shadow-[0_16px_24px_rgb(0_0_0_/_7%),0_6px_30px_rgb(0_0_0_/_6%),0_8px_10px_rgb(0_0_0_/_10%)]" href={item.href || '#'} target="_blank">
+                <Link className="group flex flex-col h-full p-4 bg-background rounded-xl transition-all relative border hover:bg-accent" href={`/courses/${item.slug}`}>
+                  <div className="mb-1">
+                    <p className="inline-block m-0 text-xs text-muted-foreground after:content-['•'] after:px-[0.33em]">4 часа</p>
+                    <p className="inline-block m-0 text-xs text-muted-foreground">10 лекций</p>
+                  </div>
                   <header className="mb-4">
-                    <div className="mb-1">
-                      <p className="inline-block m-0 text-xs text-muted-foreground after:content-['•'] after:px-[0.33em]">Тэг 1</p>
-                      <p className="inline-block m-0 text-xs text-muted-foreground after:content-['•'] after:px-[0.33em]">Тэг 2</p>
-                      <p className="inline-block m-0 text-xs text-muted-foreground">Тэг 3</p>
-                    </div>
                     <h2 className="text-xl">{item.title}</h2>
                   </header>
                   <div className="flex content-center m-[auto_0_0] py-5 rounded overflow-hidden">
-                    <div className="max-w-full h-[132px]" role="img" />
+                    <div className="max-w-full h-[132px]" role="img">
+                    </div>
                   </div>
-                  <footer className="mt-3">
-                    <p className="m-0 text-lg">от 4&nbsp;часов</p>
-                    <p className="m-0 mr-auto text-xs text-muted-foreground">пройдено 0% курса</p>
+                  <footer className="mt-3 flex items-center [&>*:not(last-child)]:mr-2">
+                    <Badge variant="outline" className="rounded-none">FREE</Badge>
+                    <Badge variant="outline" className="rounded-none">EVENTS</Badge>
+                    <Badge variant="outline" className="rounded-none">BEGGINER</Badge>
                   </footer>
                 </Link>
               </article>

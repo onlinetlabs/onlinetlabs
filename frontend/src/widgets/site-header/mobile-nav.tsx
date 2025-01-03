@@ -10,8 +10,11 @@ import { Button } from "@ui/button"
 import {
   Drawer,
   DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
   DrawerTrigger,
 } from "@ui/drawer"
+import { VisuallyHidden } from "@ui/visually-hidden"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -50,6 +53,11 @@ export function MobileNav() {
         </Button>
       </DrawerTrigger>
       <DrawerContent className="max-h-[60svh] p-0">
+        <VisuallyHidden>
+          <DrawerHeader>
+            <DrawerTitle>Move Goal</DrawerTitle>
+          </DrawerHeader>
+        </VisuallyHidden>
         <div className="overflow-auto p-6">
           <div className="flex flex-col space-y-3">
             {/* {docsConfig.mainNav?.map(

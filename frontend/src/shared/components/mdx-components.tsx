@@ -24,7 +24,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@ui/tabs"
-import { Chapters } from "./chapters"
+import { Callout } from "@components/callout"
 
 const components = {
   Accordion,
@@ -34,7 +34,7 @@ const components = {
   Alert,
   AlertTitle,
   AlertDescription,
-  Chapters,
+  Callout,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(

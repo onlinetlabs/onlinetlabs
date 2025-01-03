@@ -17,10 +17,16 @@ const computedFields = {
     type: "string",
     resolve: (doc) => doc._raw.flattenedPath.split("/").slice(1).join("/"),
   },
+  folder: {
+    type: 'string',
+    resolve: (doc) => {
+      return doc._raw.sourceFileDir.split('/').pop()
+    }
+  }
 }
 
-export const Course = defineDocumentType(() => ({
-  name: "Course",
+export const Chapter = defineDocumentType(() => ({
+  name: "Chapter",
   filePathPattern: `courses/**/*.mdx`,
   contentType: "mdx",
   fields: {
@@ -41,6 +47,10 @@ export const Course = defineDocumentType(() => ({
       default: true,
       required: false,
     },
+    sortOrder: {
+      type: 'number',
+      required: false,
+    }
   },
   computedFields,
 }))
@@ -73,7 +83,7 @@ export const Lab = defineDocumentType(() => ({
 
 export default makeSource({
   contentDirPath: "./src/content",
-  documentTypes: [Course, Lab],
+  documentTypes: [Chapter, Lab],
   mdx: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [

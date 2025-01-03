@@ -3,10 +3,10 @@ export const siteConfig = {
   url: "https://example.com",
   ogImage: "https://example.com/og.jpg",
   description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "Обучаюшая\u00A0платформа по сетевым технологиям",
   links: {
     twitter: "#",
-    github: "#",
+    github: "https://github.com/onlinetlabs/onlinetlabs",
   },
 }
 
