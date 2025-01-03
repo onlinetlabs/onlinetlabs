@@ -1,9 +1,9 @@
-// import Image from "next/image"
+import { About } from "./components/about";
 
 export default function IndexPage() {
   return (
-    <div className="container py-6">
-      container
+    <div className="lg:px-4 py-6">
+      <About />
     </div>
   )
 }
