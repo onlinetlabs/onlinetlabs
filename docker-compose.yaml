@@ -17,7 +17,7 @@ services:
     build:
       # The context specifies where Docker should look for
       # the files needed to build the image (Dockerfile etc).
-      context: ./src/server/
+      context: ./backend/src/server/
       # This specifies that Docker should use the Dockerfile
       # located in the "context" directory to build the image.
       dockerfile: Dockerfile
@@ -25,7 +25,7 @@ services:
     # This instructs Docker Compose to load environment variables
     # from the .env file located in the same directory as the
     # docker-compose.yaml.
-    env_file: .env
+    env_file: ./backend/.env
     environment:
       # Setting this to 0 prevents Python from buffering stdout and stderr,
       # which means logs can be viewed immediately.
@@ -65,7 +65,7 @@ services:
       # and allows containers to communicate with each other using their
       # service names as hostnames. Check 'environment' - 'POSTGRES_HOST'
 
-    # This mounts the ./src/server directory from the host machine to
+    # This mounts the ./backend/src/server directory from the host machine to
     # the /app directory within the container. This setup
     # allows changes made to the code on the host to be reflected
     # inside the container without the need to rebuild the image,
@@ -73,7 +73,7 @@ services:
     # volumes:
       # Common dir for scripts etc
       # If using bind mount - .dockerignore will be ignored itself :)
-      # - ./src/server:/app
+      # - ./backend/src/server:/app
 
     # This indicates that the server service depends on another services.
     # Docker Compose will wait until the depends services is up before
@@ -98,7 +98,7 @@ services:
     build:
       # The context specifies where Docker should look for
       # the files needed to build the image (Dockerfile etc).
-      context: ./src/database/
+      context: ./backend/src/database/
       # This specifies that Docker should use the Dockerfile
       # located in the "context" directory to build the image.
       dockerfile: Dockerfile
@@ -124,18 +124,18 @@ services:
       # Common dir for scripts etc
       # If using bind mount - .dockerignore will be ignored itself :)
       # Database volume. May be saved as regular folder and used as backup.
-      - ./docker_volume_database/data:/var/lib/postgresql/data
+      - ./volumes/database/data:/var/lib/postgresql/data
         
     # This instructs Docker Compose to load environment variables
     # from the .env file located in the same directory as the
     # docker-compose.yaml.
-    env_file: .env
+    env_file: ./backend/.env
   
   
   #----------------------------------#
   #  CONTAINER | NETWORK LABORATORY  #
   #----------------------------------#
-
+  
   # This is the name of the service defined in the Docker Compose file.
   # It is used to refer to this particular service
   # (in this case, Network lab - GNS3)
@@ -147,7 +147,7 @@ services:
     build:
       # The context specifies where Docker should look for
       # the files needed to build the image (Dockerfile etc).
-      context: ./src/lab/
+      context: ./backend/src/lab/
       # This specifies that Docker should use the Dockerfile
       # located in the "context" directory to build the image.
       dockerfile: Dockerfile
@@ -172,12 +172,12 @@ services:
       # If using bind mount - .dockerignore will be ignored itself :)
       # Path to persistant data. May be saved as regular folder
       # and used as backup.
-      - ./docker_volume_lab:/data
+      - ./volumes/lab:/data
       
     # This instructs Docker Compose to load environment variables
     # from the .env file located in the same directory as the
     # docker-compose.yaml.
-    env_file: .env
+    env_file: ./backend/.env
     
     # This container works best when run on a network other then dockers'
     # default (host or macvtap for example) and priviledged
