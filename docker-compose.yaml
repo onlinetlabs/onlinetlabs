@@ -124,7 +124,7 @@ services:
       # Common dir for scripts etc
       # If using bind mount - .dockerignore will be ignored itself :)
       # Database volume. May be saved as regular folder and used as backup.
-      - ./database_volume/data:/var/lib/postgresql/data
+      - ./docker_volume_database/data:/var/lib/postgresql/data
         
     # This instructs Docker Compose to load environment variables
     # from the .env file located in the same directory as the
@@ -172,7 +172,7 @@ services:
       # If using bind mount - .dockerignore will be ignored itself :)
       # Path to persistant data. May be saved as regular folder
       # and used as backup.
-      - ./lab_data:/data
+      - ./docker_volume_lab:/data
       
     # This instructs Docker Compose to load environment variables
     # from the .env file located in the same directory as the
@@ -182,4 +182,4 @@ services:
     # This container works best when run on a network other then dockers'
     # default (host or macvtap for example) and priviledged
     network_mode: host
-    priveleged: true
+    # priveleged: true
