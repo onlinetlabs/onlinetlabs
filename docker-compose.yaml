@@ -17,7 +17,7 @@ services:
     build:
       # The context specifies where Docker should look for
       # the files needed to build the image (Dockerfile etc).
-      context: ./backend/src/server/
+      context: ./backend/server/
       # This specifies that Docker should use the Dockerfile
       # located in the "context" directory to build the image.
       dockerfile: Dockerfile
@@ -98,7 +98,7 @@ services:
     build:
       # The context specifies where Docker should look for
       # the files needed to build the image (Dockerfile etc).
-      context: ./backend/src/database/
+      context: ./backend/database/
       # This specifies that Docker should use the Dockerfile
       # located in the "context" directory to build the image.
       dockerfile: Dockerfile
@@ -147,7 +147,7 @@ services:
     build:
       # The context specifies where Docker should look for
       # the files needed to build the image (Dockerfile etc).
-      context: ./backend/src/lab/
+      context: ./backend/lab/
       # This specifies that Docker should use the Dockerfile
       # located in the "context" directory to build the image.
       dockerfile: Dockerfile
