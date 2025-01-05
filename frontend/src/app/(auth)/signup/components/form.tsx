@@ -10,7 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Link from "next/link"
-import { signup } from "@api/auth"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { useAuthStore } from "@stores/auth"
  
 const formSchema = z.object({
   email: z.string().email({ message: "Введите корректную почту" }),
@@ -21,6 +22,13 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
+  const { signup } = useAuthStore(state => state);
+
+  const mutation = useMutation({
+    mutationFn: signup,
+  })
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,7 +42,7 @@ export function LoginForm({
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
-    signup(values)
+    mutation.mutate(values);
   }
 
   return (
@@ -80,7 +88,7 @@ export function LoginForm({
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" loading={mutation.isPending}>
             Создать аккаунт
           </Button>
           <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
