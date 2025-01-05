@@ -28,7 +28,7 @@ async function getCourseChaptersFromParams(props: CoursePageProps) {
 async function getCourseFromParams({ params }: CoursePageProps) {
   const { slug } = await params;
 
-  const course = navConfig.courses.find((course) => course.slug === slug);
+  const course = navConfig.courses.items.find((course) => course.slug === slug);
 
   return course;
 }
@@ -63,7 +63,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams(): Promise<Params[]> {
-  return navConfig.courses.map(({ slug }) => ({ slug }));
+  return navConfig.courses.items.map(({ slug }) => ({ slug }));
 }
 
 export default async function CoursePage({ params }: CoursePageProps) {

@@ -64,18 +64,15 @@ export async function generateMetadata({
   }
 }
 
-// export async function generateStaticParams(): Promise<Params[]> {
-//   return allChapters.map((chapter) => {
-//     const [slug, chapter] = chapter.slugAsParams.split("/");
-//     return {
-//       slug,
-//       chapter,
-//     }
-//   })
-//   // return allChapters.map((chapter) => ({
-//   //   chapter: chapter.slugAsParams.split("/"),
-//   // }))
-// }
+export async function generateStaticParams(): Promise<Params[]> {
+  return allChapters.map((c) => {
+    const [slug, chapter] = c.slugAsParams.split("/");
+    return {
+      slug,
+      chapter,
+    }
+  })
+}
 
 export default async function ChapterPage({ params }: ChapterPageProps) {
   const chapter = await getChapterFromParams({ params })

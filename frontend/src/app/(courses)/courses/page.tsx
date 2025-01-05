@@ -22,9 +22,9 @@ export default function CoursesPage() {
           Полный список всех доступных курсов. 
         </PageHeaderDescription>
       </PageHeader>
-      <div className="container py-6 grid auto-rows-min grid-cols-4 gap-3 list-none h-auto">
+      <div className="container py-6 grid auto-rows-min sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 list-none h-auto">
         <ul className="contents">
-          {navConfig.courses.map((item, idx) => (
+          {navConfig.courses.items.map((item, idx) => (
             <li key={idx} className="list-none min-h-[136px]">
               <article className="h-full">
                 <Link className="group flex flex-col h-full p-4 bg-background rounded-xl transition-all relative border hover:bg-accent" href={`/courses/${item.slug}`}>
@@ -39,10 +39,10 @@ export default function CoursesPage() {
                     <div className="max-w-full h-[132px]" role="img">
                     </div>
                   </div>
-                  <footer className="mt-3 flex items-center [&>*:not(last-child)]:mr-2">
-                    <Badge variant="outline" className="rounded-none">FREE</Badge>
-                    <Badge variant="outline" className="rounded-none">EVENTS</Badge>
-                    <Badge variant="outline" className="rounded-none">BEGGINER</Badge>
+                  <footer className="mt-3 flex items-center [&>*:not(:last-child)]:mr-2">
+                    {item.tags && item.tags.map((tag, idx) => (
+                      <Badge key={idx} variant="outline" className="rounded-none">{tag}</Badge>
+                    ))}
                   </footer>
                 </Link>
               </article>
