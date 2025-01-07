@@ -182,4 +182,4 @@ services:
     # This container works best when run on a network other then dockers'
     # default (host or macvtap for example) and priviledged
     network_mode: host
-    # priveleged: true
+    privileged: true
