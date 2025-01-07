@@ -3,8 +3,6 @@ import { allChapters } from "contentlayer/generated"
 
 import "@styles/mdx.css"
 import type { Metadata } from "next"
-import { ChevronRight } from "lucide-react"
-import Balancer from "react-wrap-balancer"
 
 import { siteConfig } from "@shared/config/site"
 import { absoluteUrl } from "@lib/utils"
@@ -12,6 +10,7 @@ import { Mdx } from "@components/mdx-components"
 import { ChaptersPager } from "@components/pager"
 import { DashboardTableOfContents } from "@components/toc"
 import { getTableOfContents } from "@lib/toc"
+import { ChapterIsland } from "@widgets/chapter-island"
 
 interface Params {
   slug: string
@@ -85,29 +84,24 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
 
   return (
     <div className="relative px-4 py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
-      <div className="mx-auto w-full min-w-0 max-w-3xl">
-        <div className="mb-4 flex items-center space-x-1 text-sm leading-none text-muted-foreground">
-          <div className="truncate">Глава</div>
-          <ChevronRight className="h-3.5 w-3.5" />
-          <div className="text-foreground">{chapter.title}</div>
+      <ChapterIsland chapter={chapter} className="col-span-1 col-start-1 max-w-4xl mx-auto mb-8 xl:mb-0" />
+      <div className="mx-auto w-full min-w-0 max-w-3xl col-start-1 col-span-1">
+        <div className="flex flex-col gap-2 items-start mb-4 not-prose md:mb-10 md:flex-row md:items-center md:gap-6">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted md:h-[72px] md:w-[72px]">
+            <p className="text-muted-foreground text-2xl md:text-4xl">{chapter.sortOrder}</p>
+          </div>
+          <hgroup>
+            <p className="text-sm text-muted-foreground">Глава {chapter.sortOrder}</p>
+            <h1 className="text-base leading-10 text-primary">{chapter.title}</h1>
+          </hgroup>
         </div>
-        <div className="space-y-2">
-          <h1 className="scroll-m-20 text-3xl font-bold tracking-tight">
-            {chapter.title}
-          </h1>
-          {chapter.description && (
-            <p className="text-base text-muted-foreground">
-              <Balancer>{chapter.description}</Balancer>
-            </p>
-          )}
-        </div>
-        <div className="pb-12 pt-8">
+        <div className="pb-12">
           <Mdx code={chapter.body.code} />
         </div>
         <ChaptersPager chapter={chapter} />
       </div>
-      <div className="hidden text-sm xl:block">
-        <div className="sticky top-20 -mt-6 h-[calc(100vh-3.5rem)] pt-4">
+      <div className="hidden text-sm xl:block xl:col-start-2 xl:col-span-1">
+        <div className="sticky top-20 -mt-3 h-screen pt-4">
           <div className="no-scrollbar h-full overflow-auto pb-10">
             {chapter.toc && <DashboardTableOfContents toc={toc} />}
           </div>

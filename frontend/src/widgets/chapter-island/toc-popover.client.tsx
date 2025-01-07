@@ -1,0 +1,83 @@
+import { cn } from "@lib/utils"
+import { CourseNavItem } from "@shared/types/nav"
+import { Button } from "@ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@ui/popover"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@ui/tooltip"
+import { Chapter } from "contentlayer/generated"
+import { FileTextIcon, InfoIcon, TableOfContentsIcon } from "lucide-react"
+import Link from "next/link"
+
+export const TableOfContentsPopover = ({ course, chapters, className }: Props) => {
+  const [intro, ...rest] = chapters;
+  return (
+    <Popover>
+      <TooltipProvider>
+        <Tooltip>
+          <PopoverTrigger asChild>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" className={cn("rounded-full", className)}>
+                <TableOfContentsIcon />
+              </Button>
+            </TooltipTrigger>
+          </PopoverTrigger>
+          <TooltipContent side="bottom">
+            <p>Посмотреть главы</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <PopoverContent 
+        className="flex flex-col w-[544px] p-0" 
+        align="start" 
+        sideOffset={20} 
+        alignOffset={-10}
+      >
+        <div className="flex gap-3 p-3">
+          <div className="flex w-[50%] cursor-pointer items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px] transition-all bg-background hover:bg-accent">
+            <FileTextIcon className="h-10 w-10 text-muted-foreground" />
+            <div className="flex flex-col items-start text-left">
+              <p className="text-primary text-sm">{course?.title}</p>
+              <p className="text-primary text-sm">1/{rest.length + 1} Глав</p>
+            </div>
+          </div>
+        </div>
+        <div className="border-t">
+          <div className="grid grid-cols-2 p-2">
+            <Button variant="ghost" className="justify-start group" asChild>
+              <Link href={intro.slug}>
+                <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-accent-foreground bg-accent group-hover:bg-accent-foreground group-hover:text-accent">
+                  <InfoIcon className="h-4 w-4" />
+                </div>
+                <p className="text-primary text-sm">{intro.title}</p>
+              </Link>
+            </Button>
+          </div>
+          <div className="grid grid-cols-2 p-2 border-t">
+            {rest.map((chapter, idx) => (
+              <Button key={idx} variant="ghost" className="justify-start h-[50px] group" asChild>
+                <Link href={chapter.slug}>
+                  <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-accent-foreground bg-accent group-hover:bg-accent-foreground group-hover:text-accent">
+                    {chapter.sortOrder}
+                  </div>
+                  <div className="flex flex-col overflow-hidden">
+                    <p className="text-muted-foreground text-sm">Глава {chapter.sortOrder}</p>
+                    <p className="text-primary text-sm truncate">{chapter.title}</p>
+                  </div>
+                </Link>
+              </Button>
+            ))}
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+type Props = {
+  course?: CourseNavItem;
+  chapters: Chapter[];
+  className?: string;
+}

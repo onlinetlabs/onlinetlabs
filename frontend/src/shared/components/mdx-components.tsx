@@ -25,6 +25,7 @@ import {
   TabsTrigger,
 } from "@ui/tabs"
 import { Callout } from "@components/callout"
+import { Separator } from "@ui/separator"
 
 const components = {
   Accordion,
@@ -34,6 +35,7 @@ const components = {
   Alert,
   AlertTitle,
   AlertDescription,
+  Separator,
   Callout,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
@@ -47,7 +49,7 @@ const components = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        "font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0",
+        "font-heading mt-12 mb-6 scroll-m-20 border-t pt-10 text-2xl font-semibold tracking-tight first:mt-0",
         className
       )}
       {...props}

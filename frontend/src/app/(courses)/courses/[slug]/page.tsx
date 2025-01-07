@@ -1,55 +1,54 @@
-import { Chapter } from "@components/chapter";
-import { PageHeader, PageHeaderDescription, PageHeaderHeading } from "@components/page-header";
-import { absoluteUrl } from "@lib/utils";
-import { navConfig } from "@shared/config/nav";
-import { siteConfig } from "@shared/config/site";
-import { allChapters } from "contentlayer/generated";
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound } from "next/navigation"
+import { allChapters } from "contentlayer/generated"
 
-type Params = {
-  slug: string;
+import "@styles/mdx.css"
+import type { Metadata } from "next"
+
+import { siteConfig } from "@shared/config/site"
+import { absoluteUrl } from "@lib/utils"
+import { Mdx } from "@components/mdx-components"
+import { ChaptersPager } from "@components/pager"
+import { DashboardTableOfContents } from "@components/toc"
+import { getTableOfContents } from "@lib/toc"
+import { ChapterIsland } from "@widgets/chapter-island"
+
+interface Params {
+  slug: string
 }
 
-interface CoursePageProps {
+interface ChapterPageProps {
   params: Promise<Params>
 }
 
-async function getCourseChaptersFromParams(props: CoursePageProps) {
-  const params = await props.params;
+async function getIntroFromParams(props: ChapterPageProps) {
+  const { slug } = await props.params;
 
-  const chapters = allChapters.filter((chapter) => chapter.slugAsParams.startsWith(params.slug));
+  const intro = allChapters.find((chapter) => chapter.slugAsParams === slug)
 
-  const sortedChapters = chapters.sort((a, b) => (a?.sortOrder ?? 0) - (b?.sortOrder ?? 0));
+  if (!intro) {
+    return null
+  }
 
-  return sortedChapters
-}
-
-async function getCourseFromParams({ params }: CoursePageProps) {
-  const { slug } = await params;
-
-  const course = navConfig.courses.items.find((course) => course.slug === slug);
-
-  return course;
+  return intro
 }
 
 export async function generateMetadata({
   params,
-}: CoursePageProps): Promise<Metadata> {
-  const course = await getCourseFromParams({ params });
+}: ChapterPageProps): Promise<Metadata> {
+  const intro = await getIntroFromParams({ params });
 
-  if (!course || Array.isArray(course)) {
-    return {};
+  if (!intro) {
+    return {}
   }
 
   return {
-    title: course.title,
-    description: course.description,
+    title: intro.title,
+    description: intro.description,
     openGraph: {
-      title: course.title,
-      description: course.description,
+      title: intro.title,
+      description: intro.description,
       type: "article",
-      url: absoluteUrl(course.slug),
+      url: absoluteUrl(intro.slug),
       images: [
         {
           url: siteConfig.ogImage,
@@ -63,31 +62,34 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams(): Promise<Params[]> {
-  return navConfig.courses.items.map(({ slug }) => ({ slug }));
+  return allChapters.filter(c => c.sortOrder === 0).map((c) => ({ slug: c.slugAsParams }))
 }
 
-export default async function CoursePage({ params }: CoursePageProps) {
-  const chapters = await getCourseChaptersFromParams({ params });
+export default async function IntroPage({ params }: ChapterPageProps) {
+  const intro = await getIntroFromParams({ params })
 
-  if (!chapters) {
-    return notFound();
+  if (!intro) {
+    notFound()
   }
 
-  const course = await getCourseFromParams({ params });
+  const toc = await getTableOfContents(intro.body.raw)
 
   return (
-    <div className="relative">
-      <PageHeader>
-        <PageHeaderHeading>{course?.title}</PageHeaderHeading>
-        {course?.description && (
-          <PageHeaderDescription>
-            {course?.description}
-          </PageHeaderDescription>
-        )}
-      </PageHeader>
-      <div className="container py-6 flex flex-col gap-2">
-        {chapters.map((chapter, idx) => (<Chapter key={idx} title={chapter.title} description={chapter.description} slug={chapter.slug} />))}
+    <div className="relative px-4 py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+      <ChapterIsland chapter={intro} className="col-span-1 col-start-1 max-w-4xl mx-auto mb-8 xl:mb-0" index />
+      <div className="mx-auto w-full min-w-0 max-w-3xl col-start-1 col-span-1">
+        <div className="pb-12">
+          <Mdx code={intro.body.code} />
+        </div>
+        <ChaptersPager chapter={intro} />
+      </div>
+      <div className="hidden text-sm xl:block xl:col-start-2 xl:col-span-1">
+        <div className="sticky top-20 -mt-3 h-screen pt-4">
+          <div className="no-scrollbar h-full overflow-auto pb-10">
+            {intro.toc && <DashboardTableOfContents toc={toc} />}
+          </div>
+        </div>
       </div>
     </div>
-  );
+  )
 }

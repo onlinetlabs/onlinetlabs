@@ -17,7 +17,7 @@ const computedFields = {
     type: "string",
     resolve: (doc) => doc._raw.flattenedPath.split("/").slice(1).join("/"),
   },
-  folder: {
+  namespace: {
     type: 'string',
     resolve: (doc) => {
       return doc._raw.sourceFileDir.split('/').pop()

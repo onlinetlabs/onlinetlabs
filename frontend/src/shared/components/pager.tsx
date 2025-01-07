@@ -17,7 +17,7 @@ export function ChaptersPager({ chapter }: ChaptersPagerProps) {
 
   return (
     <div className="flex flex-row items-center justify-between">
-      {pager?.prev?.slug && (
+      {pager.prev?.slug && (
         <Button variant="ghost" asChild>
           <Link href={pager.prev.slug}>
             <ChevronLeft />
@@ -25,7 +25,7 @@ export function ChaptersPager({ chapter }: ChaptersPagerProps) {
           </Link>
         </Button>
       )}
-      {pager?.next?.slug && (
+      {pager.next?.slug && (
         <Button variant="ghost" className="ml-auto" asChild>
           <Link href={pager.next.slug}>
             {pager.next.title}
@@ -39,7 +39,7 @@ export function ChaptersPager({ chapter }: ChaptersPagerProps) {
 
 export function getPagerForChapter(chapter: Chapter) {
   const links = allChapters
-    .filter((c) => c.slugAsParams.startsWith(chapter.folder))
+    .filter((c) => c.slugAsParams.startsWith(chapter.namespace))
     .toSorted((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 
   const activeIndex = links.findIndex(
