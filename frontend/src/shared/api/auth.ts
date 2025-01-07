@@ -1,7 +1,7 @@
 const PREFIX = '/api/auth';
 
-export const login = async (body: LoginDto): Promise<AuthResponse> => {
-  const response = await fetch(`${PREFIX}/login`, {
+export const login = async (body: LoginDto, basePath: string = ""): Promise<AuthResponse> => {
+  const response = await fetch(`${basePath}${PREFIX}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -17,8 +17,8 @@ export const login = async (body: LoginDto): Promise<AuthResponse> => {
   };
 }
 
-export const signup = async (body: SignUpDto): Promise<AuthResponse> => {
-  const response = await fetch(`${PREFIX}/signup`, {
+export const signup = async (body: SignUpDto, basePath: string = ""): Promise<AuthResponse> => {
+  const response = await fetch(`${basePath}${PREFIX}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -29,6 +29,25 @@ export const signup = async (body: SignUpDto): Promise<AuthResponse> => {
       // TODO: remove this when backend is ready
       firstname: '',
       secondname: '',
+    }),
+  })
+
+  const data = (await response.json()) as AuthResponseRaw;
+
+  return {
+    accessToken: data.access_token,
+    refreshToken: data.refresh_token,
+  };
+}
+
+export const refresh = async (refreshToken: string, basePath: string = ""): Promise<AuthResponse> => {
+  const response = await fetch(`${basePath}${PREFIX}/refresh`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      refresh_token: refreshToken,
     }),
   })
 

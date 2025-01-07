@@ -10,25 +10,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Link from "next/link"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { useAuthStore } from "@stores/auth"
- 
+import { signup } from "@api/auth"
+import { signIn } from "@auth/helpers"
+
 const formSchema = z.object({
   email: z.string().email({ message: "Введите корректную почту" }),
-  password: z.string().min(6).max(50),
+  password: z.string().min(4).max(50),
 })
 
-export function LoginForm({
+export function SignUpForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
-  const { signup } = useAuthStore(state => state);
-
-  const mutation = useMutation({
-    mutationFn: signup,
-  })
-
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,12 +30,9 @@ export function LoginForm({
     }
   })
  
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    mutation.mutate(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { accessToken, refreshToken } = await signup(values);
+    await signIn("credentials", { accessToken, refreshToken, redirectTo: "/" });
   }
 
   return (
@@ -83,12 +73,12 @@ export function LoginForm({
                   <Input type="password" {...field} />
                 </FormControl>
                 <FormDescription>
-                  Пароль должен состоять не менее чем из 8 символов.
+                  Пароль должен состоять не менее чем из 4 символов.
                 </FormDescription>
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" loading={mutation.isPending}>
+          <Button type="submit" className="w-full">
             Создать аккаунт
           </Button>
           <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

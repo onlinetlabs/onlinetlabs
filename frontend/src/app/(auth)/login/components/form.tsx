@@ -10,10 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Link from "next/link"
- 
+import { signIn } from "@auth/helpers";
+
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6).max(50),
+  password: z.string().min(4).max(50),
 })
 
 export function LoginForm({
@@ -28,11 +29,11 @@ export function LoginForm({
     }
   })
  
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+    signIn('credentials', {
+      ...values,
+      redirectTo: '/'
+    })
   }
   
   return (
@@ -73,7 +74,7 @@ export function LoginForm({
                   <Input type="password" {...field} />
                 </FormControl>
                 <FormDescription>
-                  Пароль должен состоять не менее чем из 8 символов.
+                  Пароль должен состоять не менее чем из 4 символов.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -3,6 +3,7 @@ import { siteConfig } from "@shared/config/site"
 import { Icons } from "@components/icons"
 import Link from "next/link"
 import { Metadata } from "next";
+import AuthProvider from "@/shared/providers/auth-provider";
 
 export const metadata: Metadata = {
   title: "Добро пожаловать",
@@ -23,7 +24,9 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <AuthProvider>
+              <LoginForm />
+            </AuthProvider>
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
-import { LoginForm } from "./components/form"
+import { SignUpForm } from "./components/form"
 import { siteConfig } from "@shared/config/site"
 import { Icons } from "@components/icons"
 import Link from "next/link"
 import { Metadata } from "next";
+import AuthProvider from "@/shared/providers/auth-provider";
 
 export const metadata: Metadata = {
   title: "Зарегистрироваться в netlabs",
@@ -23,7 +24,9 @@ export default function SignUpPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <AuthProvider>
+              <SignUpForm />
+            </AuthProvider>
           </div>
         </div>
       </div>

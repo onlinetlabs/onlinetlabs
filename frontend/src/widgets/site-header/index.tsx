@@ -1,7 +1,7 @@
-import Link from "next/link"
-import { Button } from "@ui/button"
+import AuthProvider from "@providers/auth-provider"
 import { MainNav } from "./main-nav"
 import { MobileNav } from "./mobile-nav"
+import { Actions } from "./actions"
 
 export function SiteHeader() {
   return (
@@ -10,9 +10,9 @@ export function SiteHeader() {
         <MainNav />
         <MobileNav />
         <div className="flex flex-1 items-center justify-end gap-2">
-          <Button variant='link' className="">
-            <Link href="/login">вход / регистрация</Link>
-          </Button>
+          <AuthProvider>
+            <Actions />
+          </AuthProvider>
         </div>
       </div>
     </header>
