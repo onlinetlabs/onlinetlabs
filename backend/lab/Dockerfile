@@ -19,17 +19,14 @@ RUN mkdir /data
 RUN apk add --no-cache --virtual=build-dependencies jq gcc python3-dev musl-dev linux-headers
 # Parse dependencies.json with jq to extract key-value pairs (packages)
 # and installs these additional dependencies:
+# Docker is optional, some nodes are based on Docker.
 RUN jq -r 'to_entries | .[] | .key + "=" + .value' /tmp/dependencies.json | xargs apk add --no-cache
 # Install Python packages listed in requirements.txt using pip:
 RUN pip install -r /requirements.txt --break-system-packages
 # Clean up by removing build dependencies to keep the image lightweight:
 RUN apk del --purge build-dependencies
-
-# RUN mkdir /data && \
-#     apk add --no-cache --virtual=build-dependencies jq gcc python3-dev musl-dev linux-headers \
-#     && jq -r 'to_entries | .[] | .key + "=" + .value' /tmp/dependencies.json | xargs apk add --no-cache \
-#     && pip install -r /requirements.txt --break-system-packages \
-#     && apk del --purge build-dependencies
+# Install bash command
+RUN apk add --no-cache bash
 
 # Define the default command to run when the container starts: start.sh:
 CMD [ "/start.sh" ]
