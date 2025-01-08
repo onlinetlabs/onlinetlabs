@@ -1,7 +1,13 @@
 #!/bin/sh
 
+
 "The start.sh script is a shell script used for setting up
 a network bridge and configuring a local Docker and GNS3 environment."
+
+
+# Copy projects folder that contains labs to the /data volume:
+# But first it should be transfered to the / via Dockerfile.
+mv /projects /data/projects
 
 # Check if the CONFIG variable is set; if not, it assigns
 # it a default value of /data/config.ini.

@@ -28,6 +28,11 @@ RUN apk del --purge build-dependencies
 # Install bash command
 RUN apk add --no-cache bash
 
+# Add labs to GNS3 server
+COPY projects /projects
+# Then move /projects folder into /data/ inside 'start.sh'
+# so GNS3 could see that.
+
 # Define the default command to run when the container starts: start.sh:
 CMD [ "/start.sh" ]
 
