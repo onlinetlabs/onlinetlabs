@@ -11,6 +11,8 @@ import { ChaptersPager } from "@components/pager"
 import { DashboardTableOfContents } from "@components/toc"
 import { getTableOfContents } from "@lib/toc"
 import { ChapterIsland } from "@widgets/chapter-island"
+import { getIntroFromParams, getNextChapter } from "@lib/chapter"
+import { NextUp } from "@components/next-up"
 
 interface Params {
   slug: string
@@ -18,18 +20,6 @@ interface Params {
 
 interface ChapterPageProps {
   params: Promise<Params>
-}
-
-async function getIntroFromParams(props: ChapterPageProps) {
-  const { slug } = await props.params;
-
-  const intro = allChapters.find((chapter) => chapter.slugAsParams === slug)
-
-  if (!intro) {
-    return null
-  }
-
-  return intro
 }
 
 export async function generateMetadata({
@@ -73,6 +63,7 @@ export default async function IntroPage({ params }: ChapterPageProps) {
   }
 
   const toc = await getTableOfContents(intro.body.raw)
+  const next = await getNextChapter(intro);
 
   return (
     <div className="relative px-4 py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
@@ -81,7 +72,12 @@ export default async function IntroPage({ params }: ChapterPageProps) {
         <div className="pb-12">
           <Mdx code={intro.body.code} />
         </div>
-        <ChaptersPager chapter={intro} />
+        <NextUp
+          title={`${next?.sortOrder}: ${next?.title}`}
+          content={next?.description}
+          action={`Перейти к главе ${next?.sortOrder}`}
+          href={next?.slug}
+        />
       </div>
       <div className="hidden text-sm xl:block xl:col-start-2 xl:col-span-1">
         <div className="sticky top-20 -mt-3 h-screen pt-4">

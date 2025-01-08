@@ -1,0 +1,43 @@
+import { allChapters, type Chapter } from "contentlayer/generated";
+
+export async function getNextChapter(chapter: Chapter) {
+  const links = allChapters
+    .filter((c) => c.slugAsParams.startsWith(chapter.namespace))
+    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+
+  const activeIndex = links.findIndex(
+    (link) => chapter.slug === link.slug
+  )
+
+  const next =
+    activeIndex !== links.length - 1
+      ? links[activeIndex + 1]
+      : null
+  return next
+}
+
+
+export async function getIntroFromParams({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+
+  const intro = allChapters.find((chapter) => chapter.slugAsParams === slug)
+
+  if (!intro) {
+    return null
+  }
+
+  return intro
+}
+
+export async function getChapterFromParams(props: { params: Promise<{ slug: string; chapter: string; }> }) {
+  const params = await props.params;
+
+  const slug = `${params.slug}/${params.chapter}`;
+  const chapter = allChapters.find((chapter) => chapter.slugAsParams === slug)
+
+  if (!chapter) {
+    return null
+  }
+
+  return chapter
+}

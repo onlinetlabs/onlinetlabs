@@ -7,10 +7,11 @@ import type { Metadata } from "next"
 import { siteConfig } from "@shared/config/site"
 import { absoluteUrl } from "@lib/utils"
 import { Mdx } from "@components/mdx-components"
-import { ChaptersPager } from "@components/pager"
 import { DashboardTableOfContents } from "@components/toc"
 import { getTableOfContents } from "@lib/toc"
 import { ChapterIsland } from "@widgets/chapter-island"
+import { NextUp } from "@components/next-up"
+import { getChapterFromParams, getNextChapter } from "@lib/chapter"
 
 interface Params {
   slug: string
@@ -19,19 +20,6 @@ interface Params {
 
 interface ChapterPageProps {
   params: Promise<Params>
-}
-
-async function getChapterFromParams(props: ChapterPageProps) {
-  const params = await props.params;
-
-  const slug = `${params.slug}/${params.chapter}`;
-  const chapter = allChapters.find((chapter) => chapter.slugAsParams === slug)
-
-  if (!chapter) {
-    return null
-  }
-
-  return chapter
 }
 
 export async function generateMetadata({
@@ -74,13 +62,14 @@ export async function generateStaticParams(): Promise<Params[]> {
 }
 
 export default async function ChapterPage({ params }: ChapterPageProps) {
-  const chapter = await getChapterFromParams({ params })
+  const chapter = await getChapterFromParams({ params });
 
   if (!chapter) {
     notFound()
   }
 
   const toc = await getTableOfContents(chapter.body.raw)
+  const next = await getNextChapter(chapter);
 
   return (
     <div className="relative px-4 py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
@@ -98,7 +87,12 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
         <div className="pb-12">
           <Mdx code={chapter.body.code} />
         </div>
-        <ChaptersPager chapter={chapter} />
+        <NextUp
+          title={`${next?.sortOrder}: ${next?.title}`}
+          content={next?.description}
+          action={`Перейти к главе ${next?.sortOrder}`}
+          href={next?.slug}
+        />
       </div>
       <div className="hidden text-sm xl:block xl:col-start-2 xl:col-span-1">
         <div className="sticky top-20 -mt-3 h-screen pt-4">

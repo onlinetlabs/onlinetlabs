@@ -26,6 +26,7 @@ import {
 } from "@ui/tabs"
 import { Callout } from "@components/callout"
 import { Separator } from "@ui/separator"
+import { Quiz } from "@widgets/quiz"
 
 const components = {
   Accordion,
@@ -37,6 +38,7 @@ const components = {
   AlertDescription,
   Separator,
   Callout,
+  Quiz,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
