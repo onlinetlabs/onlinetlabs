@@ -55,3 +55,8 @@ class JWTPayloadSchema(BaseModel):
                 "expires":      1730206683.777908,
             }
         }
+
+
+class Token(BaseModel):
+    access_token:str
+    refresh_token:str
