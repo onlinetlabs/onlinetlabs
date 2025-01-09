@@ -1,4 +1,5 @@
 'use client'
+import { Icons } from "@components/icons"
 import { cn } from "@lib/utils"
 import { CourseNavItem } from "@shared/types/nav"
 import { Button } from "@ui/button"
@@ -40,8 +41,8 @@ export const TableOfContentsDrawer = ({ course, chapters, className }: Props) =>
           </DrawerHeader>
         </VisuallyHidden>
         <div className="flex gap-3 p-3">
-          <div className="flex w-[50%] cursor-pointer items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px] transition-all bg-background hover:bg-accent">
-            <FileTextIcon className="h-10 w-10 text-muted-foreground" />
+          <div className="flex w-[50%] items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px] bg-background">
+            <Icons.chapter />
             <div className="flex flex-col items-start text-left">
               <p className="text-primary text-sm">{course?.title}</p>
               <p className="text-primary text-sm">1/{rest.length + 1} Глав</p>
@@ -52,7 +53,7 @@ export const TableOfContentsDrawer = ({ course, chapters, className }: Props) =>
           <div className="grid grid-flow-row p-2">
             <Button variant="ghost" className="justify-start group" asChild>
               <Link href={intro.slug}>
-                <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-accent-foreground bg-accent group-hover:bg-accent-foreground group-hover:text-accent">
+                <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-blue-900 bg-blue-300">
                   <InfoIcon className="h-4 w-4" />
                 </div>
                 <p className="text-primary text-sm">{intro.title}</p>
@@ -63,7 +64,7 @@ export const TableOfContentsDrawer = ({ course, chapters, className }: Props) =>
             {rest.map((chapter, idx) => (
               <Button key={idx} variant="ghost" className="justify-start h-[50px] group" asChild>
                 <Link href={chapter.slug}>
-                  <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-accent-foreground bg-accent group-hover:bg-accent-foreground group-hover:text-accent">
+                  <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-blue-900 bg-blue-300">
                     {chapter.sortOrder}
                   </div>
                   <div className="flex flex-col overflow-hidden">

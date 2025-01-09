@@ -10,8 +10,9 @@ import { Mdx } from "@components/mdx-components"
 import { DashboardTableOfContents } from "@components/toc"
 import { getTableOfContents } from "@lib/toc"
 import { ChapterIsland } from "@widgets/chapter-island"
-import { NextUp } from "@components/next-up"
-import { getChapterFromParams, getNextChapter } from "@lib/chapter"
+import { ChapterNextUp } from "@widgets/chapter-next-up"
+import { getChapterFromParams, getChapterTotalCount, getNextChapter } from "@lib/chapter"
+import { ChapterCompletion } from "@components/chapter-completion"
 
 interface Params {
   slug: string
@@ -70,6 +71,10 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
 
   const toc = await getTableOfContents(chapter.body.raw)
   const next = await getNextChapter(chapter);
+  const total = await getChapterTotalCount({ namespace: chapter.namespace });
+
+  // sortOrder starts from 0, therefore we need to subtract 1 from total
+  const isLastChapter = (total - 1) === chapter.sortOrder;
 
   return (
     <div className="relative px-4 py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
@@ -87,12 +92,20 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
         <div className="pb-12">
           <Mdx code={chapter.body.code} />
         </div>
-        <NextUp
-          title={`${next?.sortOrder}: ${next?.title}`}
-          content={next?.description}
-          action={`Перейти к главе ${next?.sortOrder}`}
-          href={next?.slug}
+        <ChapterCompletion 
+          number={chapter.sortOrder}
+          type={isLastChapter ? 'end' : 'default'}
         />
+        {!isLastChapter && (
+          <ChapterNextUp
+            title={`${next?.sortOrder}: ${next?.title}`}
+            content={next?.description}
+            action={`Перейти к главе ${next?.sortOrder}`}
+            href={next?.slug}
+            namespace={chapter.namespace}
+            sortOrder={chapter?.sortOrder}
+          />
+        )}
       </div>
       <div className="hidden text-sm xl:block xl:col-start-2 xl:col-span-1">
         <div className="sticky top-20 -mt-3 h-screen pt-4">

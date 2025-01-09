@@ -41,3 +41,7 @@ export async function getChapterFromParams(props: { params: Promise<{ slug: stri
 
   return chapter
 }
+
+export async function getChapterTotalCount({ namespace }: { namespace: string; }) {
+  return allChapters.filter((c) => c.namespace === namespace).length;
+}

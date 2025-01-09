@@ -75,8 +75,8 @@ QuizOptions.displayName = "QuizOptions"
 const quizOptionVariants = cva("flex w-full items-center gap-3 border-b p-3 text-left text-sm transition-colors first-of-type:rounded-t-lg last-of-type:rounded-b-lg last-of-type:border-none md:p-4 md:text-base", {
   variants: {
     selected: {
-      true: "bg-background text-foreground dark:bg-muted/25 [&_[quiz-icon]]:bg-chart-1 [&_[quiz-icon]]:text-white",
-      false: "bg-secondary/80 dark:bg-background text-muted-foreground hover:bg-background dark:hover:bg-muted/25 [&_[quiz-icon]]:bg-chart-5 [&_[quiz-icon]]:text-chart-1"
+      true: "bg-background text-foreground dark:bg-muted/25 [&_[quiz-icon]]:bg-blue-900 [&_[quiz-icon]]:text-blue-100",
+      false: "bg-secondary/80 dark:bg-background text-muted-foreground hover:bg-background dark:hover:bg-muted/25 [&_[quiz-icon]]:bg-blue-300 [&_[quiz-icon]]:text-blue-900"
     }
   },
   defaultVariants: {
@@ -128,7 +128,7 @@ const QuizHeroIcon = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("mb-4 flex h-[56px] w-[56px] items-center justify-center rounded-full bg-chart-1", className)}
+    className={cn("mb-4 flex h-[56px] w-[56px] items-center justify-center rounded-full bg-blue-700 text-background", className)}
     {...props}
   />
 )

@@ -12,7 +12,8 @@ import { DashboardTableOfContents } from "@components/toc"
 import { getTableOfContents } from "@lib/toc"
 import { ChapterIsland } from "@widgets/chapter-island"
 import { getIntroFromParams, getNextChapter } from "@lib/chapter"
-import { NextUp } from "@components/next-up"
+import { ChapterNextUp } from "@widgets/chapter-next-up"
+import { ChapterCompletion } from "@components/chapter-completion"
 
 interface Params {
   slug: string
@@ -72,11 +73,17 @@ export default async function IntroPage({ params }: ChapterPageProps) {
         <div className="pb-12">
           <Mdx code={intro.body.code} />
         </div>
-        <NextUp
+        <ChapterCompletion
+          number={intro.sortOrder}
+          type='start'
+        />
+        <ChapterNextUp
           title={`${next?.sortOrder}: ${next?.title}`}
           content={next?.description}
           action={`Перейти к главе ${next?.sortOrder}`}
           href={next?.slug}
+          namespace={intro.namespace}
+          sortOrder={intro.sortOrder}
         />
       </div>
       <div className="hidden text-sm xl:block xl:col-start-2 xl:col-span-1">

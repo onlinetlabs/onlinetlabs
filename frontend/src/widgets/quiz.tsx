@@ -71,7 +71,7 @@ export const Quiz = ({
     <QuizRoot>
       <QuizHero>
         <QuizHeroIcon>
-          <CircleHelpIcon className="h-8 w-8 text-white" />
+          <CircleHelpIcon className="h-8 w-8" />
         </QuizHeroIcon>
         <QuizHeroTitle>
           {hero.title}
@@ -102,7 +102,7 @@ export const Quiz = ({
                 {LETTERS[selected || SELECTED_FALLBACK]}
               </div>
               <p className="text-sm text-primary">{options[selected || SELECTED_FALLBACK]}</p>
-              <Badge variant="destructive" className="gap-1 my-6 h-8 px-3 pointer-events-none">
+              <Badge variant="warning" className="gap-1 my-6 h-8 px-3 pointer-events-none">
                 <XIcon className="h-4 w-4" />
                 Не совсем
               </Badge>
@@ -111,9 +111,9 @@ export const Quiz = ({
           )}
           {status === 'correct' && (
             <>
-              <QuizOptionIcon className="mb-2 flex h-8 w-8 items-center justify-center rounded-full">
+              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 {LETTERS[selected || SELECTED_FALLBACK]}
-              </QuizOptionIcon>
+              </div>
               <p className="text-sm text-primary">{options[selected || SELECTED_FALLBACK]}</p>
               <Badge variant="success" className="gap-1 my-6 h-8 px-3 pointer-events-none">
                 <CheckIcon className="h-4 w-4" />
