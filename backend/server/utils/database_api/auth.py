@@ -80,18 +80,19 @@ class APIAuth(APIInterface):
         return None
 
 
-    async def auth_get_user_by_username(self,
-            user:UserSignupSchema) -> None|RealDictRow:
-        """
-            Just retreives user from db by username,
-            If there is no such user - None is returned.
-        """
+    #TODO: there is no username, only email.
+    # async def auth_get_user_by_username(self,
+    #         user:UserSignupSchema) -> None|RealDictRow:
+    #     """
+    #         Just retreives user from db by username,
+    #         If there is no such user - None is returned.
+    #     """
 
-        cmd = f"SELECT * FROM USERS WHERE username = '{user.username}';"
-        response = await self.query(cmd)
-        if response is not None and len(response) > 0:
-            return response[0]
-        return None
+    #     cmd = f"SELECT * FROM USERS WHERE username = '{user.username}';"
+    #     response = await self.query(cmd)
+    #     if response is not None and len(response) > 0:
+    #         return response[0]
+    #     return None
 
 
 
