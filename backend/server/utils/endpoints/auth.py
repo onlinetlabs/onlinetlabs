@@ -37,7 +37,7 @@ from .core                   import app
 # CONSTANTS #
 
 TAGS:list[str|Enum]|None = [
-        "auth",
+        "USER",
         ]
 
 # Access token time to life (set in .env)
@@ -103,19 +103,12 @@ async def create_user(user: UserSignupSchema = Body(...)) -> Token:
                 status_code=400,
                 detail="User already exists. Try to login.")
     
-    # Check user.username is unique
-    user_db = await database.auth_get_user_by_username(user)
-    if user_db is not None:
-        raise HTTPException(
-                status_code=400,
-                detail="Username already exists.",)
-
     # Write new user into the DB.
     success:bool = await database.auth_signup(user)
     if not success:
-        logger.main.error(f"Cant signup user: {user.email} {user.username}")
+        logger.main.error(f"Cant signup user: {user.email} {user.secondname}")
     else:
-        logger.main.debug(f"User signed up: {user.email} {user.username}")
+        logger.main.debug(f"User signed up: {user.email} {user.secondname}")
 
     # Create and return access and refresh tokens.
     access_token = signJWT(user.email, ttl=JWT_ACC_TTL)
