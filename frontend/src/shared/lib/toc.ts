@@ -73,9 +73,7 @@ const getToc = () => (node: any, file: any) => {
 
 export type TableOfContents = Items
 
-export async function getTableOfContents(
-  content: string
-) {
+export async function getTableOfContents(content: string) {
   const result = await remark().use(getToc).process(content)
 
   return result.data as unknown as Promise<TableOfContents>

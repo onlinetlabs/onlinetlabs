@@ -1,9 +1,8 @@
 export const siteConfig = {
-  name: "netlabs",
+  name: "netlab",
   url: "https://example.com",
   ogImage: "https://example.com/og.jpg",
-  description:
-    "Обучаюшая\u00A0платформа по сетевым технологиям",
+  description: "Обучающая\u00A0платформа по сетевым технологиям",
   links: {
     twitter: "#",
     github: "https://github.com/onlinetlabs/onlinetlabs",

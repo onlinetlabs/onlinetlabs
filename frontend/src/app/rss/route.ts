@@ -1,5 +1,6 @@
-import { baseUrl } from '@app/sitemap';
 // import { getCourses } from '@content/utils';
+
+import { siteConfig } from "@shared/config/site"
 
 export async function GET() {
   // const allCourses = await getCourses();
@@ -15,7 +16,7 @@ export async function GET() {
   //     (post) =>
   //       `<item>
   //         <title>${post.metadata.title}</title>
-  //         <link>${baseUrl}/blog/${post.slug}</link>
+  //         <link>${siteConfig.url}/blog/${post.slug}</link>
   //         <description>${post.metadata.description || ''}</description>
   //         <pubDate>${new Date(post.metadata.publishedAt).toUTCString()}</pubDate>
   //       </item>`,
@@ -26,7 +27,7 @@ export async function GET() {
   // <rss version="2.0">
   //   <channel>
   //       <title>Обучающая платформа</title>
-  //       <link>${baseUrl}</link>
+  //       <link>${siteConfig.url}</link>
   //       <description>This is обучающая платформа RSS feed</description>
   //       ${itemsXml}
   //   </channel>
@@ -36,14 +37,14 @@ export async function GET() {
   <rss version="2.0">
     <channel>
         <title>Обучающая платформа</title>
-        <link>${baseUrl}</link>
+        <link>${siteConfig.url}</link>
         <description>This is обучающая платформа RSS feed</description>
     </channel>
-  </rss>`;
+  </rss>`
 
   return new Response(rssFeed, {
     headers: {
-      'Content-Type': 'text/xml',
+      "Content-Type": "text/xml",
     },
-  });
+  })
 }

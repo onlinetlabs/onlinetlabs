@@ -1,15 +1,18 @@
-import { LoginForm } from "./components/form"
+import { Metadata } from "next"
+import Link from "next/link"
+import AuthProvider from "@/shared/providers/auth-provider"
+
 import { siteConfig } from "@shared/config/site"
 import { Icons } from "@components/icons"
-import Link from "next/link"
-import { Metadata } from "next";
+
+import { LoginForm } from "./components/form"
 
 export const metadata: Metadata = {
   title: "Добро пожаловать",
   description: "",
-};
+}
 
-export default function LoginPage() {
+export default async function LoginPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -23,7 +26,9 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <AuthProvider>
+              <LoginForm />
+            </AuthProvider>
           </div>
         </div>
       </div>

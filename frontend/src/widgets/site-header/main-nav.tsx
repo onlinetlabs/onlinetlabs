@@ -3,17 +3,17 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { siteConfig } from "@shared/config/site"
-import { cn } from "@lib/utils"
-import { Icons } from "@components/icons"
 import { navConfig } from "@shared/config/nav"
+import { siteConfig } from "@shared/config/site"
+import { Icons } from "@components/icons"
+import { cn } from "@lib/utils"
 
 const isActive = (pathname: string, href: string, exact?: boolean) => {
   if (exact) {
-    return pathname === href;
+    return pathname === href
   }
-  return pathname.startsWith(href);
-};
+  return pathname.startsWith(href)
+}
 
 export function MainNav() {
   const pathname = usePathname()
@@ -29,7 +29,7 @@ export function MainNav() {
         </Link>
         <nav className="lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2 flex items-center gap-4 text-sm xl:gap-6">
           {navConfig.main.map((item, idx) => {
-            const active = isActive(pathname, item.href, item.exact);
+            const active = isActive(pathname, item.href, item.exact)
             return (
               <Link
                 key={idx}

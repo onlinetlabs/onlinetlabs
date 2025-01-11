@@ -1,20 +1,31 @@
-import Link from "next/link"
-import { Button } from "@ui/button"
+import AuthProvider from "@providers/auth-provider"
+import { cn } from "@lib/utils"
+
+import { Actions } from "./actions"
 import { MainNav } from "./main-nav"
 import { MobileNav } from "./mobile-nav"
 
-export function SiteHeader() {
+export function SiteHeader({ sticky = true }: Props) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border">
+    <header
+      className={cn(
+        "top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border",
+        { sticky: sticky }
+      )}
+    >
       <div className="relative flex h-14 items-center px-4">
         <MainNav />
         <MobileNav />
         <div className="flex flex-1 items-center justify-end gap-2">
-          <Button variant='link' className="">
-            <Link href="/login">вход / регистрация</Link>
-          </Button>
+          <AuthProvider>
+            <Actions />
+          </AuthProvider>
         </div>
       </div>
     </header>
   )
+}
+
+type Props = {
+  sticky?: boolean
 }

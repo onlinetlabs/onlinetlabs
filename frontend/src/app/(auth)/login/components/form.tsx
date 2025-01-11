@@ -1,19 +1,30 @@
 "use client"
-import { cn } from "@lib/utils"
-import { siteConfig } from "@shared/config/site"
-import { Button } from "@ui/button"
-import { Input } from "@ui/input"
-import { Label } from "@ui/label"
-import { Icons } from "@components/icons"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@ui/form"
+
+import Link from "next/link"
+import { signIn } from "@auth/helpers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import Link from "next/link"
- 
+
+import { siteConfig } from "@shared/config/site"
+import { Icons } from "@components/icons"
+import { Button } from "@ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@ui/form"
+import { Input } from "@ui/input"
+import { Label } from "@ui/label"
+import { cn } from "@lib/utils"
+
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6).max(50),
+  password: z.string().min(4).max(50),
 })
 
 export function LoginForm({
@@ -25,19 +36,27 @@ export function LoginForm({
     defaultValues: {
       email: "",
       password: "",
-    }
+    },
   })
- 
-  // 2. Define a submit handler.
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+    signIn("credentials", {
+      ...values,
+      redirectTo: "/",
+    })
+    // .then(({ ok, error }: any) => {
+    //   console.log('ok', ok)
+    //   console.log('error', error)
+    // })
   }
-  
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("flex flex-col gap-6", className)} {...props}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn("flex flex-col gap-6", className)}
+        {...props}
+      >
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Вход {siteConfig.name}</h1>
         </div>
@@ -73,7 +92,7 @@ export function LoginForm({
                   <Input type="password" {...field} />
                 </FormControl>
                 <FormDescription>
-                  Пароль должен состоять не менее чем из 8 символов.
+                  Пароль должен состоять не менее чем из 4 символов.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

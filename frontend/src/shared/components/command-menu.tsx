@@ -3,9 +3,11 @@
 import * as React from "react"
 // import { useRouter } from "next/navigation"
 import { type DialogProps } from "@radix-ui/react-dialog"
-import { 
+import {
   // Circle, File, Laptop
-  Moon, Search, Sun 
+  Moon,
+  Search,
+  Sun,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -66,7 +68,7 @@ export function CommandMenu({ ...props }: DialogProps) {
         <Search />
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Введите текст..." />
+        <CommandInput placeholder="Введите текст..." />
         <CommandList>
           <CommandEmpty>Результаты не найдены.</CommandEmpty>
           <CommandGroup heading="Ресурсы">

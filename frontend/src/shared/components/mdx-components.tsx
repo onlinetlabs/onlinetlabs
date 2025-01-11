@@ -4,7 +4,9 @@ import * as React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useMDXComponent } from "next-contentlayer2/hooks"
-import { cn } from "@lib/utils"
+
+import { Quiz } from "@widgets/quiz"
+import { Callout } from "@components/callout"
 import { CopyButton } from "@components/copy-button"
 import {
   Accordion,
@@ -12,19 +14,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@ui/accordion"
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@ui/alert"
+import { Alert, AlertDescription, AlertTitle } from "@ui/alert"
 import { AspectRatio } from "@ui/aspect-ratio"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@ui/tabs"
-import { Callout } from "@components/callout"
+import { Separator } from "@ui/separator"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/tabs"
+import { cn } from "@lib/utils"
 
 const components = {
   Accordion,
@@ -34,7 +28,9 @@ const components = {
   Alert,
   AlertTitle,
   AlertDescription,
+  Separator,
   Callout,
+  Quiz,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
@@ -47,7 +43,7 @@ const components = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        "font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0",
+        "font-heading mt-12 mb-6 scroll-m-20 border-t pt-10 text-2xl font-semibold tracking-tight first:mt-0",
         className
       )}
       {...props}
@@ -175,7 +171,7 @@ const components = {
       <>
         <pre
           className={cn(
-            "mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900",
+            "mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-xl bg-zinc-950 py-4 dark:bg-zinc-900",
             className
           )}
           {...props}
