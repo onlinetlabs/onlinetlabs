@@ -1,12 +1,11 @@
-import { QueryProvider } from "./query-provider";
-import { ThemeProvider } from "./theme-provider";
+import { QueryProvider } from "./query-provider"
+import { ThemeProvider } from "./theme-provider"
 
 type ProvidersProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export const Providers = ({ children }: ProvidersProps) => {
-  
   return (
     <ThemeProvider
       attribute="class"
@@ -14,9 +13,7 @@ export const Providers = ({ children }: ProvidersProps) => {
       enableSystem
       disableTransitionOnChange
     >
-      <QueryProvider>
-        {children}
-      </QueryProvider>
+      <QueryProvider>{children}</QueryProvider>
     </ThemeProvider>
   )
-};
+}

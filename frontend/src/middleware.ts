@@ -1,7 +1,7 @@
 import { auth } from "@auth"
 
 const AUTH_PATHS = ["/login", "/signup"]
- 
+
 export default auth((req) => {
   if (req.auth && AUTH_PATHS.includes(req.nextUrl.pathname)) {
     const newUrl = new URL("/", req.nextUrl.origin)
@@ -18,6 +18,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 }

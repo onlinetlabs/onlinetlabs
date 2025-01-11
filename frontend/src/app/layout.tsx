@@ -1,9 +1,11 @@
-import "@styles/globals.css";
-import type { Metadata } from "next";
+import "@styles/globals.css"
+
+import type { Metadata } from "next"
+
+import { siteConfig } from "@shared/config/site"
+import { Providers } from "@shared/providers"
 import { fontMono, fontSans } from "@lib/fonts"
-import { Providers } from "@shared/providers";
-import { cn } from "@lib/utils";
-import { siteConfig } from "@shared/config/site";
+import { cn } from "@lib/utils"
 
 export const metadata: Metadata = {
   title: {
@@ -73,5 +75,5 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </Providers>
       </body>
     </html>
-  );
+  )
 }

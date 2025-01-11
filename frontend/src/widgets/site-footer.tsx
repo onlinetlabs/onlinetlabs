@@ -1,8 +1,9 @@
 import Link from "next/link"
+
 import { siteConfig } from "@shared/config/site"
-import { Button } from "@ui/button"
 import { Icons } from "@components/icons"
 import { ModeSwitcher } from "@components/mode-switcher"
+import { Button } from "@ui/button"
 
 export function SiteFooter() {
   return (
@@ -12,11 +13,7 @@ export function SiteFooter() {
       </p>
       <div className="flex items-center ml-auto">
         <Button variant="ghost" size="icon" className="">
-          <Link
-            href={siteConfig.links.github}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
             <Icons.gitHub className="h-4 w-4" />
             <span className="sr-only">GitHub</span>
           </Link>

@@ -1,14 +1,16 @@
-import { LoginForm } from "./components/form"
+import { Metadata } from "next"
+import Link from "next/link"
+import AuthProvider from "@/shared/providers/auth-provider"
+
 import { siteConfig } from "@shared/config/site"
 import { Icons } from "@components/icons"
-import Link from "next/link"
-import { Metadata } from "next";
-import AuthProvider from "@/shared/providers/auth-provider";
+
+import { LoginForm } from "./components/form"
 
 export const metadata: Metadata = {
   title: "Добро пожаловать",
   description: "",
-};
+}
 
 export default async function LoginPage() {
   return (

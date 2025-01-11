@@ -1,7 +1,11 @@
-'use client'
-import { Icons } from "@components/icons"
-import { cn } from "@lib/utils"
+"use client"
+
+import Link from "next/link"
+import { Chapter } from "contentlayer/generated"
+import { FileTextIcon, InfoIcon, TableOfContentsIcon } from "lucide-react"
+
 import { CourseNavItem } from "@shared/types/nav"
+import { Icons } from "@components/icons"
 import { Button } from "@ui/button"
 import {
   Drawer,
@@ -10,21 +14,33 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@ui/drawer"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@ui/tooltip"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@ui/tooltip"
 import { VisuallyHidden } from "@ui/visually-hidden"
-import { Chapter } from "contentlayer/generated"
-import { FileTextIcon, InfoIcon, TableOfContentsIcon } from "lucide-react"
-import Link from "next/link"
+import { cn } from "@lib/utils"
 
-export const TableOfContentsDrawer = ({ course, chapters, className }: Props) => {
-  const [intro, ...rest] = chapters;
+export const TableOfContentsDrawer = ({
+  course,
+  chapters,
+  className,
+}: Props) => {
+  const [intro, ...rest] = chapters
   return (
     <Drawer>
       <TooltipProvider>
         <Tooltip>
           <DrawerTrigger asChild>
             <TooltipTrigger asChild>
-              <Button type="submit" variant="ghost" size="icon" className={cn("rounded-full", className)}>
+              <Button
+                type="submit"
+                variant="ghost"
+                size="icon"
+                className={cn("rounded-full", className)}
+              >
                 <TableOfContentsIcon />
               </Button>
             </TooltipTrigger>
@@ -62,14 +78,23 @@ export const TableOfContentsDrawer = ({ course, chapters, className }: Props) =>
           </div>
           <div className="grid grid-flow-row p-2 border-t">
             {rest.map((chapter, idx) => (
-              <Button key={idx} variant="ghost" className="justify-start h-[50px] group" asChild>
+              <Button
+                key={idx}
+                variant="ghost"
+                className="justify-start h-[50px] group"
+                asChild
+              >
                 <Link href={chapter.slug}>
                   <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-blue-900 bg-blue-300">
                     {chapter.sortOrder}
                   </div>
                   <div className="flex flex-col overflow-hidden">
-                    <p className="text-muted-foreground text-sm">Глава {chapter.sortOrder}</p>
-                    <p className="text-primary text-sm truncate">{chapter.title}</p>
+                    <p className="text-muted-foreground text-sm">
+                      Глава {chapter.sortOrder}
+                    </p>
+                    <p className="text-primary text-sm truncate">
+                      {chapter.title}
+                    </p>
                   </div>
                 </Link>
               </Button>
@@ -82,7 +107,7 @@ export const TableOfContentsDrawer = ({ course, chapters, className }: Props) =>
 }
 
 type Props = {
-  course?: CourseNavItem;
-  chapters: Chapter[];
-  className?: string;
+  course?: CourseNavItem
+  chapters: Chapter[]
+  className?: string
 }

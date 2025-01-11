@@ -7,8 +7,10 @@ import {
   RadialBar,
   RadialBarChart,
 } from "recharts"
+
 import { ChartConfig, ChartContainer } from "@ui/chart"
 import { cn } from "@lib/utils"
+
 const chartData = [
   { browser: "safari", visitors: 65, fill: "var(--color-safari)" },
 ]
@@ -74,5 +76,5 @@ export function Progress({ className }: Props) {
 }
 
 type Props = {
-  className?: string;
+  className?: string
 }

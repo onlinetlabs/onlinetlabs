@@ -4,7 +4,9 @@ import * as React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useMDXComponent } from "next-contentlayer2/hooks"
-import { cn } from "@lib/utils"
+
+import { Quiz } from "@widgets/quiz"
+import { Callout } from "@components/callout"
 import { CopyButton } from "@components/copy-button"
 import {
   Accordion,
@@ -12,21 +14,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@ui/accordion"
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@ui/alert"
+import { Alert, AlertDescription, AlertTitle } from "@ui/alert"
 import { AspectRatio } from "@ui/aspect-ratio"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@ui/tabs"
-import { Callout } from "@components/callout"
 import { Separator } from "@ui/separator"
-import { Quiz } from "@widgets/quiz"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/tabs"
+import { cn } from "@lib/utils"
 
 const components = {
   Accordion,

@@ -1,5 +1,6 @@
-import { siteConfig } from "@shared/config/site";
-import { allChapters } from "contentlayer/generated";
+import { allChapters } from "contentlayer/generated"
+
+import { siteConfig } from "@shared/config/site"
 
 export default async function sitemap() {
   const courses = allChapters
@@ -9,10 +10,10 @@ export default async function sitemap() {
       lastModified: chapter.publishedAt,
     }))
 
-  const routes = ['', '/courses'].map((route) => ({
+  const routes = ["", "/courses"].map((route) => ({
     url: `${siteConfig.url}${route}`,
-    lastModified: new Date().toISOString().split('T')[0],
-  }));
-  
-  return [...routes, ...courses];
+    lastModified: new Date().toISOString().split("T")[0],
+  }))
+
+  return [...routes, ...courses]
 }

@@ -4,46 +4,57 @@ const DEFAULT_TITLES = {
   start: "Готовы начать?",
   end: "Вы прошли курс!",
   default: "Вы завершили главу",
-} as const;
+} as const
 
 const DEFAULT_DESCRIPTIONS = {
-  start: "Теперь, когда вы познакомились с курсом, давайте приступим к его изучению.",
-  end: "Теперь, когда вы завершили последнюю главу, вы можете перейти к следующим курсам.",  
+  start:
+    "Теперь, когда вы познакомились с курсом, давайте приступим к его изучению.",
+  end: "Теперь, когда вы завершили последнюю главу, вы можете перейти к следующим курсам.",
   default: "",
-} as const;
+} as const
 
 export const ChapterCompletion = ({
   number = 0,
-  type = 'default',
+  type = "default",
   ...props
 }: Props) => {
-  const title = props.title || DEFAULT_TITLES[type];
-  const description = props.description || DEFAULT_DESCRIPTIONS[type];
+  const title = props.title || DEFAULT_TITLES[type]
+  const description = props.description || DEFAULT_DESCRIPTIONS[type]
 
   return (
     <>
-      <div aria-hidden="true" className="mx-auto h-32 w-[1px] bg-gradient-to-t from-blue-300 md:h-48"></div>
-      <div aria-hidden="true" className="mx-auto relative flex h-24 w-24 items-center justify-center rounded-full bg-blue-300 text-[48px] font-semibold text-blue-900  md:h-32 md:w-32 md:text-[72px]">
-        {type === 'start' && <BookOpenIcon className="h-16 w-16" />}
-        {type === 'end' && <BookCheckIcon className="h-16 w-16" />}
-        {type === 'default' && <>{number}</>}
-        {type !== 'start' && (
+      <div
+        aria-hidden="true"
+        className="mx-auto h-32 w-[1px] bg-gradient-to-t from-blue-300 md:h-48"
+      ></div>
+      <div
+        aria-hidden="true"
+        className="mx-auto relative flex h-24 w-24 items-center justify-center rounded-full bg-blue-300 text-[48px] font-semibold text-blue-900  md:h-32 md:w-32 md:text-[72px]"
+      >
+        {type === "start" && <BookOpenIcon className="h-16 w-16" />}
+        {type === "end" && <BookCheckIcon className="h-16 w-16" />}
+        {type === "default" && <>{number}</>}
+        {type !== "start" && (
           <div className="text-background border-background absolute bottom-0 right-0 flex h-8 w-8 translate-x-[6px] translate-y-[6px] items-center justify-center rounded-full border-[3px] bg-blue-700 md:h-10 md:w-10">
             <CheckIcon className="h-5 w-5" />
           </div>
         )}
       </div>
       <h2 className="text-base text-primary text-center pt-8 pb-2">
-        {title} {type === 'default' && <>{number}</>}
+        {title} {type === "default" && <>{number}</>}
       </h2>
-      {description && <p className="text-base text-muted-foreground text-center">{description}</p>}
+      {description && (
+        <p className="text-base text-muted-foreground text-center">
+          {description}
+        </p>
+      )}
     </>
   )
 }
 
 type Props = {
-  title?: string;
-  description?: string;
-  number?: number;
-  type?: 'start' | 'end' | 'default';
+  title?: string
+  description?: string
+  number?: number
+  type?: "start" | "end" | "default"
 }

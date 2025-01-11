@@ -1,15 +1,10 @@
 "use client"
 
-import {
-  PolarGrid,
-  PolarRadiusAxis,
-  RadialBar,
-  RadialBarChart,
-} from "recharts"
+import { allChapters } from "contentlayer/generated"
+import { PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
 
 import { ChartConfig, ChartContainer } from "@ui/chart"
 import { cn } from "@lib/utils"
-import { allChapters } from "contentlayer/generated"
 
 const chartConfig = {
   value: {
@@ -22,27 +17,34 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export const RingProgress = ({ namespace, className }: Props) => {
-  const lsKey = `${namespace}-completion`;
+  const lsKey = `${namespace}-completion`
 
-  const storedArray = (localStorage.getItem(lsKey) || "[]");
+  const storedArray = localStorage.getItem(lsKey) || "[]"
 
-  const total = allChapters.filter((chapter) => chapter.namespace === namespace).length;
+  const total = allChapters.filter(
+    (chapter) => chapter.namespace === namespace
+  ).length
 
-  const completed = JSON.parse(storedArray).length;
+  // +1 because the intro chapter is not included in the total
+  const completed = JSON.parse(storedArray).length + 1
 
-  const percentage = Math.round((completed / total) * 100);
+  const percentage = Math.round((completed / total) * 100)
 
   const chartData = [
     { label: "completion", value: completed, fill: "var(--color-completion)" },
-  ];
+  ]
 
-  const endAngle = 90 - (completed / total) * 360;  
+  const endAngle = 90 - (completed / total) * 360
 
   return (
     <>
       <div className="hidden md:flex flex-col ml-auto">
-        <p className="text-sm text-muted-foreground text-right">{percentage}%</p>
-        <p className="text-sm text-muted-foreground text-right">{completed}/{total} глав</p>
+        <p className="text-sm text-muted-foreground text-right">
+          {percentage}%
+        </p>
+        <p className="text-sm text-muted-foreground text-right">
+          {completed}/{total} глав
+        </p>
       </div>
       <ChartContainer
         config={chartConfig}
@@ -71,6 +73,6 @@ export const RingProgress = ({ namespace, className }: Props) => {
 }
 
 type Props = {
-  namespace: string;
-  className?: string;
+  namespace: string
+  className?: string
 }

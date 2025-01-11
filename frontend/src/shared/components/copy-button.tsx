@@ -3,8 +3,8 @@
 import * as React from "react"
 import { CheckIcon, ClipboardIcon } from "lucide-react"
 
-import { cn } from "@lib/utils"
 import { Button, ButtonProps } from "@ui/button"
+import { cn } from "@lib/utils"
 
 interface CopyButtonProps extends ButtonProps {
   value: string

@@ -1,6 +1,6 @@
 // import { getCourses } from '@content/utils';
 
-import { siteConfig } from "@shared/config/site";
+import { siteConfig } from "@shared/config/site"
 
 export async function GET() {
   // const allCourses = await getCourses();
@@ -40,11 +40,11 @@ export async function GET() {
         <link>${siteConfig.url}</link>
         <description>This is обучающая платформа RSS feed</description>
     </channel>
-  </rss>`;
+  </rss>`
 
   return new Response(rssFeed, {
     headers: {
-      'Content-Type': 'text/xml',
+      "Content-Type": "text/xml",
     },
-  });
+  })
 }

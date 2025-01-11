@@ -1,12 +1,12 @@
-import { siteConfig } from '@shared/config/site';
+import { siteConfig } from "@shared/config/site"
 
 export default function robots() {
   return {
     rules: [
       {
-        userAgent: '*',
+        userAgent: "*",
       },
     ],
     sitemap: `${siteConfig.url}/sitemap.xml`,
-  };
+  }
 }

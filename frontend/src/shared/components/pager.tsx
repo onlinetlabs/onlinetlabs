@@ -1,6 +1,7 @@
 import Link from "next/link"
-import { Chapter, allChapters } from "contentlayer/generated"
+import { allChapters, Chapter } from "contentlayer/generated"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+
 import { NavItem, NavItemWithChildren } from "@shared/types/nav"
 import { Button } from "@ui/button"
 
@@ -40,17 +41,12 @@ export function ChaptersPager({ chapter }: ChaptersPagerProps) {
 export function getPagerForChapter(chapter: Chapter) {
   const links = allChapters
     .filter((c) => c.slugAsParams.startsWith(chapter.namespace))
-    .toSorted((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+    .toSorted((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
 
-  const activeIndex = links.findIndex(
-    (link) => chapter.slug === link.slug
-  )
+  const activeIndex = links.findIndex((link) => chapter.slug === link.slug)
 
   const prev = activeIndex !== 0 ? links[activeIndex - 1] : null
-  const next =
-    activeIndex !== links.length - 1
-      ? links[activeIndex + 1]
-      : null
+  const next = activeIndex !== links.length - 1 ? links[activeIndex + 1] : null
   return {
     prev,
     next,

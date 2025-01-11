@@ -2,7 +2,7 @@ import type { CoursesNav, MainNavItem, NavItem } from "@shared/types/nav"
 
 export interface NavConfig {
   main: MainNavItem[]
-  courses: CoursesNav;
+  courses: CoursesNav
 }
 
 export const navConfig: NavConfig = {
@@ -22,7 +22,7 @@ export const navConfig: NavConfig = {
     },
   ],
   courses: {
-    title: 'Список курсов',
+    title: "Список курсов",
     items: [
       {
         title: "Сетевая модель OSI",
@@ -41,6 +41,6 @@ export const navConfig: NavConfig = {
         description: "Описание беспроводных сетей",
         slug: "wireless-networks",
       },
-    ]
+    ],
   },
 }

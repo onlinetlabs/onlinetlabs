@@ -1,26 +1,36 @@
-import { Icons } from "@components/icons"
-import { cn } from "@lib/utils"
-import { CourseNavItem } from "@shared/types/nav"
-import { Button } from "@ui/button"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@ui/popover"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@ui/tooltip"
+import Link from "next/link"
 import { Chapter } from "contentlayer/generated"
 import { InfoIcon, TableOfContentsIcon } from "lucide-react"
-import Link from "next/link"
 
-export const TableOfContentsPopover = ({ course, chapters, className }: Props) => {
-  const [intro, ...rest] = chapters;
+import { CourseNavItem } from "@shared/types/nav"
+import { Icons } from "@components/icons"
+import { Button } from "@ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@ui/tooltip"
+import { cn } from "@lib/utils"
+
+export const TableOfContentsPopover = ({
+  course,
+  chapters,
+  className,
+}: Props) => {
+  const [intro, ...rest] = chapters
   return (
     <Popover>
       <TooltipProvider>
         <Tooltip>
           <PopoverTrigger asChild>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className={cn("rounded-full", className)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn("rounded-full", className)}
+              >
                 <TableOfContentsIcon />
               </Button>
             </TooltipTrigger>
@@ -30,10 +40,10 @@ export const TableOfContentsPopover = ({ course, chapters, className }: Props) =
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <PopoverContent 
-        className="flex flex-col w-[544px] p-0" 
-        align="start" 
-        sideOffset={20} 
+      <PopoverContent
+        className="flex flex-col w-[544px] p-0"
+        align="start"
+        sideOffset={20}
         alignOffset={-10}
       >
         <div className="flex gap-3 p-3">
@@ -58,14 +68,23 @@ export const TableOfContentsPopover = ({ course, chapters, className }: Props) =
           </div>
           <div className="grid grid-cols-2 p-2 border-t">
             {rest.map((chapter, idx) => (
-              <Button key={idx} variant="ghost" className="justify-start h-[50px] group" asChild>
+              <Button
+                key={idx}
+                variant="ghost"
+                className="justify-start h-[50px] group"
+                asChild
+              >
                 <Link href={chapter.slug}>
                   <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-blue-900 bg-blue-300">
                     {chapter.sortOrder}
                   </div>
                   <div className="flex flex-col overflow-hidden">
-                    <p className="text-muted-foreground text-sm">Глава {chapter.sortOrder}</p>
-                    <p className="text-primary text-sm truncate">{chapter.title}</p>
+                    <p className="text-muted-foreground text-sm">
+                      Глава {chapter.sortOrder}
+                    </p>
+                    <p className="text-primary text-sm truncate">
+                      {chapter.title}
+                    </p>
                   </div>
                 </Link>
               </Button>
@@ -78,7 +97,7 @@ export const TableOfContentsPopover = ({ course, chapters, className }: Props) =
 }
 
 type Props = {
-  course?: CourseNavItem;
-  chapters: Chapter[];
-  className?: string;
+  course?: CourseNavItem
+  chapters: Chapter[]
+  className?: string
 }
