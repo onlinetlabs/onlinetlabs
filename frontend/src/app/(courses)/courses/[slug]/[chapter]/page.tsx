@@ -11,7 +11,7 @@ import { DashboardTableOfContents } from "@components/toc"
 import { getTableOfContents } from "@lib/toc"
 import { ChapterIsland } from "@widgets/chapter-island"
 import { ChapterNextUp } from "@widgets/chapter-next-up"
-import { getChapterFromParams, getChapterTotalCount, getNextChapter } from "@lib/chapter"
+import { getChapterFromParams, getChapterTotalCount, getCourseBySlug, getNextChapter } from "@lib/chapter"
 import { ChapterCompletion } from "@components/chapter-completion"
 
 interface Params {
@@ -27,13 +27,14 @@ export async function generateMetadata({
   params,
 }: ChapterPageProps): Promise<Metadata> {
   const chapter = await getChapterFromParams({ params });
+  const course = await getCourseBySlug({ params });
 
-  if (!chapter) {
+  if (!chapter || !course) {
     return {}
   }
 
   return {
-    title: chapter.title,
+    title: `${course.title}: ${chapter.title}`,
     description: chapter.description,
     openGraph: {
       title: chapter.title,

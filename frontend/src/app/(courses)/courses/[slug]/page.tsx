@@ -11,9 +11,10 @@ import { ChaptersPager } from "@components/pager"
 import { DashboardTableOfContents } from "@components/toc"
 import { getTableOfContents } from "@lib/toc"
 import { ChapterIsland } from "@widgets/chapter-island"
-import { getIntroFromParams, getNextChapter } from "@lib/chapter"
+import { getCourseBySlug, getIntroFromParams, getNextChapter } from "@lib/chapter"
 import { ChapterNextUp } from "@widgets/chapter-next-up"
 import { ChapterCompletion } from "@components/chapter-completion"
+import { navConfig } from "@shared/config/nav"
 
 interface Params {
   slug: string
@@ -27,13 +28,14 @@ export async function generateMetadata({
   params,
 }: ChapterPageProps): Promise<Metadata> {
   const intro = await getIntroFromParams({ params });
+  const course = await getCourseBySlug({ params });
 
-  if (!intro) {
+  if (!intro || !course) {
     return {}
   }
 
   return {
-    title: intro.title,
+    title: course.title,
     description: intro.description,
     openGraph: {
       title: intro.title,
@@ -65,6 +67,8 @@ export default async function IntroPage({ params }: ChapterPageProps) {
 
   const toc = await getTableOfContents(intro.body.raw)
   const next = await getNextChapter(intro);
+
+  console.log('allChapters', allChapters)
 
   return (
     <div className="relative px-4 py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">

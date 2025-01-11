@@ -6,11 +6,11 @@ import { Metadata } from "next";
 import AuthProvider from "@/shared/providers/auth-provider";
 
 export const metadata: Metadata = {
-  title: "Зарегистрироваться в netlabs",
+  title: `Зарегистрироваться в ${siteConfig.name}`,
   description: "",
 };
 
-export default function SignUpPage() {
+export default async function SignUpPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

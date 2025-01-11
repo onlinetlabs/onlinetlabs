@@ -20,14 +20,14 @@ export const About = () => {
           <ul className="list-none mt-2 md:mt-5 gap-x-5 grid-cols-2 md:grid lg:grid-cols-1 lg:mt-0 lg:gap-y-5 lg:cols-[2/-1] lg:row-[1/-1] lg:grid-rows-2 md:[&>*:not(:last-child)]:mb-0 [&>*:not(:last-child)]:mb-2">
             <li className="relative p-5 overflow-hidden min-h-[206px] rounded-[20px] bg-muted/75 md:min-h-[206px] lg:rounded-[32px] lg:p-8 lg:min-h-[auto]">
               <div className="gap-3 flex flex-col h-full relative">
-                <picture className="flex items-center justify-center h-16 w-max">
+                <picture className="flex items-center justify-center h-20 w-max">
                   <img 
                     src='/gns3.png'
                     className="w-auto h-auto max-h-full block max-w-full object-contain overflow-hidden"
                     alt="GNS3"
                   />
                 </picture>
-                <p className="text-base leading-[22px] mb-0 mt-0">
+                <p className="text-base mt-4">
                   Инструмент для проектирования сетей
                   <br />
                   в виртуальной среде

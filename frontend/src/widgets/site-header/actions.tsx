@@ -7,11 +7,7 @@ import { useSession, signOut } from "next-auth/react"
 import Link from "next/link"
 
 export const Actions = () => {
-  const { status, data } = useSession();
-
-
-  console.log('status', status);
-  console.log('data', data);
+  const { status } = useSession();
 
   if (status === 'loading') {
     return null
@@ -26,7 +22,7 @@ export const Actions = () => {
   }
 
   return (
-    <Button variant='link'>
+    <Button variant='link' asChild>
       <Link href="/login">вход / регистрация</Link>
     </Button>
   )

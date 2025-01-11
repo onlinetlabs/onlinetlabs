@@ -1,3 +1,4 @@
+import { navConfig } from "@shared/config/nav";
 import { allChapters, type Chapter } from "contentlayer/generated";
 
 export async function getNextChapter(chapter: Chapter) {
@@ -16,6 +17,17 @@ export async function getNextChapter(chapter: Chapter) {
   return next
 }
 
+export async function getCourseBySlug({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+
+  const course = navConfig.courses.items.find((course) => course.slug === slug);
+
+  if (!course) {
+    return null
+  }
+
+  return course;
+}
 
 export async function getIntroFromParams({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

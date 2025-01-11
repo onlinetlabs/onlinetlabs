@@ -34,7 +34,7 @@ export const authConfig = {
         const email = credentials.email as string;
         const password = credentials.password as string;
 
-        const { accessToken, refreshToken } = await login({ email, password }, process.env.NEXT_PUBLIC_API_URL);
+        const { accessToken, refreshToken } = await login({ email, password }, process.env.API_URL);
 
         if (!accessToken || !refreshToken) {
           return null;
@@ -73,7 +73,7 @@ export const authConfig = {
 
       // Current access token is expired
       if (decodedAccessToken.exp && Date.now() >= decodedAccessToken.exp * 1000) {
-        const { accessToken, refreshToken } = await refresh(token.refreshToken, process.env.NEXT_PUBLIC_API_URL);
+        const { accessToken, refreshToken } = await refresh(token.refreshToken, process.env.API_URL);
 
         token.accessToken = accessToken;
         token.refreshToken = refreshToken;

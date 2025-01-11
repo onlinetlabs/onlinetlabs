@@ -1,18 +1,18 @@
-// import { getCourses } from '@content/utils';
-
-export const baseUrl = 'https://example.vercel.app';
+import { siteConfig } from "@shared/config/site";
+import { allChapters } from "contentlayer/generated";
 
 export default async function sitemap() {
-  // const courses = getCourses().map((course) => ({
-  //   url: `${baseUrl}/courses/${course.slug}`,
-  //   lastModified: course.metadata.publishedAt,
-  // }));
+  const courses = allChapters
+    .filter((chapter) => chapter.sortOrder === 0)
+    .map((chapter) => ({
+      url: `${siteConfig.url}${chapter.slug}`,
+      lastModified: chapter.publishedAt,
+    }))
 
   const routes = ['', '/courses'].map((route) => ({
-    url: `${baseUrl}${route}`,
+    url: `${siteConfig.url}${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }));
   
-  // return [...routes, ...courses];
-  return routes;
+  return [...routes, ...courses];
 }

@@ -33,6 +33,9 @@ export function LoginForm({
     signIn('credentials', {
       ...values,
       redirectTo: '/'
+    }).then(({ ok, error }: any) => {
+      console.log('ok', ok)
+      console.log('error', error)
     })
   }
   
