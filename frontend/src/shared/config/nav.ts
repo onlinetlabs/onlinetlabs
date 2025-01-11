@@ -18,7 +18,7 @@ export const navConfig: NavConfig = {
     },
     {
       title: "Лабораторные",
-      href: "/labs",
+      href: "#",
     },
   ],
   courses: {

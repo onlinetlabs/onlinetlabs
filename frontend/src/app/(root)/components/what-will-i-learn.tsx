@@ -51,7 +51,7 @@ export const WhatWillILearn = () => {
             key={idx}
             className="group h-full rounded-[12px] shadow-sm group transition-all border hover:bg-accent"
           >
-            <Link className="flex flex-col p-6" href="#">
+            <Link className="flex flex-col p-6" href={`/courses/${item.slug}`}>
               <div className="mb-2 flex items-center">
                 <div className="mr-2 flex h-8 w-8 flex-none flex-shrink-0 items-center justify-center rounded-full bg-blue-300 text-sm font-bold text-blue-700 group-hover:bg-foreground group-hover:text-background">
                   <SparkleIcon className="h-4 w-4 block group-hover:hidden" />
