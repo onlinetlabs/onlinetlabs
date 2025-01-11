@@ -3,9 +3,9 @@ import { createContentlayerPlugin } from "next-contentlayer2"
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // eslint: {
+  //   ignoreDuringBuilds: true,
+  // },
   async rewrites() {
     return [
       {
