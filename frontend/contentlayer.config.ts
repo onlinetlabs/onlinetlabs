@@ -132,18 +132,10 @@ export default makeSource({
             if (preElement.tagName !== "pre") {
               return
             }
+            
+            preElement.properties["__withMeta__"] = Object.hasOwn(node.children.at(0).properties, 'data-rehype-pretty-code-title')
 
-            preElement.properties["__withMeta__"] =
-              node.children.at(0).tagName === "div"
             preElement.properties["__rawString__"] = node.__rawString__
-
-            if (node.__src__) {
-              preElement.properties["__src__"] = node.__src__
-            }
-
-            if (node.__style__) {
-              preElement.properties["__style__"] = node.__style__
-            }
           }
         })
       },
