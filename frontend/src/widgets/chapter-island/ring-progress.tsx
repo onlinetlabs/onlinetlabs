@@ -1,8 +1,10 @@
 "use client"
+
 import { PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
+
+import { useCourse } from "@shared/hooks/use-course"
 import { ChartConfig, ChartContainer } from "@ui/chart"
 import { cn } from "@lib/utils"
-import { useCourse } from "@shared/hooks/use-course"
 
 const chartConfig = {
   value: {

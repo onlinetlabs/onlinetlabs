@@ -1,6 +1,7 @@
+import { getChaptersByNamespace } from "@lib/chapter"
+
 import { TableOfContentsDrawer } from "./toc-drawer.client"
 import { TableOfContentsPopover } from "./toc-popover.client"
-import { getChaptersByNamespace } from "@lib/chapter"
 
 export const TableOfContents = async ({ namespace }: Props) => {
   const chapters = await getChaptersByNamespace(namespace)

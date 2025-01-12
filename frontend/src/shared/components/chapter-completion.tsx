@@ -1,5 +1,6 @@
-import { Circle } from "@ui/circle"
 import { BookCheckIcon, BookOpenIcon, CheckIcon } from "lucide-react"
+
+import { Circle } from "@ui/circle"
 
 const DEFAULT_TITLES = {
   start: "Готовы начать?",
@@ -37,7 +38,10 @@ export const ChapterCompletion = ({
         {type === "end" && <BookCheckIcon className="h-16 w-16" />}
         {type === "default" && <>{number}</>}
         {type !== "start" && (
-          <Circle variant="blue" className="border-background absolute bottom-0 right-0 h-8 w-8 translate-x-[6px] translate-y-[6px] border-[3px] md:h-10 md:w-10">
+          <Circle
+            variant="blue"
+            className="border-background absolute bottom-0 right-0 h-8 w-8 translate-x-[6px] translate-y-[6px] border-[3px] md:h-10 md:w-10"
+          >
             <CheckIcon className="h-5 w-5" />
           </Circle>
         )}

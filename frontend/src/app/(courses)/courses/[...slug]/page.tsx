@@ -11,6 +11,7 @@ import { siteConfig } from "@shared/config/site"
 import { ChapterCompletion } from "@components/chapter-completion"
 import { Mdx } from "@components/mdx-components"
 import { DashboardTableOfContents } from "@components/toc"
+import { Circle } from "@ui/circle"
 import {
   getChapterFromParams,
   getChapterTotalCount,
@@ -19,7 +20,6 @@ import {
 } from "@lib/chapter"
 import { getTableOfContents } from "@lib/toc"
 import { absoluteUrl } from "@lib/utils"
-import { Circle } from "@ui/circle"
 
 interface Params {
   slug: string[]

@@ -4,8 +4,12 @@ import {
   defineDocumentType,
   makeSource,
 } from "contentlayer2/source-files"
-import rehypeAutolinkHeadings, { Options as RehypeAutolinkHeadingsOptions } from "rehype-autolink-headings"
-import rehypePrettyCode, { Options as RehypePrettyCodeOptions } from "rehype-pretty-code"
+import rehypeAutolinkHeadings, {
+  Options as RehypeAutolinkHeadingsOptions,
+} from "rehype-autolink-headings"
+import rehypePrettyCode, {
+  Options as RehypePrettyCodeOptions,
+} from "rehype-pretty-code"
 import rehypeSlug from "rehype-slug"
 import { codeImport } from "remark-code-import"
 import remarkGfm from "remark-gfm"
@@ -21,11 +25,11 @@ const computedFields: ComputedFields = {
     resolve: (doc) => doc._raw.flattenedPath.split("/").slice(1).join("/"),
   },
   namespace: {
-    type: 'string',
+    type: "string",
     resolve: (doc) => {
-      return doc._raw.sourceFileDir.split('/').pop()
-    }
-  }
+      return doc._raw.sourceFileDir.split("/").pop()
+    },
+  },
 }
 
 export const Chapter = defineDocumentType(() => ({
@@ -51,9 +55,9 @@ export const Chapter = defineDocumentType(() => ({
       required: false,
     },
     sortOrder: {
-      type: 'number',
+      type: "number",
       required: true,
-    }
+    },
   },
   computedFields,
 }))
@@ -109,7 +113,8 @@ export default makeSource({
         rehypePrettyCode,
         {
           theme: "github-dark",
-          getHighlighter: getHighlighter as unknown as RehypePrettyCodeOptions['getHighlighter'],
+          getHighlighter:
+            getHighlighter as unknown as RehypePrettyCodeOptions["getHighlighter"],
           grid: false,
           keepBackground: false,
           onVisitLine(node) {
@@ -133,7 +138,10 @@ export default makeSource({
               return
             }
 
-            preElement.properties["__withMeta__"] = Object.hasOwn(node.children.at(0).properties, 'data-rehype-pretty-code-title')
+            preElement.properties["__withMeta__"] = Object.hasOwn(
+              node.children.at(0).properties,
+              "data-rehype-pretty-code-title"
+            )
 
             preElement.properties["__rawString__"] = node.__rawString__
           }
@@ -145,7 +153,7 @@ export default makeSource({
           properties: {
             className: ["subheading-anchor"],
             ariaLabel: "Link to section",
-            "data-rehype-autolink-heading": ""
+            "data-rehype-autolink-heading": "",
           },
         } as RehypeAutolinkHeadingsOptions,
       ],

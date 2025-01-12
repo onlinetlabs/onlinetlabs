@@ -5,6 +5,7 @@ import { InfoIcon, TableOfContentsIcon } from "lucide-react"
 import { CourseNavItem } from "@shared/types/nav"
 import { Icons } from "@components/icons"
 import { Button } from "@ui/button"
+import { Circle } from "@ui/circle"
 import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover"
 import {
   Tooltip,
@@ -13,7 +14,7 @@ import {
   TooltipTrigger,
 } from "@ui/tooltip"
 import { cn } from "@lib/utils"
-import { Circle } from "@ui/circle"
+
 import { ChapterCount } from "./chapter-count"
 
 export const TableOfContentsPopover = ({
@@ -51,7 +52,7 @@ export const TableOfContentsPopover = ({
         <div className="flex gap-3 p-3">
           <div className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px] bg-background">
             <Icons.chapter />
-            <ChapterCount namespace={namespace} type='info' />
+            <ChapterCount namespace={namespace} type="info" />
           </div>
         </div>
         <div className="border-t">
@@ -96,7 +97,7 @@ export const TableOfContentsPopover = ({
 }
 
 type Props = {
-  chapters: Chapter[];
-  namespace: string;
+  chapters: Chapter[]
+  namespace: string
   className?: string
 }

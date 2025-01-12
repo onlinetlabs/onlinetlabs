@@ -14,7 +14,7 @@ const circleVariants = cva(
         green: "text-green-900 bg-green-300",
         blue: "text-background bg-blue-700",
         "subtle-blue": "text-blue-900 bg-blue-300",
-        white: "bg-primary text-primary-foreground"
+        white: "bg-primary text-primary-foreground",
       },
     },
     defaultVariants: {

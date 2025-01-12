@@ -54,7 +54,10 @@ export const WhatWillILearn = () => {
           >
             <Link className="flex flex-col p-6" href={`/courses/${item.slug}`}>
               <div className="mb-2 flex items-center">
-                <Circle variant="subtle-blue" className="mr-2 h-8 w-8 text-sm font-bold group-hover:bg-foreground group-hover:text-background">
+                <Circle
+                  variant="subtle-blue"
+                  className="mr-2 h-8 w-8 text-sm font-bold group-hover:bg-foreground group-hover:text-background"
+                >
                   <SparkleIcon className="h-4 w-4 block group-hover:hidden" />
                   <ArrowUpRightIcon className="h-4 w-4 hidden group-hover:block" />
                 </Circle>

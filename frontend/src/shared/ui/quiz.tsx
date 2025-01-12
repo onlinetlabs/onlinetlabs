@@ -3,6 +3,8 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@lib/utils"
 
+import { Circle } from "./circle"
+
 const Quiz = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -142,11 +144,9 @@ const QuizHeroIcon = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "mb-4 flex h-[56px] w-[56px] items-center justify-center rounded-full bg-blue-700 text-background",
-      className
-    )}
+  <Circle
+    variant="blue"
+    className={cn("mb-4 h-[56px] w-[56px]", className)}
     {...props}
   />
 )

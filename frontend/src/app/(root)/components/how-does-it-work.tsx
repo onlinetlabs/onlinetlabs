@@ -1,4 +1,3 @@
-import { Circle } from "@ui/circle"
 import {
   BookmarkIcon,
   CircleHelpIcon,
@@ -7,6 +6,8 @@ import {
   PcCaseIcon,
   SettingsIcon,
 } from "lucide-react"
+
+import { Circle } from "@ui/circle"
 
 export const HowDoesItWork = () => {
   return (
@@ -138,7 +139,10 @@ export const HowDoesItWork = () => {
           <div className="flex w-full items-center justify-center lg:w-[38%]">
             <div className="mb-8 flex w-full flex-col space-y-8 px-4 lg:mb-0 lg:space-y-6">
               <div className="flex flex-col items-center leading-6 lg:flex-row">
-                <Circle variant="subtle-blue" className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4">
+                <Circle
+                  variant="subtle-blue"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                >
                   <SettingsIcon className="h-4 w-4" />
                 </Circle>
                 <div className="text-center lg:text-left">
@@ -148,7 +152,10 @@ export const HowDoesItWork = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center leading-6 lg:flex-row">
-                <Circle variant="subtle-blue" className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4">
+                <Circle
+                  variant="subtle-blue"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                >
                   <PanelsTopLeftIcon className="h-4 w-4" />
                 </Circle>
                 <div className="text-center lg:text-left">
@@ -159,7 +166,10 @@ export const HowDoesItWork = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center leading-6 lg:flex-row">
-                <Circle variant="subtle-blue" className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4">
+                <Circle
+                  variant="subtle-blue"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                >
                   <PcCaseIcon className="h-4 w-4" />
                 </Circle>
                 <div className="text-center lg:text-left">
@@ -169,7 +179,10 @@ export const HowDoesItWork = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center leading-6 lg:flex-row">
-                <Circle variant="subtle-blue" className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4">
+                <Circle
+                  variant="subtle-blue"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                >
                   <CloudUploadIcon className="h-4 w-4" />
                 </Circle>
                 <div className="text-center lg:text-left">
