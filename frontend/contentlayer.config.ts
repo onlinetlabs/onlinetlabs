@@ -1,18 +1,17 @@
 import { getHighlighter } from "@shikijs/compat"
 import {
+  ComputedFields,
   defineDocumentType,
   makeSource,
 } from "contentlayer2/source-files"
-import rehypeAutolinkHeadings from "rehype-autolink-headings"
-import rehypePrettyCode from "rehype-pretty-code"
+import rehypeAutolinkHeadings, { Options as RehypeAutolinkHeadingsOptions } from "rehype-autolink-headings"
+import rehypePrettyCode, { Options as RehypePrettyCodeOptions } from "rehype-pretty-code"
 import rehypeSlug from "rehype-slug"
 import { codeImport } from "remark-code-import"
 import remarkGfm from "remark-gfm"
 import { visit } from "unist-util-visit"
 
-
-/** @type {import('contentlayer/source-files').ComputedFields} */
-const computedFields = {
+const computedFields: ComputedFields = {
   slug: {
     type: "string",
     resolve: (doc) => `/${doc._raw.flattenedPath}`,
@@ -100,16 +99,6 @@ export default makeSource({
               return
             }
 
-            if (codeEl.data?.meta) {
-              // Extract event from meta and pass it down the tree.
-              const regex = /event="([^"]*)"/
-              const match = codeEl.data?.meta.match(regex)
-              if (match) {
-                node.__event__ = match ? match[1] : null
-                codeEl.data.meta = codeEl.data.meta.replace(regex, "")
-              }
-            }
-
             node.__rawString__ = codeEl.children?.[0].value
             node.__src__ = node.properties?.__src__
             node.__style__ = node.properties?.__style__
@@ -120,7 +109,7 @@ export default makeSource({
         rehypePrettyCode,
         {
           theme: "github-dark",
-          getHighlighter,
+          getHighlighter: getHighlighter as unknown as RehypePrettyCodeOptions['getHighlighter'],
           grid: false,
           keepBackground: false,
           onVisitLine(node) {
@@ -130,7 +119,7 @@ export default makeSource({
               node.children = [{ type: "text", value: " " }]
             }
           },
-        },
+        } as RehypePrettyCodeOptions,
       ],
       () => (tree) => {
         visit(tree, (node) => {
@@ -141,7 +130,6 @@ export default makeSource({
 
             const preElement = node.children.at(-1)
             if (preElement.tagName !== "pre") {
-
               return
             }
 
@@ -151,10 +139,6 @@ export default makeSource({
 
             if (node.__src__) {
               preElement.properties["__src__"] = node.__src__
-            }
-
-            if (node.__event__) {
-              preElement.properties["__event__"] = node.__event__
             }
 
             if (node.__style__) {
@@ -169,8 +153,9 @@ export default makeSource({
           properties: {
             className: ["subheading-anchor"],
             ariaLabel: "Link to section",
+            "data-rehype-autolink-heading": ""
           },
-        },
+        } as RehypeAutolinkHeadingsOptions,
       ],
     ],
   },

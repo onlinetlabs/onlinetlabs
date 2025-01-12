@@ -65,3 +65,18 @@
 [data-rehype-pretty-code-title] + pre {
   @apply mt-2;
 }
+
+
+[data-rehype-autolink-heading] {
+  @apply absolute invisible no-underline group-hover:visible;
+
+  margin-left: -1em;
+  padding-right: 0.5em;
+  width: 100%;
+  cursor: pointer;
+}
+
+[data-rehype-autolink-heading]:after {
+  @apply text-muted-foreground/50;
+  content: '#';
+}
