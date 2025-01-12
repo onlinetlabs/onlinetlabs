@@ -8,6 +8,7 @@ import {
 
 import { navConfig } from "@shared/config/nav"
 import { Button } from "@ui/button"
+import { Circle } from "@ui/circle"
 
 const features = [
   {
@@ -53,10 +54,10 @@ export const WhatWillILearn = () => {
           >
             <Link className="flex flex-col p-6" href={`/courses/${item.slug}`}>
               <div className="mb-2 flex items-center">
-                <div className="mr-2 flex h-8 w-8 flex-none flex-shrink-0 items-center justify-center rounded-full bg-blue-300 text-sm font-bold text-blue-700 group-hover:bg-foreground group-hover:text-background">
+                <Circle variant="subtle-blue" className="mr-2 h-8 w-8 text-sm font-bold group-hover:bg-foreground group-hover:text-background">
                   <SparkleIcon className="h-4 w-4 block group-hover:hidden" />
                   <ArrowUpRightIcon className="h-4 w-4 hidden group-hover:block" />
-                </div>
+                </Circle>
                 <p className="text-xl font-semibold text-primary">
                   {item.title}
                 </p>

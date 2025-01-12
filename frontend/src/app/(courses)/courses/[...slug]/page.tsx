@@ -19,6 +19,7 @@ import {
 } from "@lib/chapter"
 import { getTableOfContents } from "@lib/toc"
 import { absoluteUrl } from "@lib/utils"
+import { Circle } from "@ui/circle"
 
 interface Params {
   slug: string[]
@@ -86,11 +87,9 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
       <div className="mx-auto w-full min-w-0 max-w-3xl col-start-1 col-span-1">
         {!isFirstChapter && (
           <div className="flex flex-col gap-2 items-start mb-4 not-prose md:mb-10 md:flex-row md:items-center md:gap-6">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted md:h-[72px] md:w-[72px]">
-              <p className="text-muted-foreground text-2xl md:text-4xl">
-                {chapter.sortOrder}
-              </p>
-            </div>
+            <Circle className="h-10 w-10 md:h-[72px] md:w-[72px] text-2xl md:text-4xl">
+              {chapter.sortOrder}
+            </Circle>
             <hgroup>
               <p className="text-sm text-muted-foreground">
                 Глава {chapter.sortOrder}
