@@ -67,3 +67,9 @@ export async function getChapterTotalCount({
 }) {
   return allChapters.filter((c) => c.namespace === namespace).length
 }
+
+export async function getChaptersByNamespace(namespace: string) {
+  return allChapters
+    .filter((chapter) => chapter.namespace === namespace)
+    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
+}

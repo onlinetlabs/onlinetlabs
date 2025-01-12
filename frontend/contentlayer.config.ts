@@ -52,7 +52,7 @@ export const Chapter = defineDocumentType(() => ({
     },
     sortOrder: {
       type: 'number',
-      required: false,
+      required: true,
     }
   },
   computedFields,
@@ -132,7 +132,7 @@ export default makeSource({
             if (preElement.tagName !== "pre") {
               return
             }
-            
+
             preElement.properties["__withMeta__"] = Object.hasOwn(node.children.at(0).properties, 'data-rehype-pretty-code-title')
 
             preElement.properties["__rawString__"] = node.__rawString__
