@@ -4,6 +4,7 @@ import { cn } from "@lib/utils"
 import { Actions } from "./actions"
 import { MainNav } from "./main-nav"
 import { MobileNav } from "./mobile-nav"
+import { CommandMenu } from "@components/command-menu"
 
 export function SiteHeader({ sticky = true }: Props) {
   return (
@@ -17,6 +18,7 @@ export function SiteHeader({ sticky = true }: Props) {
         <MainNav />
         <MobileNav />
         <div className="flex flex-1 items-center justify-end gap-2">
+          <CommandMenu />
           <AuthProvider>
             <Actions />
           </AuthProvider>
