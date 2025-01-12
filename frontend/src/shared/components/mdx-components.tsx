@@ -34,7 +34,7 @@ const components = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
-        "font-heading mt-2 scroll-m-20 text-4xl font-bold",
+        "group relative font-heading mt-2 scroll-m-20 text-4xl font-bold",
         className
       )}
       {...props}
@@ -43,7 +43,7 @@ const components = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        "font-heading mt-12 mb-6 scroll-m-20 border-t pt-10 text-2xl font-semibold tracking-tight first:mt-0",
+        "group relative font-heading mt-12 mb-6 scroll-m-20 border-t pt-10 text-2xl font-semibold tracking-tight first:mt-0",
         className
       )}
       {...props}
@@ -52,7 +52,7 @@ const components = {
   h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
       className={cn(
-        "font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight",
+        "group relative font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -61,7 +61,7 @@ const components = {
   h4: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4
       className={cn(
-        "font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        "group relative font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -70,7 +70,7 @@ const components = {
   h5: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h5
       className={cn(
-        "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        "group relative mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -79,7 +79,7 @@ const components = {
   h6: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h6
       className={cn(
-        "mt-8 scroll-m-20 text-base font-semibold tracking-tight",
+        "group relative mt-8 scroll-m-20 text-base font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -159,6 +159,7 @@ const components = {
     />
   ),
   pre: ({
+    children,
     className,
     __rawString__,
     __withMeta__,
@@ -175,11 +176,13 @@ const components = {
             className
           )}
           {...props}
-        />
+        >
+          {children}
+        </pre>
         {__rawString__ && (
           <CopyButton
             value={__rawString__}
-            className={cn("absolute right-4 top-4", __withMeta__ && "top-16")}
+            className={cn("absolute right-4 top-10", __withMeta__ && "top-20")}
           />
         )}
       </>

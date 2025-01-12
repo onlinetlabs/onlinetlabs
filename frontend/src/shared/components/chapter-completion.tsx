@@ -1,5 +1,7 @@
 import { BookCheckIcon, BookOpenIcon, CheckIcon } from "lucide-react"
 
+import { Circle } from "@ui/circle"
+
 const DEFAULT_TITLES = {
   start: "Готовы начать?",
   end: "Вы прошли курс!",
@@ -27,19 +29,23 @@ export const ChapterCompletion = ({
         aria-hidden="true"
         className="mx-auto h-32 w-[1px] bg-gradient-to-t from-blue-300 md:h-48"
       ></div>
-      <div
+      <Circle
         aria-hidden="true"
-        className="mx-auto relative flex h-24 w-24 items-center justify-center rounded-full bg-blue-300 text-[48px] font-semibold text-blue-900  md:h-32 md:w-32 md:text-[72px]"
+        variant="subtle-blue"
+        className="mx-auto relative h-24 w-24 text-[48px] font-semibold md:h-32 md:w-32 md:text-[72px]"
       >
         {type === "start" && <BookOpenIcon className="h-16 w-16" />}
         {type === "end" && <BookCheckIcon className="h-16 w-16" />}
         {type === "default" && <>{number}</>}
         {type !== "start" && (
-          <div className="text-background border-background absolute bottom-0 right-0 flex h-8 w-8 translate-x-[6px] translate-y-[6px] items-center justify-center rounded-full border-[3px] bg-blue-700 md:h-10 md:w-10">
+          <Circle
+            variant="blue"
+            className="border-background absolute bottom-0 right-0 h-8 w-8 translate-x-[6px] translate-y-[6px] border-[3px] md:h-10 md:w-10"
+          >
             <CheckIcon className="h-5 w-5" />
-          </div>
+          </Circle>
         )}
-      </div>
+      </Circle>
       <h2 className="text-base text-primary text-center pt-8 pb-2">
         {title} {type === "default" && <>{number}</>}
       </h2>

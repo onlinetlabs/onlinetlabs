@@ -17,6 +17,7 @@ export const About = () => {
               src="/placeholder.svg"
               objectFit="cover"
               alt="placeholder"
+              className="dark:brightness-[0.2] dark:grayscale"
               fill
             />
           </div>

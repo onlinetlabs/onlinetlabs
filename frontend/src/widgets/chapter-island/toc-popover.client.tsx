@@ -5,6 +5,7 @@ import { InfoIcon, TableOfContentsIcon } from "lucide-react"
 import { CourseNavItem } from "@shared/types/nav"
 import { Icons } from "@components/icons"
 import { Button } from "@ui/button"
+import { Circle } from "@ui/circle"
 import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover"
 import {
   Tooltip,
@@ -14,8 +15,10 @@ import {
 } from "@ui/tooltip"
 import { cn } from "@lib/utils"
 
+import { ChapterCount } from "./chapter-count"
+
 export const TableOfContentsPopover = ({
-  course,
+  namespace,
   chapters,
   className,
 }: Props) => {
@@ -47,21 +50,18 @@ export const TableOfContentsPopover = ({
         alignOffset={-10}
       >
         <div className="flex gap-3 p-3">
-          <div className="flex w-[50%] items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px] bg-background">
+          <div className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px] bg-background">
             <Icons.chapter />
-            <div className="flex flex-col items-start text-left">
-              <p className="text-primary text-sm">{course?.title}</p>
-              <p className="text-primary text-sm">1/{rest.length + 1} Глав</p>
-            </div>
+            <ChapterCount namespace={namespace} type="info" />
           </div>
         </div>
         <div className="border-t">
           <div className="grid grid-cols-2 p-2">
             <Button variant="ghost" className="justify-start group" asChild>
               <Link href={intro.slug}>
-                <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-blue-900 bg-blue-300">
+                <Circle variant="subtle-blue">
                   <InfoIcon className="h-4 w-4" />
-                </div>
+                </Circle>
                 <p className="text-primary text-sm">{intro.title}</p>
               </Link>
             </Button>
@@ -75,9 +75,9 @@ export const TableOfContentsPopover = ({
                 asChild
               >
                 <Link href={chapter.slug}>
-                  <div className="flex flex-shrink-0 justify-center items-center w-7 h-7 text-sm font-medium rounded-full text-blue-900 bg-blue-300">
+                  <Circle variant="subtle-blue" className="font-medium">
                     {chapter.sortOrder}
-                  </div>
+                  </Circle>
                   <div className="flex flex-col overflow-hidden">
                     <p className="text-muted-foreground text-sm">
                       Глава {chapter.sortOrder}
@@ -97,7 +97,7 @@ export const TableOfContentsPopover = ({
 }
 
 type Props = {
-  course?: CourseNavItem
   chapters: Chapter[]
+  namespace: string
   className?: string
 }

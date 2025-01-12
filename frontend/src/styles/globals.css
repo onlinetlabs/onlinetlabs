@@ -172,7 +172,6 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Custom scrollbar styling. Thanks @pranathiperii. */
   ::-webkit-scrollbar {
     width: 5px;
   }

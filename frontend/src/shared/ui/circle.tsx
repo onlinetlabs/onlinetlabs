@@ -4,21 +4,17 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@shared/lib/utils"
 
 const circleVariants = cva(
-  "inline-flex items-center rounded-full border border-ring/25 px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "flex flex-shrink-0 justify-center items-center min-h-7 min-w-7 text-sm rounded-full",
   {
     variants: {
       variant: {
-        default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive:
-          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        warning:
-          "border-transparent bg-warning text-warning-foreground hover:bg-warning/80",
-        success:
-          "border-transparent bg-success text-success-foreground hover:bg-success/80",
-        outline: "text-foreground",
+        default: "text-muted-foreground bg-muted",
+        amber: "text-amber-900 bg-amber-300",
+        red: "text-red-900 bg-red-300",
+        green: "text-green-900 bg-green-300",
+        blue: "text-background bg-blue-700",
+        "subtle-blue": "text-blue-900 bg-blue-300",
+        white: "bg-primary text-primary-foreground",
       },
     },
     defaultVariants: {

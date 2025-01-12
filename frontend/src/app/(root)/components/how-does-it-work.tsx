@@ -7,6 +7,8 @@ import {
   SettingsIcon,
 } from "lucide-react"
 
+import { Circle } from "@ui/circle"
+
 export const HowDoesItWork = () => {
   return (
     <div className="hero">
@@ -137,9 +139,12 @@ export const HowDoesItWork = () => {
           <div className="flex w-full items-center justify-center lg:w-[38%]">
             <div className="mb-8 flex w-full flex-col space-y-8 px-4 lg:mb-0 lg:space-y-6">
               <div className="flex flex-col items-center leading-6 lg:flex-row">
-                <div className="mb-3 flex h-10 w-10 flex-none items-center justify-center rounded-full bg-blue-300 text-blue-900 md:mb-4 lg:mb-0 lg:mr-4">
+                <Circle
+                  variant="subtle-blue"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                >
                   <SettingsIcon className="h-4 w-4" />
-                </div>
+                </Circle>
                 <div className="text-center lg:text-left">
                   <p className="text-base text-primary">
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -147,9 +152,12 @@ export const HowDoesItWork = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center leading-6 lg:flex-row">
-                <div className="mb-3 flex h-10 w-10 flex-none items-center justify-center rounded-full bg-blue-300 text-blue-900 md:mb-4 lg:mb-0 lg:mr-4">
+                <Circle
+                  variant="subtle-blue"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                >
                   <PanelsTopLeftIcon className="h-4 w-4" />
-                </div>
+                </Circle>
                 <div className="text-center lg:text-left">
                   <p className="text-base text-primary">
                     Minus fugit neque quo quas ab quia natus a animi, minima
@@ -158,9 +166,12 @@ export const HowDoesItWork = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center leading-6 lg:flex-row">
-                <div className="mb-3 flex h-10 w-10 flex-none items-center justify-center rounded-full bg-blue-300 text-blue-900 md:mb-4 lg:mb-0 lg:mr-4">
+                <Circle
+                  variant="subtle-blue"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                >
                   <PcCaseIcon className="h-4 w-4" />
-                </div>
+                </Circle>
                 <div className="text-center lg:text-left">
                   <p className="text-base text-primary">
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -168,9 +179,12 @@ export const HowDoesItWork = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center leading-6 lg:flex-row">
-                <div className="mb-3 flex h-10 w-10 flex-none items-center justify-center rounded-full bg-blue-300 text-blue-900 md:mb-4 lg:mb-0 lg:mr-4">
+                <Circle
+                  variant="subtle-blue"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                >
                   <CloudUploadIcon className="h-4 w-4" />
-                </div>
+                </Circle>
                 <div className="text-center lg:text-left">
                   <p className="text-base text-primary">
                     Minus fugit neque quo quas ab quia natus a animi, minima
@@ -209,9 +223,9 @@ export const HowDoesItWork = () => {
                 ></path>
               </svg>
             </div>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black">
+            <Circle variant="white" className="h-8 w-8">
               <BookmarkIcon />
-            </div>
+            </Circle>
           </div>
           <div className="mt-1 space-y-1 text-center lg:text-left">
             <p className="text-sm text-primary">Учитесь в своем темпе</p>
@@ -260,9 +274,9 @@ export const HowDoesItWork = () => {
                 ></path>
               </svg>
             </div>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black">
+            <Circle variant="white" className="h-8 w-8">
               <CircleHelpIcon />
-            </div>
+            </Circle>
           </div>
           <div className="mt-1 space-y-1 text-center lg:text-left">
             <p className="text-sm text-primary">

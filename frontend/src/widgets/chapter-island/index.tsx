@@ -5,6 +5,7 @@ import { Icons } from "@components/icons"
 import { Separator } from "@ui/separator"
 import { cn } from "@lib/utils"
 
+import { ChapterCount } from "./chapter-count"
 import { RingProgress } from "./ring-progress"
 import { ScrollToTop } from "./scroll-to-top"
 import { TableOfContents } from "./toc"
@@ -38,6 +39,7 @@ export const ChapterIsland = ({ chapter, index = false, className }: Props) => {
           </p>
         </div>
       </div>
+      <ChapterCount namespace={chapter.namespace} type="progress" />
       <RingProgress
         namespace={chapter.namespace}
         className="ml-auto md:ml-4 h-8 w-8"
