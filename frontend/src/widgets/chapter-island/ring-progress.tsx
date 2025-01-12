@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { allChapters } from "contentlayer/generated"
 import { PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
 
@@ -19,7 +20,12 @@ const chartConfig = {
 export const RingProgress = ({ namespace, className }: Props) => {
   const lsKey = `${namespace}-completion`
 
-  const storedArray = localStorage.getItem(lsKey) || "[]"
+  const [storedArray, setStoredArray] = useState<string>("[]")
+
+  useEffect(() => {
+    const stored = localStorage.getItem(lsKey) || "[]"
+    setStoredArray(stored)
+  }, [lsKey])
 
   const total = allChapters.filter(
     (chapter) => chapter.namespace === namespace

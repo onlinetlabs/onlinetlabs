@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { Button, ButtonProps } from "@ui/button"
 
 export const NextButton = ({
@@ -12,17 +13,20 @@ export const NextButton = ({
   // +1 because the intro chapter is not included in the total
   const nextSortOrder = sortOrder + 1
 
-  const handleClick = () => {
-    let sortOrderArray = []
+  const [sortOrderArray, setSortOrderArray] = useState<number[]>([])
+
+  useEffect(() => {
     const storedArray = localStorage.getItem(lsKey)
-
     if (storedArray) {
-      sortOrderArray = JSON.parse(storedArray)
+      setSortOrderArray(JSON.parse(storedArray))
     }
+  }, [lsKey])
 
+  const handleClick = () => {
     if (!sortOrderArray.includes(nextSortOrder)) {
-      sortOrderArray.push(nextSortOrder)
-      localStorage.setItem(lsKey, JSON.stringify(sortOrderArray))
+      const updatedArray = [...sortOrderArray, nextSortOrder]
+      setSortOrderArray(updatedArray)
+      localStorage.setItem(lsKey, JSON.stringify(updatedArray))
     }
   }
 
