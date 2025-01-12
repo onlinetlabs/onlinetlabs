@@ -92,7 +92,6 @@ export default makeSource({
     remarkPlugins: [remarkGfm, codeImport],
     rehypePlugins: [
       rehypeSlug,
-      // rehypeComponent,
       () => (tree) => {
         visit(tree, (node) => {
           if (node?.type === "element" && node?.tagName === "pre") {
@@ -122,6 +121,8 @@ export default makeSource({
         {
           theme: "github-dark",
           getHighlighter,
+          grid: false,
+          keepBackground: false,
           onVisitLine(node) {
             // Prevent lines from collapsing in `display: grid` mode, and allow empty
             // lines to be copy/pasted
@@ -129,23 +130,18 @@ export default makeSource({
               node.children = [{ type: "text", value: " " }]
             }
           },
-          onVisitHighlightedLine(node) {
-            node.properties.className.push("line--highlighted")
-          },
-          onVisitHighlightedWord(node) {
-            node.properties.className = ["word--highlighted"]
-          },
         },
       ],
       () => (tree) => {
         visit(tree, (node) => {
-          if (node?.type === "element" && node?.tagName === "div") {
-            if (!("data-rehype-pretty-code-fragment" in node.properties)) {
+          if (node?.type === "element" && node?.tagName === "figure") {
+            if (!("data-rehype-pretty-code-figure" in node.properties)) {
               return
             }
 
             const preElement = node.children.at(-1)
             if (preElement.tagName !== "pre") {
+
               return
             }
 
@@ -167,7 +163,6 @@ export default makeSource({
           }
         })
       },
-      // rehypeNpmCommand,
       [
         rehypeAutolinkHeadings,
         {

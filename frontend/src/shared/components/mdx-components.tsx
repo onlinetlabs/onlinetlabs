@@ -159,6 +159,7 @@ const components = {
     />
   ),
   pre: ({
+    children,
     className,
     __rawString__,
     __withMeta__,
@@ -168,21 +169,21 @@ const components = {
     __withMeta__?: boolean
   }) => {
     return (
-      <>
-        <pre
-          className={cn(
-            "mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-xl bg-zinc-950 py-4 dark:bg-zinc-900",
-            className
-          )}
-          {...props}
-        />
+      <pre
+        className={cn(
+          "relative mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-xl bg-zinc-950 py-4 dark:bg-zinc-900",
+          className
+        )}
+        {...props}
+      >
+        {children}
         {__rawString__ && (
           <CopyButton
             value={__rawString__}
             className={cn("absolute right-4 top-4", __withMeta__ && "top-16")}
           />
         )}
-      </>
+      </pre>
     )
   },
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
