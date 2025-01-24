@@ -14,7 +14,7 @@ export const ChapterIsland = ({ chapter, index = false, className }: Props) => {
   return (
     <aside
       className={cn(
-        "sticky bg-background top-4 border z-10 flex h-[52px] items-center rounded-full px-3 py-3 lg:h-[auto] w-full",
+        "sticky bg-background top-4 border z-20 flex h-[52px] items-center rounded-full px-3 py-3 lg:h-[auto] w-full",
         className
       )}
     >

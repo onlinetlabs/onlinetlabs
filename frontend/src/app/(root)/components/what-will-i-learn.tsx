@@ -25,9 +25,9 @@ const features = [
   },
   {
     icon: <InfoIcon />,
-    title: "No annoying focus ring",
+    title: "No annoying focus ring-3",
     description:
-      "With new :focus-visible selector focus ring will appear only when user navigates with keyboard",
+      "With new :focus-visible selector focus ring-3 will appear only when user navigates with keyboard",
   },
   {
     icon: <InfoIcon />,
@@ -50,7 +50,7 @@ export const WhatWillILearn = () => {
         {navConfig.courses.items.map((item, idx) => (
           <div
             key={idx}
-            className="group h-full rounded-[12px] shadow-sm group transition-all border hover:bg-accent"
+            className="group h-full rounded-[12px] shadow-xs group transition-all border hover:bg-accent"
           >
             <Link className="flex flex-col p-6" href={`/courses/${item.slug}`}>
               <div className="mb-2 flex items-center">

@@ -25,6 +25,12 @@ export const navConfig: NavConfig = {
     title: "Список курсов",
     items: [
       {
+        title: "Компьютерные сети",
+        description: "Описание",
+        slug: "computer-networks",
+        tags: ["FREE", "EVENTS", "BEGGINER"],
+      },
+      {
         title: "Сетевая модель OSI",
         description: "Описание сетевой модели OSI",
         slug: "osi-model",

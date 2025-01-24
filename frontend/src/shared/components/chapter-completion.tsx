@@ -27,7 +27,7 @@ export const ChapterCompletion = ({
     <>
       <div
         aria-hidden="true"
-        className="mx-auto h-32 w-[1px] bg-gradient-to-t from-blue-300 md:h-48"
+        className="mx-auto h-32 w-[1px] bg-linear-to-t from-blue-300 md:h-48"
       ></div>
       <Circle
         aria-hidden="true"

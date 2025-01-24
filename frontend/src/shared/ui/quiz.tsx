@@ -112,7 +112,7 @@ const QuizOptionIcon = React.forwardRef<
     ref={ref}
     quiz-icon=""
     className={cn(
-      "flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full font-medium transition-colors",
+      "flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-medium transition-colors",
       className
     )}
     {...props}

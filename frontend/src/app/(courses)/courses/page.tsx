@@ -43,12 +43,12 @@ export default function CoursesPage() {
                   <header className="mb-4">
                     <h2 className="text-xl">{item.title}</h2>
                   </header>
-                  <div className="flex content-center m-[auto_0_0] py-5 rounded overflow-hidden">
-                    <div className="max-w-full h-[132px]" role="img"></div>
+                  <div className="flex content-center py-5 rounded overflow-hidden">
+                    <div className="h-[132px] w-full border-x border-x-(--pattern-fg) bg-[image:repeating-linear-gradient(315deg,_var(--pattern-fg)_0,_var(--pattern-fg)_1px,_transparent_0,_transparent_50%)] bg-[size:10px_10px] bg-fixed [--pattern-fg:var(--color-foreground)]/5"></div>
                   </div>
-                  <footer className="mt-3 flex items-center [&>*:not(:last-child)]:mr-2">
-                    {item.tags &&
-                      item.tags.map((tag, idx) => (
+                  {item.tags && (
+                    <footer className="mt-3 flex items-center [&>*:not(:last-child)]:mr-2">
+                      {item.tags.map((tag, idx) => (
                         <Badge
                           key={idx}
                           variant="outline"
@@ -57,7 +57,8 @@ export default function CoursesPage() {
                           {tag}
                         </Badge>
                       ))}
-                  </footer>
+                    </footer>
+                  )}
                 </Link>
               </article>
             </li>

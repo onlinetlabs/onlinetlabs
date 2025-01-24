@@ -4,6 +4,16 @@ import * as React from "react"
 
 import { TableOfContents } from "@lib/toc"
 import { cn } from "@lib/utils"
+import { cva } from "class-variance-authority"
+
+const tocVariants = cva("", {
+  variants: {
+    level: {
+      "0": "pl-5 sm:pl-4",
+      "1": "pl-8 sm:pl-7.5"
+    }
+  }
+})
 
 interface TocProps {
   toc: TableOfContents
@@ -29,7 +39,7 @@ export function DashboardTableOfContents({ toc }: TocProps) {
 
   return (
     <div className="space-y-2">
-      <p className="font-medium">Содержание</p>
+      <h3 className="font-mono text-sm/6 font-medium tracking-widest text-primary uppercase">Содержание</h3>
       <Tree tree={toc} activeItem={activeHeading} />
     </div>
   )
@@ -78,18 +88,21 @@ interface TreeProps {
 
 function Tree({ tree, level = 1, activeItem }: TreeProps) {
   return tree?.items?.length && level < 3 ? (
-    <ul className={cn("m-0 list-none", { "pl-4": level !== 1 })}>
+    <ul className={cn("flex flex-col gap-2 border-l")}>
       {tree.items.map((item, index) => {
         return (
-          <li key={index} className={cn("mt-0 pt-2")}>
+          <li key={index} className={cn("-ml-px flex flex-col items-start gap-2")}>
             <a
-              href={item.url}
               className={cn(
-                "inline-block no-underline transition-colors hover:text-foreground",
-                item.url === `#${activeItem}`
-                  ? "font-medium text-foreground"
-                  : "text-muted-foreground"
-              )}
+                "inline-block border-l border-transparent text-sm/8 text-muted-foreground hover:border-primary/25 hover:text-primary aria-[current]:border-primary aria-[current]:font-semibold aria-[current]:text-primary",
+                {
+                  "pl-5 sm:pl-4": level === 1,
+                  "pl-8 sm:pl-7.5": level === 2
+                }
+              )} 
+              type="button" 
+              href={item.url}
+              aria-current={item.url === `#${activeItem}` ? "location" : undefined}
             >
               {item.title}
             </a>
