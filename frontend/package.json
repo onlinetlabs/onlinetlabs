@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail \"ENV_NAME=localhost contentlayer2 dev\" \"next dev --turbopack\"",
+    "dev": "concurrently --kill-others-on-fail \"contentlayer2 dev\" \"next dev --turbopack\"",
     "build": "next build",
     "build:content": "contentlayer2 build",
     "typecheck": "contentlayer2 build && tsc --noEmit",
