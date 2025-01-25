@@ -30,7 +30,7 @@ export const ChapterNextUp = ({
         <CardTitle className="text-xl">{title}</CardTitle>
       </CardHeader>
       <CardContent className="max-w-[540px] pb-4 pt-3 md:pb-6">
-        <p className="text-base text-muted-foreground">{content}</p>
+        <p className="text-base text-muted-foreground text-center">{content}</p>
       </CardContent>
       <CardFooter className="p-0 w-full justify-center">
         {/* TODO: Make sortOrder required */}
