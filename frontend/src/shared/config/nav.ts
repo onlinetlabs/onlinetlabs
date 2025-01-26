@@ -1,8 +1,7 @@
-import type { CoursesNav, MainNavItem, NavItem } from "@shared/types/nav"
+import type { MainNavItem } from "@shared/types/nav"
 
 export interface NavConfig {
   main: MainNavItem[]
-  courses: CoursesNav
 }
 
 export const navConfig: NavConfig = {
@@ -18,35 +17,7 @@ export const navConfig: NavConfig = {
     },
     {
       title: "Лабораторные",
-      href: "#",
+      href: "/labs",
     },
   ],
-  courses: {
-    title: "Список курсов",
-    items: [
-      {
-        title: "Компьютерные сети",
-        description: "Описание",
-        slug: "computer-networks",
-        tags: ["FREE", "EVENTS", "BEGGINER"],
-      },
-      {
-        title: "Сетевая модель OSI",
-        description: "Описание сетевой модели OSI",
-        slug: "osi-model",
-        tags: ["FREE", "EVENTS", "BEGGINER"],
-      },
-      {
-        title: "Протоколы TCP/IP",
-        description: "Описание протоколов TCP/IP",
-        slug: "tcp-ip",
-        tags: ["FREE", "EVENTS", "BEGGINER"],
-      },
-      {
-        title: "Беспроводные сети",
-        description: "Описание беспроводных сетей",
-        slug: "wireless-networks",
-      },
-    ],
-  },
 }

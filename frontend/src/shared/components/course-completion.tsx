@@ -15,7 +15,7 @@ const DEFAULT_DESCRIPTIONS = {
   default: "",
 } as const
 
-export const ChapterCompletion = ({
+export const CourseCompletion = ({
   number = 0,
   type = "default",
   ...props

@@ -1,11 +1,7 @@
 import { SiteFooter } from "@widgets/site-footer"
 import { SiteHeader } from "@widgets/site-header"
 
-interface AppLayoutProps {
-  children: React.ReactNode
-}
-
-export default function AppLayout({ children }: AppLayoutProps) {
+export default async function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div
       data-wrapper=""
@@ -13,7 +9,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
     >
       <div className="flex flex-col flex-1 mx-auto w-full border-border min-[1800px]:max-w-[1536px] min-[1800px]:border-x">
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          {children}
+        </main>
         <SiteFooter />
       </div>
     </div>

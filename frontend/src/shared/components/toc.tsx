@@ -6,15 +6,6 @@ import { TableOfContents } from "@lib/toc"
 import { cn } from "@lib/utils"
 import { cva } from "class-variance-authority"
 
-const tocVariants = cva("", {
-  variants: {
-    level: {
-      "0": "pl-5 sm:pl-4",
-      "1": "pl-8 sm:pl-7.5"
-    }
-  }
-})
-
 interface TocProps {
   toc: TableOfContents
 }
@@ -94,7 +85,7 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
           <li key={index} className={cn("-ml-px flex flex-col items-start gap-2")}>
             <a
               className={cn(
-                "inline-block border-l border-transparent text-sm/8 text-muted-foreground hover:border-primary/25 hover:text-primary aria-[current]:border-primary aria-[current]:font-semibold aria-[current]:text-primary",
+                "inline-block border-l border-transparent text-sm/6 text-muted-foreground hover:border-primary/25 hover:text-primary aria-[current]:border-primary aria-[current]:font-semibold aria-[current]:text-primary",
                 {
                   "pl-5 sm:pl-4": level === 1,
                   "pl-8 sm:pl-7.5": level === 2

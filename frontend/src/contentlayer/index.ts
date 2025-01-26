@@ -1,2 +1,2 @@
-export { Chapter } from './document/chapter';
+export { Course } from './document/course';
 export { Lab } from './document/lab';

@@ -10,7 +10,7 @@ export function SiteHeader({ sticky = true }: Props) {
   return (
     <header
       className={cn(
-        "top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60 dark:border-border",
+        "top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60",
         { sticky: sticky }
       )}
     >

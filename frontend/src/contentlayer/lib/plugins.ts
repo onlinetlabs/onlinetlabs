@@ -21,22 +21,6 @@ const prettyCodeOptions: RehypePrettyCodeOptions = {
 }
 
 import rehypeSlug from "rehype-slug"
-
-const slugOptionPluggable: Pluggable = () => (tree) => {
-  visit(tree, (node) => {
-    if (node?.type === "element" && node?.tagName === "pre") {
-      const [codeEl] = node.children
-      if (codeEl.tagName !== "code") {
-        return
-      }
-
-      node.__rawString__ = codeEl.children?.[0].value
-      node.__src__ = node.properties?.__src__
-      node.__style__ = node.properties?.__style__
-    }
-  })
-}
-
 import rehypeAutolinkHeadings, {
   Options as RehypeAutolinkHeadingsOptions,
 } from "rehype-autolink-headings"
@@ -55,7 +39,6 @@ import { codeImport } from "remark-code-import"
 import { visit } from "unist-util-visit"
 import { Pluggable } from "unified"
 
-
 export const remarkPlugins = [remarkGfm, codeImport];
 
 export const rehypePlugins: Pluggable[] = [
@@ -63,7 +46,21 @@ export const rehypePlugins: Pluggable[] = [
     background: "transparent", 
     className: "mermaid-diagram",
   }],
-  [rehypeSlug, slugOptionPluggable],
+  rehypeSlug,
+  () => (tree) => {
+    visit(tree, (node) => {
+      if (node?.type === "element" && node?.tagName === "pre") {
+        const [codeEl] = node.children
+        if (codeEl.tagName !== "code") {
+          return
+        }
+  
+        node.__rawString__ = codeEl.children?.[0].value
+        node.__src__ = node.properties?.__src__
+        node.__style__ = node.properties?.__style__
+      }
+    })
+  },
   [rehypePrettyCode, prettyCodeOptions],
   () => (tree) => {
     visit(tree, (node) => {
@@ -81,6 +78,7 @@ export const rehypePlugins: Pluggable[] = [
           node.children.at(0).properties,
           "data-rehype-pretty-code-title"
         )
+        console.log('node', node)
 
         preElement.properties["__rawString__"] = node.__rawString__
       }

@@ -1,8 +1,8 @@
 import { computedFields } from "@contentlayer/computed";
 import { defineDocumentType } from "contentlayer2/source-files";
 
-export const Chapter = defineDocumentType(() => ({
-  name: "Chapter",
+export const Course = defineDocumentType(() => ({
+  name: "Course",
   filePathPattern: `courses/**/*.mdx`,
   contentType: "mdx",
   fields: {

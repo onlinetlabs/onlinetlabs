@@ -1,8 +1,7 @@
 import Link from "next/link"
-import { Chapter } from "contentlayer/generated"
+import { Course } from "contentlayer/generated"
 import { InfoIcon, TableOfContentsIcon } from "lucide-react"
 
-import { CourseNavItem } from "@shared/types/nav"
 import { Icons } from "@components/icons"
 import { Button } from "@ui/button"
 import { Circle } from "@ui/circle"
@@ -13,12 +12,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@ui/tooltip"
-import { cn } from "@lib/utils"
 
 import { ChapterCount } from "./chapter-count"
 
 export const TableOfContentsPopover = ({
-  namespace,
   chapters,
   className,
 }: Props) => {
@@ -32,7 +29,7 @@ export const TableOfContentsPopover = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className={cn("rounded-full", className)}
+                className={className}
               >
                 <TableOfContentsIcon />
               </Button>
@@ -52,7 +49,7 @@ export const TableOfContentsPopover = ({
         <div className="flex gap-3 p-3">
           <div className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px] bg-background">
             <Icons.chapter />
-            <ChapterCount namespace={namespace} type="info" />
+            <ChapterCount namespace={intro.namespace} type="info" />
           </div>
         </div>
         <div className="border-t">
@@ -62,7 +59,7 @@ export const TableOfContentsPopover = ({
                 <Circle variant="subtle-blue">
                   <InfoIcon className="h-4 w-4" />
                 </Circle>
-                <p className="text-primary text-sm">{intro.title}</p>
+                <p className="text-primary text-sm">Введение</p>
               </Link>
             </Button>
           </div>
@@ -97,7 +94,6 @@ export const TableOfContentsPopover = ({
 }
 
 type Props = {
-  chapters: Chapter[]
-  namespace: string
+  chapters: Course[]
   className?: string
 }

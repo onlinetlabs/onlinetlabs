@@ -12,7 +12,7 @@ export const Lab = defineDocumentType(() => ({
     },
     description: {
       type: "string",
-      required: true,
+      required: false,
     },
     publishedAt: {
       type: "string",
@@ -23,6 +23,14 @@ export const Lab = defineDocumentType(() => ({
       default: true,
       required: false,
     },
+    sortOrder: {
+      type: "number",
+      required: false,
+    },
+    categories: {
+      type: 'list',
+      of: { type: 'string' },
+    }
   },
   computedFields
 }))

@@ -27,7 +27,7 @@ export const ScrollToTop = () => {
             variant="ghost"
             size="icon"
             aria-label="Scroll to top"
-            className="rounded-full [&_svg]:size-5"
+            className="[&_svg]:size-5"
             onClick={scrollToTop}
           >
             <ArrowUpIcon className="text-muted-foreground" />

@@ -3,11 +3,9 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { type DialogProps } from "@radix-ui/react-dialog"
-import { File, Laptop, Moon, Sun } from "lucide-react"
+import { File, FlaskConical, Laptop, Moon, Search, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
-import { navConfig } from "@shared/config/nav"
-import { cn } from "@lib/utils"
 import { Button } from "@ui/button"
 import {
   CommandDialog,
@@ -18,8 +16,9 @@ import {
   CommandList,
   CommandSeparator,
 } from "@ui/command"
+import { contentConfig } from "@shared/config/content"
 
-export function CommandMenu({ ...props }: DialogProps) {
+export function CommandMenu(props: DialogProps) {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
   const { setTheme } = useTheme()
@@ -53,24 +52,24 @@ export function CommandMenu({ ...props }: DialogProps) {
   return (
     <>
       <Button
-        variant="outline"
-        className={cn(
-          "relative h-8 w-full justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-48 xl:w-64"
-        )}
+        variant="ghost"
+        className="hidden sm:inline-flex h-fit items-center gap-1 bg-muted/50 px-2 py-1"
         onClick={() => setOpen(true)}
         {...props}
       >
-        <span className="inline-flex">Поиск...</span>
-        <kbd className="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-          <span className="text-xs">⌘</span>K
-        </kbd>
+        <Search className="-ml-0.5 size-3.5! text-muted-foreground" />
+        <kbd className="hidden font-sans text-xs/4 text-muted-foreground [.os-macos_&]:block">⌘K</kbd>
+        <kbd className="hidden font-sans text-xs/4 text-muted-foreground not-[.os-macos_&]:block">Ctrl&nbsp;K</kbd>
       </Button>
+      <button className="inline-grid sm:hidden size-7 place-items-center rounded-md" onClick={() => setOpen(true)} {...props}>
+        <Search className="size-4" />
+      </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Найти..." />
         <CommandList>
           <CommandEmpty>Результатов не найдено.</CommandEmpty>
           <CommandGroup heading="Курсы">
-            {navConfig.courses.items.map((course, idx) => (
+            {contentConfig.courses.map((course, idx) => (
               <CommandItem
                 key={idx}
                 value={course.title}
@@ -80,6 +79,21 @@ export function CommandMenu({ ...props }: DialogProps) {
               >
                 <File />
                 {course.title}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Лабы">
+            {contentConfig.labs.map((lab, idx) => (
+              <CommandItem
+                key={idx}
+                value={lab.title}
+                onSelect={() => {
+                  runCommand(() => router.push(lab.slug as string))
+                }}
+              >
+                <FlaskConical />
+                {lab.title}
               </CommandItem>
             ))}
           </CommandGroup>

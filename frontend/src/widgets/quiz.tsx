@@ -126,7 +126,7 @@ export const Quiz = ({
               <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 {LETTERS[selected || SELECTED_FALLBACK]}
               </div>
-              <p className="text-sm text-primary">
+              <p className="text-sm text-primary text-center">
                 {options[selected || SELECTED_FALLBACK]}
               </p>
               <Badge
@@ -148,7 +148,7 @@ export const Quiz = ({
               <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 {LETTERS[selected || SELECTED_FALLBACK]}
               </div>
-              <p className="text-sm text-primary">
+              <p className="text-sm text-primary text-center">
                 {options[selected || SELECTED_FALLBACK]}
               </p>
               <Badge

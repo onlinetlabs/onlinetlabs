@@ -16,6 +16,7 @@ import {
 } from "@ui/drawer"
 import { VisuallyHidden } from "@ui/visually-hidden"
 import { cn } from "@lib/utils"
+import { contentConfig } from "@shared/config/content"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -72,26 +73,22 @@ export function MobileNav() {
           </div>
           <div className="flex flex-col space-y-2">
             <div className="flex flex-col space-y-3 pt-6">
-              <h4 className="font-medium">{navConfig.courses.title}</h4>
-              {navConfig.courses.items.map((item, idx) => (
+              <h4 className="font-medium">Список курсов</h4>
+              {contentConfig.courses.map((course, idx) => (
                 <React.Fragment key={idx}>
-                  {!item.disabled &&
-                    (item.slug ? (
-                      <MobileLink
-                        href={item.slug}
-                        onOpenChange={setOpen}
-                        className="text-muted-foreground"
-                      >
-                        {item.title}
-                        {item.label && (
-                          <span className="ml-2 rounded-md bg-chart-2 px-1.5 py-0.5 text-xs leading-none text-background no-underline group-hover:no-underline">
-                            {item.label}
-                          </span>
-                        )}
-                      </MobileLink>
-                    ) : (
-                      item.title
-                    ))}
+                  <MobileLink
+                    href={course.slug}
+                    onOpenChange={setOpen}
+                    className="text-muted-foreground"
+                  >
+                    {course.title}
+                    {/* NEW label */}
+                    {/* {course.label && (
+                      <span className="ml-2 rounded-md bg-chart-2 px-1.5 py-0.5 text-xs leading-none text-background no-underline group-hover:no-underline">
+                        {course.label}
+                      </span>
+                    )} */}
+                  </MobileLink>
                 </React.Fragment>
               ))}
             </div>
