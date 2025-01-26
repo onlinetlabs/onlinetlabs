@@ -23,6 +23,12 @@ export default async function Page(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams;
   const categories = await getCategories();
 
+  const selectedCategory = searchParams[CATEGORY_SEARCH_PARAM];
+
+  const filteredLabs = selectedCategory
+    ? allLabs.filter(lab => lab.categories?.some(category => category.toLowerCase() === selectedCategory.toLowerCase()))
+    : allLabs;
+
   return (
     <div className="relative">
       <PageHeader>
@@ -77,7 +83,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
         </div>
       </div>
       <ul className="grid auto-rows-min sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 list-none h-auto [&>li]:border-border [&>li]:border-b [&>li]:border-r xl:[&>li:nth-child(4n)]:border-r-0">
-        {allLabs.map((lab, idx) => (
+        {filteredLabs.map((lab, idx) => (
           <li key={idx} className="list-none min-h-[136px] ">
             <article className="h-full">
               <Link

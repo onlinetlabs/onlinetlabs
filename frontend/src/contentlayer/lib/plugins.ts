@@ -78,8 +78,6 @@ export const rehypePlugins: Pluggable[] = [
           node.children.at(0).properties,
           "data-rehype-pretty-code-title"
         )
-        console.log('node', node)
-
         preElement.properties["__rawString__"] = node.__rawString__
       }
     })
