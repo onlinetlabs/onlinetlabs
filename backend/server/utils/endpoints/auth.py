@@ -37,7 +37,7 @@ from .core                   import app
 # CONSTANTS #
 
 TAGS:list[str|Enum]|None = [
-        "USER",
+        "AUTH",
         ]
 
 # Access token time to life (set in .env)

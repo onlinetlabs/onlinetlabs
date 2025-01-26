@@ -173,10 +173,10 @@ def lab_deploy(cource_num:int, lab_num:int):
     - lab_num:
     """
 
-    # Duplicate target lab
+    # Get access_token for GNS3 API:
     access_token = temp_gns3_get_token()
     if access_token is None:
-        # For some reasons GNS3 server credentials were incorrect
+        # If GNS3 API credentials were incorrect:
         raise HTTPException(
                 status_code=401,
                 detail="Not authenticated",

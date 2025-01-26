@@ -1,6 +1,7 @@
 # -------------- #
 # System imports #
 
+from pprint import pprint
 from typing             import List
 import telnetlib
 
@@ -81,7 +82,6 @@ def temp_gns3_duplicate(token:str, project_id:str) -> str|None:
     }
     
     response = requests.post(url, headers=headers, json=payload)
-    print(response.json())
     
     if response.ok:
         response = response.json()["project_id"]
@@ -104,7 +104,6 @@ def temp_get_project_nodes(token:str, project_id:str) -> list[dict]:
     }
     
     response = requests.get(url, headers=headers)
-    print(response.json())
     
     if response.ok:
         response = response.json()
@@ -121,9 +120,10 @@ def temp_gns3_ping(node:dict) -> bool:
     port = node['console']
 
     tn = telnetlib.Telnet(host, port)
-    tn.write(b"ping 192.168.1.2\r\n")
+    tn.write(b"ping 192.168.1.3\r\n")
     while True:
         response = tn.read_until(b"\r\n")
+        print(response)
         # b'84 bytes from 192.168.1.2 icmp_seq=5 ttl=64 time=0.337 ms\r\n'
         if b'bytes from' in response:
             return True
@@ -156,7 +156,13 @@ if __name__ == "__main__":
 
     access_token = temp_gns3_get_token()
     _id = "00000000-0000-0000-0000-000000000000"
-    temp_gns3_duplicate(access_token, _id)
+    nodes = temp_get_project_nodes(access_token, _id)
+    # pprint(res)
+    # temp_gns3_duplicate(access_token, _id)
+
+    PC1 = nodes[0]
+    res = temp_gns3_ping(PC1)
+    print(res)
 
     # passed:bool = temp_gns3_lab_check(access_token, _id)
     # print(passed)
