@@ -4,7 +4,7 @@ import * as React from "react"
 
 import { TableOfContents } from "@lib/toc"
 import { cn } from "@lib/utils"
-import { cva } from "class-variance-authority"
+import { CircleArrowUpIcon } from "lucide-react"
 
 interface TocProps {
   toc: TableOfContents
@@ -32,7 +32,43 @@ export function DashboardTableOfContents({ toc }: TocProps) {
     <div className="space-y-2">
       <h3 className="font-mono text-sm/6 font-medium tracking-widest text-primary uppercase">Содержание</h3>
       <Tree tree={toc} activeItem={activeHeading} />
+      <ScrollToTopButton />
     </div>
+  )
+}
+
+function ScrollToTopButton() {
+  const [isVisible, setIsVisible] = React.useState(false)
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setIsVisible(true)
+      } else {
+        setIsVisible(false)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  return (
+    <button
+      onClick={scrollToTop}
+      className={cn(
+        "pl-5 sm:pl-4 border-l mt-8 flex items-center gap-x-1.5 text-muted-foreground hover:text-primary cursor-pointer transition-opacity opacity-100",
+        {
+          "opacity-0": !isVisible,
+        }
+      )}
+    >
+      Наверх <CircleArrowUpIcon className="size-4" />
+    </button>
   )
 }
 

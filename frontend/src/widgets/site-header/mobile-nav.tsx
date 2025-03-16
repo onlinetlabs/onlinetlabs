@@ -5,7 +5,6 @@ import Link, { LinkProps } from "next/link"
 import { useRouter } from "next/navigation"
 
 import { navConfig } from "@shared/config/nav"
-import { useMetaColor } from "@shared/hooks/use-meta-color"
 import { Button } from "@ui/button"
 import {
   Drawer,
@@ -20,15 +19,10 @@ import { contentConfig } from "@shared/config/content"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
-  const { setMetaColor, metaColor } = useMetaColor()
 
-  const onOpenChange = React.useCallback(
-    (open: boolean) => {
-      setOpen(open)
-      setMetaColor(open ? "#09090b" : metaColor)
-    },
-    [setMetaColor, metaColor]
-  )
+  const onOpenChange = (open: boolean) => {
+    setOpen(open)
+  }
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
