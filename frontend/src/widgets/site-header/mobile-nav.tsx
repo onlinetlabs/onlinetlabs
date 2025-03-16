@@ -15,7 +15,7 @@ import {
 } from "@ui/drawer"
 import { VisuallyHidden } from "@ui/visually-hidden"
 import { cn } from "@lib/utils"
-import { contentConfig } from "@shared/config/content"
+import { allCourses } from "contentlayer/generated"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -68,7 +68,7 @@ export function MobileNav() {
           <div className="flex flex-col space-y-2">
             <div className="flex flex-col space-y-3 pt-6">
               <h4 className="font-medium">Список курсов</h4>
-              {contentConfig.courses.map((course, idx) => (
+              {allCourses.filter(page => page.isEntryPage).sort((a, b) => a.sortOrder - b.sortOrder).map((course, idx) => (
                 <React.Fragment key={idx}>
                   <MobileLink
                     href={course.slug}

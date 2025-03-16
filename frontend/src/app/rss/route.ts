@@ -1,9 +1,9 @@
 
-import { contentConfig } from "@shared/config/content";
 import { siteConfig } from "@shared/config/site"
+import { allCourses } from "contentlayer/generated";
 
 export async function GET() {
-  const coursesXml = contentConfig.courses
+  const coursesXml = allCourses.filter(page => page.isEntryPage)
     .sort((a, b) => {
       if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
         return -1;

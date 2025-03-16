@@ -1,6 +1,6 @@
 import { allLabs } from "contentlayer/generated"
 
-export const getCategories = async () => {
+export async function getCategories() {
   const allCategories = allLabs.map((lab) => lab.categories).flat().filter((category: string | undefined): category is string => !!category);
   const uniqueCategories = [...new Set(allCategories)];
 
@@ -52,4 +52,24 @@ export const getLabsFilterOptions = async () => {
       items: ['10', '25', '100'],
     },
   ]
+}
+
+export function getLabs({
+  categories,
+  q,
+}: {
+  categories?: string[];
+  q?: string;
+}) {
+  return allLabs.filter((lab) => {
+    if (categories && categories.length > 0) {
+      return lab.categories?.some((c) => categories.includes(c));
+    }
+
+    if (q) {
+      return lab.title.toLowerCase().includes(q.toLowerCase());
+    }
+
+    return true;
+  });
 }

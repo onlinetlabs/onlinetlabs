@@ -3,78 +3,42 @@ import Link from "next/link"
 import { Badge } from "@ui/badge"
 import { allLabs } from "contentlayer/generated"
 import { PageHeader, PageHeaderDescription, PageHeaderHeading } from "@components/page-header"
-import { ActiveLink } from "@components/active-link"
-import { Rss, Search } from "lucide-react"
-import { Input } from "@ui/input"
+import { Rss } from "lucide-react"
 import { Button } from "@ui/button"
-import { getCategories } from "@lib/lab"
+import { CategoryFilter } from "./components/category-filter"
+import { SearchFilter } from "./components/search-filter"
+import { getCategories, getLabs } from "@lib/lab"
 
-type SearchParams = Promise<{ category: string }>
-
-const CATEGORY_SEARCH_PARAM = 'category' as const;
+type SearchParams = Promise<{
+  q?: string;
+  category?: string | string[];
+}>
 
 export const metadata: Metadata = {
   title: "Лабораторные",
   description: "Полный список всех доступных курсов.",
 }
 
-
-export default async function Page(props: { searchParams: SearchParams }) {
-  const searchParams = await props.searchParams;
-  const categories = await getCategories();
-
-  const selectedCategory = searchParams[CATEGORY_SEARCH_PARAM];
-
-  const filteredLabs = selectedCategory
-    ? allLabs.filter(lab => lab.categories?.some(category => category.toLowerCase() === selectedCategory.toLowerCase()))
-    : allLabs;
+export default async function Page({ searchParams }: { searchParams: SearchParams }) {
+  const { q, category } = await searchParams;
+  
+  const data = getLabs({
+    categories: toArray(category),
+    q,
+  });
 
   return (
     <div className="relative">
-      <PageHeader>
+      <PageHeader className="[&_[data-slot='page-header-container']]:max-[1800px]:mx-0">
         <PageHeaderHeading>Лабораторные</PageHeaderHeading>
         <PageHeaderDescription>
           Полный список всех доступных лабораторных работ.
         </PageHeaderDescription>
       </PageHeader>
       <div className="py-4 xl:py-0 px-4 flex flex-col gap-y-3 xl:gap-y-0 xl:flex-row xl:items-center xl:h-16 w-full xl:justify-between border-b border-b-border">
-        <div className="flex xl:flex-1 items-center h-full overflow-x-auto gap-x-3 xl:max-w-4xl pb-2.5 xl:pb-0">
-          {[{ label: "Все", slug: "/" }, ...categories].map((item, i) => {
-            const isActive =
-              // set the first item as active if no search param is set
-              (!searchParams[CATEGORY_SEARCH_PARAM] && i === 0) ||
-              // otherwise check if the current item is the active one
-              item.slug === searchParams[CATEGORY_SEARCH_PARAM];
-
-            // create new searchParams object for easier manipulation
-            const params = new URLSearchParams(searchParams);
-            // remove the category search param if all is selected
-            if (item.slug === "/") {
-              params.delete(CATEGORY_SEARCH_PARAM);
-            } else {
-              params.set(CATEGORY_SEARCH_PARAM, item.slug);
-            }
-
-            return (
-              <ActiveLink
-                key={item.slug}
-                isActive={isActive}
-                searchParams={params.toString()}
-              >
-                {item.label}
-              </ActiveLink>
-            );
-          })}
-        </div>
+        <CategoryFilter categoriesPromise={getCategories()} />
         <div className="flex items-center gap-3 -mt-2.5 xl:mt-0">
-          <div className="relative w-full xl:w-fit">
-            <Search className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Найти курс..."
-              className="h-8 bg-background pl-8 shadow-none"
-            />
-          </div>
+          <SearchFilter />
           <Button size='icon' variant="outline" className="h-8 w-8 shrink-0" asChild>
             <Link href="/rss">
               <Rss />
@@ -83,7 +47,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
         </div>
       </div>
       <ul className="grid auto-rows-min sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 list-none h-auto [&>li]:border-border [&>li]:border-b [&>li]:border-r xl:[&>li:nth-child(4n)]:border-r-0">
-        {filteredLabs.map((lab, idx) => (
+        {data.map((lab, idx) => (
           <li key={idx} className="list-none min-h-[136px] ">
             <article className="h-full">
               <Link
@@ -125,4 +89,11 @@ export default async function Page(props: { searchParams: SearchParams }) {
       </ul>
     </div>
   )
+}
+
+function toArray(value?: string | string[]): string[] | undefined {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  return value ? [value] : undefined;
 }

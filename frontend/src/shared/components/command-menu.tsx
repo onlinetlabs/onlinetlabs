@@ -16,7 +16,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@ui/command"
-import { contentConfig } from "@shared/config/content"
+import { allCourses, allLabs } from "contentlayer/generated"
 
 export function CommandMenu(props: DialogProps) {
   const router = useRouter()
@@ -69,7 +69,7 @@ export function CommandMenu(props: DialogProps) {
         <CommandList>
           <CommandEmpty>Результатов не найдено.</CommandEmpty>
           <CommandGroup heading="Курсы">
-            {contentConfig.courses.map((course, idx) => (
+            {allCourses.filter(page => page.isEntryPage).map((course, idx) => (
               <CommandItem
                 key={idx}
                 value={course.title}
@@ -84,7 +84,7 @@ export function CommandMenu(props: DialogProps) {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Лабы">
-            {contentConfig.labs.map((lab, idx) => (
+            {allLabs.filter(page => page.isEntryPage).map((lab, idx) => (
               <CommandItem
                 key={idx}
                 value={lab.title}

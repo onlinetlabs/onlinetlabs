@@ -15,4 +15,8 @@ export const computedFields: ComputedFields = {
       return doc._raw.sourceFileDir.split("/").pop()
     },
   },
+  isEntryPage: {
+    type: "boolean",
+    resolve: (doc) => doc._raw.sourceFileName === "index.mdx",
+  }
 }

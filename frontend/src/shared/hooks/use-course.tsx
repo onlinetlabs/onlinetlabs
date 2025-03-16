@@ -3,8 +3,6 @@
 import { useEffect, useMemo, useState } from "react"
 import { allCourses } from "contentlayer/generated"
 
-import { contentConfig } from "@shared/config/content"
-
 export const useCourse = ({ namespace }: Props) => {
   const lsKey = `${namespace}-completion`
 
@@ -29,7 +27,7 @@ export const useCourse = ({ namespace }: Props) => {
   }, [completed, total])
 
   const course = useMemo(() => {
-    return contentConfig.courses.find((course) => course.slug === namespace)
+    return allCourses.filter(page => page.isEntryPage).find((course) => course.slug === namespace)
   }, [namespace])
 
   return {
