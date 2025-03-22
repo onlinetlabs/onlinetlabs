@@ -24,8 +24,8 @@ export const Course = defineDocumentType(() => ({
       required: false,
     },
     sortOrder: {
-      type: 'string',
-      default: "0",
+      type: 'number',
+      default: 0,
     },
   },
   computedFields,
