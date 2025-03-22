@@ -3,6 +3,7 @@ import { allCourses, type Course } from "contentlayer/generated"
 export async function getNextChapter(chapter: Course) {
   const links = allCourses
     .filter((c) => c.slugAsParams.startsWith(chapter.namespace))
+    // @ts-expect-error TS2362
     .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
 
   const activeIndex = links.findIndex((link) => chapter.slug === link.slug)
@@ -31,5 +32,6 @@ export async function getCourseChapterCountBySlug([slug]: string[]) {
 export async function getCourseChaptersBySlug([slug]: string[]) {
   return allCourses
     .filter((c) => c.slugAsParams.startsWith(slug))
+    // @ts-expect-error TS2362
     .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
 }

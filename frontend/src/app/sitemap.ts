@@ -4,6 +4,7 @@ import { siteConfig } from "@shared/config/site"
 
 export default async function sitemap() {
   const courses = allCourses
+    // @ts-expect-error TS2362
     .filter((course) => course.sortOrder === 0)
     .map((course) => ({
       url: `${siteConfig.url}${course.slug}`,

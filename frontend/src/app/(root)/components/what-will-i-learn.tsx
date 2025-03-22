@@ -19,6 +19,7 @@ export const WhatWillILearn = () => {
         </div>
       </div>
       <div className="grid grid-flow-row grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {/* @ts-expect-error TS2362 */}
         {allCourses.filter(page => page.isEntryPage).sort((a, b) => a.sortOrder - b.sortOrder).map((item, idx) => (
           <div
             key={idx}

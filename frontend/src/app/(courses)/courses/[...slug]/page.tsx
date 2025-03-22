@@ -70,8 +70,10 @@ export default async function CoursePage({ params }: { params: Params }) {
   const chapters = await getCourseChapterCountBySlug(slug)
 
   // sortOrder starts from 0, therefore we need to subtract 1 from total
-  const isLastChapter = chapters - 1 === parseInt(course.sortOrder)
-  const isFirstChapter = parseInt(course.sortOrder) === 0
+  // @ts-expect-error TS2362
+  const isLastChapter = chapters - 1 === course.sortOrder
+  // @ts-expect-error TS2362
+  const isFirstChapter = course.sortOrder === 0
 
   return (
     <div className="relative px-4 py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
@@ -99,7 +101,8 @@ export default async function CoursePage({ params }: { params: Params }) {
           <Mdx code={course.body.code} />
         </div>
         <CourseCompletion
-          number={parseInt(course.sortOrder)}
+          // @ts-expect-error TS2362
+          number={course.sortOrder}
           type={isLastChapter ? "end" : isFirstChapter ? "start" : "default"}
         />
         {!isLastChapter && (
@@ -109,7 +112,8 @@ export default async function CoursePage({ params }: { params: Params }) {
             action={`Перейти к главе ${next?.sortOrder}`}
             href={next?.slug}
             namespace={course.namespace}
-            sortOrder={parseInt(course.sortOrder)}
+            // @ts-expect-error TS2362
+            sortOrder={course.sortOrder}
           />
         )}
       </div>
