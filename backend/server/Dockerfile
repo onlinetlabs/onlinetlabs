@@ -26,3 +26,5 @@ RUN apt-get update && apt-get -y install vim
 # latest versions (lets not use it a while - to be shure it works).
 # RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8000
