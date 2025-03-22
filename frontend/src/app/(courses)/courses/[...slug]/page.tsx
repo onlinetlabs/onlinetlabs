@@ -70,9 +70,7 @@ export default async function CoursePage({ params }: { params: Params }) {
   const chapters = await getCourseChapterCountBySlug(slug)
 
   // sortOrder starts from 0, therefore we need to subtract 1 from total
-  // @ts-expect-error TS2362
   const isLastChapter = chapters - 1 === course.sortOrder
-  // @ts-expect-error TS2362
   const isFirstChapter = course.sortOrder === 0
 
   return (
@@ -101,7 +99,6 @@ export default async function CoursePage({ params }: { params: Params }) {
           <Mdx code={course.body.code} />
         </div>
         <CourseCompletion
-          // @ts-expect-error TS2362
           number={course.sortOrder}
           type={isLastChapter ? "end" : isFirstChapter ? "start" : "default"}
         />
@@ -112,7 +109,6 @@ export default async function CoursePage({ params }: { params: Params }) {
             action={`Перейти к главе ${next?.sortOrder}`}
             href={next?.slug}
             namespace={course.namespace}
-            // @ts-expect-error TS2362
             sortOrder={course.sortOrder}
           />
         )}

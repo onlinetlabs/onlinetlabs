@@ -41,7 +41,6 @@ export function ChaptersPager({ chapter }: ChaptersPagerProps) {
 export function getPagerForChapter(chapter: Course) {
   const links = allCourses
     .filter((c) => c.slugAsParams.startsWith(chapter.namespace))
-    // @ts-expect-error TS2362
     .toSorted((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
 
   const activeIndex = links.findIndex((link) => chapter.slug === link.slug)
