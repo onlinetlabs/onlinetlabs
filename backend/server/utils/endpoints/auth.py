@@ -26,7 +26,7 @@ from utils.auth.auth_bearer import JWTBearer
 from utils.auth.auth_handler    import signJWT, decodeJWT
 
 from utils.datastructures       import logger, database
-from utils.datastructures       import Token
+from utils.auth.model           import Token
 
 from .core                   import app
 
@@ -37,7 +37,7 @@ from .core                   import app
 # CONSTANTS #
 
 TAGS:list[str|Enum]|None = [
-        "auth",
+        "AUTH",
         ]
 
 # Access token time to life (set in .env)
@@ -102,13 +102,13 @@ async def create_user(user: UserSignupSchema = Body(...)) -> Token:
         raise HTTPException(
                 status_code=400,
                 detail="User already exists. Try to login.")
-
+    
     # Write new user into the DB.
     success:bool = await database.auth_signup(user)
     if not success:
-        logger.main.error(f"Cant signup user: {user.email} {user.firstname}")
+        logger.main.error(f"Cant signup user: {user.email} {user.secondname}")
     else:
-        logger.main.debug(f"User signed up: {user.email} {user.firstname} {user.secondname}")
+        logger.main.debug(f"User signed up: {user.email} {user.secondname}")
 
     # Create and return access and refresh tokens.
     access_token = signJWT(user.email, ttl=JWT_ACC_TTL)

@@ -38,7 +38,15 @@ services:
       # in web frameworks.
       - DEBUG=False
       # Set the hostname to connect to the database.
-      - POSTGRES_HOST=netlab_database
+      # - POSTGRES_HOST=netlab_database
+
+      # Use the default Docker bridge network's gateway address
+      # (172.17.0.1, which is the host-side representation of the
+      # Docker-default bridge network). This allows the container to
+      # communicate with services on the host as if they were on the
+      # network interface attached to the bridge.
+      - POSTGRES_HOST=172.17.0.1
+      - LAB_HOST=172.17.0.1
 
     # Indicates that the service should restart automatically under
     # certain conditions (e.g., if it crashes).
@@ -56,8 +64,9 @@ services:
     # port SERVER_PORT on the Docker container. The container listens
     # on the specified port (defaulting to 8000), allowing external
     # access through the specified port.
-    ports:
-      - '8000:${SERVER_PORT:-8000}'
+    # ports:
+    #   - '8000:${SERVER_PORT:-8000}'   # No need because of network_mode: host
+
       # To enable communication between two Docker containers,
       # (core - server and database) don't necessarily need to map the
       # ports to the host machine. Instead, you can use Docker's internal
@@ -82,6 +91,13 @@ services:
       - netlab_database
       - netlab_lab
 
+    # When you set network_mode: host for a service in a Docker Compose file,
+    # it means that the container will share the network namespace of
+    # the host machine. In other words, the container will not get its
+    # own private network (which is the default behavior), but rather it
+    # will use the host's network directly.
+    network_mode: host
+
 
   #------------------------#
   #  CONTAINER | DATABASE  #
@@ -102,8 +118,6 @@ services:
       # This specifies that Docker should use the Dockerfile
       # located in the "context" directory to build the image.
       dockerfile: Dockerfile
-      # Image specified in Dockerfile
-      # image: postgres:16.3
     
     # Always restart if it stops or if Docker itself is restarted.
     restart: always
@@ -111,8 +125,8 @@ services:
     # This maps port 5432 of the host machine to port 5432 of the
     # container. PostgreSQL's default port is 5432, so this allows
     # external access to the database service running inside the container.
-    ports:
-      - '5432:${POSTGRES_PORT:-5432}'
+    # ports:
+    #   - '5432:${POSTGRES_PORT:-5432}'   # No need because of network_mode: host
     
     # This defines a bind mount volume that maps a directory on the host
     # (in this case, ./database_volume/data) to a directory in the container
@@ -130,6 +144,13 @@ services:
     # from the .env file located in the same directory as the
     # docker-compose.yaml.
     env_file: ./backend/.env
+
+    # When you set network_mode: host for a service in a Docker Compose file,
+    # it means that the container will share the network namespace of
+    # the host machine. In other words, the container will not get its
+    # own private network (which is the default behavior), but rather it
+    # will use the host's network directly.
+    network_mode: host
   
   
   #----------------------------------#
@@ -151,8 +172,6 @@ services:
       # This specifies that Docker should use the Dockerfile
       # located in the "context" directory to build the image.
       dockerfile: Dockerfile
-      # Image specified in Dockerfile
-      # image: ubuntu:22.04
        
     environment:
       # Configure the internal NAT network bridge for GNS3
@@ -179,7 +198,10 @@ services:
     # docker-compose.yaml.
     env_file: ./backend/.env
     
-    # This container works best when run on a network other then dockers'
-    # default (host or macvtap for example) and priviledged
+    # When you set network_mode: host for a service in a Docker Compose file,
+    # it means that the container will share the network namespace of
+    # the host machine. In other words, the container will not get its
+    # own private network (which is the default behavior), but rather it
+    # will use the host's network directly.
     network_mode: host
-    # priveleged: true
+    privileged: true

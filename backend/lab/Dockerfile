@@ -1,7 +1,7 @@
 # 1. The container uses the alpine Linux distribution version 3.20.3
 # as a base image. Alpine is a minimal and lightweight image
 # primarily used for small and efficient containers.
-FROM alpine:3.20.3
+FROM alpine:3.21.0
 
 # 2. Add start.sh, config.ini, requirements.txt and dependencies.json files
 # to specific locations inside the container filesystem.
@@ -19,17 +19,19 @@ RUN mkdir /data
 RUN apk add --no-cache --virtual=build-dependencies jq gcc python3-dev musl-dev linux-headers
 # Parse dependencies.json with jq to extract key-value pairs (packages)
 # and installs these additional dependencies:
+# Docker is optional, some nodes are based on Docker.
 RUN jq -r 'to_entries | .[] | .key + "=" + .value' /tmp/dependencies.json | xargs apk add --no-cache
 # Install Python packages listed in requirements.txt using pip:
 RUN pip install -r /requirements.txt --break-system-packages
 # Clean up by removing build dependencies to keep the image lightweight:
 RUN apk del --purge build-dependencies
+# Install bash command
+RUN apk add --no-cache bash
 
-# RUN mkdir /data && \
-#     apk add --no-cache --virtual=build-dependencies jq gcc python3-dev musl-dev linux-headers \
-#     && jq -r 'to_entries | .[] | .key + "=" + .value' /tmp/dependencies.json | xargs apk add --no-cache \
-#     && pip install -r /requirements.txt --break-system-packages \
-#     && apk del --purge build-dependencies
+# Add labs to GNS3 server
+COPY projects /projects
+# Then move /projects folder into /data/ inside 'start.sh'
+# so GNS3 could see that.
 
 # Define the default command to run when the container starts: start.sh:
 CMD [ "/start.sh" ]

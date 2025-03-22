@@ -80,7 +80,7 @@ class APIAuth(APIInterface):
         return None
 
 
-    #TODO: Should be firstname and secondname
+    #TODO: there is no username, only email.
     # async def auth_get_user_by_username(self,
     #         user:UserSignupSchema) -> None|RealDictRow:
     #     """
