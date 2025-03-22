@@ -25,7 +25,6 @@ export default function CoursesPage() {
         </PageHeaderDescription>
       </PageHeader>
       <div className="container mx-auto grid gap-4 py-4 sm:py-8 md:grid-cols-2 lg:grid-cols-3">
-        {/* @ts-expect-error TS2362 */}
         {allCourses.filter(page => page.isEntryPage).sort((a, b) => a.sortOrder - b.sortOrder).map((course, idx) => {
           const isFirst = idx === 0;
           const isEveryFifth = (idx + 1) % 5 === 0;

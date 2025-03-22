@@ -68,7 +68,6 @@ export function MobileNav() {
           <div className="flex flex-col space-y-2">
             <div className="flex flex-col space-y-3 pt-6">
               <h4 className="font-medium">Список курсов</h4>
-              {/* @ts-expect-error TS2362 */}
               {allCourses.filter(page => page.isEntryPage).sort((a, b) => a.sortOrder - b.sortOrder).map((course, idx) => (
                 <React.Fragment key={idx}>
                   <MobileLink
