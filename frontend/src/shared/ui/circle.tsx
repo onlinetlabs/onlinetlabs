@@ -9,11 +9,11 @@ const circleVariants = cva(
     variants: {
       variant: {
         default: "text-muted-foreground bg-muted",
-        amber: "text-amber-900 bg-amber-300",
-        red: "text-red-900 bg-red-300",
-        green: "text-green-900 bg-green-300",
-        blue: "text-background bg-blue-700",
-        "subtle-blue": "text-blue-900 bg-blue-300",
+        amber: "text-ds-amber-900 bg-ds-amber-300",
+        red: "text-ds-red-900 bg-ds-red-300",
+        green: "text-ds-green-900 bg-gds-reen-300",
+        blue: "text-background bg-ds-blue-700",
+        "subtle-blue": "text-ds-blue-900 bg-ds-blue-300",
         white: "bg-primary text-primary-foreground",
       },
     },

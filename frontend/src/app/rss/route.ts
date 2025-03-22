@@ -1,6 +1,6 @@
 
 import { siteConfig } from "@shared/config/site"
-import { allCourses } from "contentlayer/generated";
+import { allCourses, allLabs } from "contentlayer/generated";
 
 export async function GET() {
   const coursesXml = allCourses.filter(page => page.isEntryPage)
@@ -14,12 +14,30 @@ export async function GET() {
       (post) =>
         `<item>
           <title>${post.title}</title>
-          <link>${siteConfig.url}/${post.slug}</link>
+          <link>${siteConfig.url}${post.slug}</link>
           <description>${post.description || ''}</description>
           <pubDate>${new Date(post.publishedAt).toUTCString()}</pubDate>
         </item>`,
     )
     .join('\n');
+
+  const labsXml = allLabs.sort((a, b) => {
+      if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
+        return -1;
+      }
+      return 1;
+    })
+    .map(
+      (lab) =>
+        `<item>
+          <title>${lab.title}</title>
+          <link>${siteConfig.url}${lab.slug}</link>
+          <description>${lab.description || ''}</description>
+          <pubDate>${new Date(lab.publishedAt).toUTCString()}</pubDate>
+        </item>`,
+    )
+    .join('\n');
+
 
   const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
   <rss version="2.0">
@@ -28,6 +46,7 @@ export async function GET() {
         <link>${siteConfig.url}</link>
         <description>${siteConfig.description}: RSS feed</description>
         ${coursesXml}
+        ${labsXml}
     </channel>
   </rss>`;
 

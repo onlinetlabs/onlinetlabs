@@ -80,9 +80,9 @@ const quizOptionVariants = cva(
   {
     variants: {
       selected: {
-        true: "bg-background text-foreground dark:bg-muted/25 [&_[quiz-icon]]:bg-blue-900 [&_[quiz-icon]]:text-blue-100",
+        true: "bg-background text-foreground dark:bg-muted/25 [&_[quiz-icon]]:bg-ds-blue-900 [&_[quiz-icon]]:text-ds-blue-100",
         false:
-          "bg-secondary/80 dark:bg-background text-muted-foreground hover:bg-background dark:hover:bg-muted/25 [&_[quiz-icon]]:bg-blue-300 [&_[quiz-icon]]:text-blue-900",
+          "bg-secondary/80 dark:bg-background text-muted-foreground hover:bg-background dark:hover:bg-muted/25 [&_[quiz-icon]]:bg-ds-blue-300 [&_[quiz-icon]]:text-ds-blue-900",
       },
     },
     defaultVariants: {

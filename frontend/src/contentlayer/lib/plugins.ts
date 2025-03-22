@@ -26,6 +26,7 @@ import rehypeAutolinkHeadings, {
 } from "rehype-autolink-headings"
 
 const autolinkHeadingsOptions: RehypeAutolinkHeadingsOptions = {
+  behavior: 'wrap',
   properties: {
     className: ["subheading-anchor"],
     ariaLabel: "Link to section",

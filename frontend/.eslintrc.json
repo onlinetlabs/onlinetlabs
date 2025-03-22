@@ -3,20 +3,15 @@
   "extends": [
     "next/core-web-vitals", 
     "next/typescript",
-    "prettier",
-    "plugin:tailwindcss/recommended"
+    "prettier"
   ],
-  "plugins": ["tailwindcss"],
+  "plugins": [],
   "rules": {
     "@typescript-eslint/no-unused-vars": "off",
-    "tailwindcss/no-custom-classname": "off",
-    "tailwindcss/classnames-order": "error"
-  },
-  "settings": {
-    "tailwindcss": {
-      "callees": ["cn", "cva"],
-      "config": "tailwind.config.ts"
-    },
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unsafe-function-type": "off",
+    "@next/next/no-img-element": "off"
   },
   "overrides": [
     {

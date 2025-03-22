@@ -3,6 +3,7 @@ import { createContentlayerPlugin } from "next-contentlayer2"
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  output: 'standalone',
   // eslint: {
   //   ignoreDuringBuilds: true,
   // },

@@ -71,5 +71,5 @@ export function getLabs({
     }
 
     return true;
-  });
+  }).sort((a, b) => (a?.sortOrder ?? 0) - (b?.sortOrder ?? 0));
 }

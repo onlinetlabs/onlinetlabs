@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { type DialogProps } from "@radix-ui/react-dialog"
 import { File, FlaskConical, Laptop, Moon, Search, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -17,6 +16,7 @@ import {
   CommandSeparator,
 } from "@ui/command"
 import { allCourses, allLabs } from "contentlayer/generated"
+import { DialogProps } from "@ui/dialog"
 
 export function CommandMenu(props: DialogProps) {
   const router = useRouter()

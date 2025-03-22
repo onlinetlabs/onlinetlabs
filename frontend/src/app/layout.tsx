@@ -5,8 +5,9 @@ import { headers } from "next/headers"
 
 import { siteConfig } from "@shared/config/site"
 import { Providers } from "@shared/providers"
-import { fontMono, fontSans } from "@lib/fonts"
-import { cn } from "@lib/utils"
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
@@ -62,13 +63,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   const isMac = userAgent.toLowerCase().includes("mac os x")
 
   return (
-    <html lang="en" className={cn({ "os-macos": isMac })} suppressHydrationWarning>
+    <html lang="en" className={isMac ? "os-macos" : ""} suppressHydrationWarning>
       <body
-        className={cn(
-          "min-h-screen font-sans antialiased",
-          fontSans.variable,
-          fontMono.variable
-        )}
+        className={inter.className}
       >
         <Providers>
           <div vaul-drawer-wrapper="">

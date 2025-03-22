@@ -14,10 +14,10 @@ const Label = ({
     <div
       className={clsx("rounded-full px-1.5 shadow-[0_0_1px_3px_black]", {
         "bg-muted-foreground text-gray-300": color === "default",
-        "bg-blue-500 text-white": color === "blue",
-        "bg-red-500 text-white": color === "red",
-        "bg-amber-500 text-violet-100": color === "amber",
-        "bg-green-500 text-white": color === "green",
+        "bg-ds-blue-500 text-white": color === "blue",
+        "bg-ds-red-500 text-white": color === "red",
+        "bg-ds-amber-500 text-violet-100": color === "amber",
+        "bg-ds-green-500 text-white": color === "green",
         "animate-[highlight_1s_ease-in-out_1]": animateRerendering,
       })}
     >
@@ -44,11 +44,11 @@ export const Boundary = ({
         "p-3 lg:p-5": size === "small",
         "p-4 lg:p-9": size === "default",
         "border-gray-700": color === "default",
-        "border-blue-500": color === "blue",
-        "border-red-500": color === "red",
-        "border-amber-500": color === "amber",
-        "border-green-500": color === "green",
-        "animate-[rerender_1s_ease-in-out_1] text-blue-500": animateRerendering,
+        "border-ds-blue-500": color === "blue",
+        "border-ds-red-500": color === "red",
+        "border-ds-amber-500": color === "amber",
+        "border-ds-green-500": color === "green",
+        "animate-[rerender_1s_ease-in-out_1] text-ds-blue-500": animateRerendering,
       })}
     >
       <div

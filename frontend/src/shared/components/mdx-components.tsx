@@ -19,6 +19,7 @@ import { AspectRatio } from "@ui/aspect-ratio"
 import { Separator } from "@ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/tabs"
 import { cn } from "@lib/utils"
+import { Slot } from "@ui/slot"
 
 const components = {
   Accordion,
@@ -34,7 +35,7 @@ const components = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
-        "group relative font-heading mt-2 scroll-m-20 text-4xl font-bold",
+        "group relative font-heading mt-2 scroll-m-20 text-3xl font-bold",
         className
       )}
       {...props}
@@ -43,7 +44,7 @@ const components = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        "group relative font-heading mt-12 mb-6 scroll-m-20 border-t pt-10 text-2xl font-semibold tracking-tight first:mt-0",
+        "group relative font-heading mt-10 scroll-m-20 text-xl font-semibold tracking-tight first:mt-0",
         className
       )}
       {...props}
@@ -52,7 +53,7 @@ const components = {
   h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
       className={cn(
-        "group relative font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight",
+        "group relative font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -61,7 +62,7 @@ const components = {
   h4: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4
       className={cn(
-        "group relative font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        "group relative font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -70,7 +71,7 @@ const components = {
   h5: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h5
       className={cn(
-        "group relative mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        "group relative mt-6 scroll-m-16 text-md font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -85,6 +86,15 @@ const components = {
       {...props}
     />
   ),
+  Subtitle: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <Slot
+      className={cn(
+        "text-xs/6 font-medium font-mono text-muted-foreground uppercase tracking-[.1em] scroll-mt-4.5 mt-12",
+        className
+      )}
+      {...props}
+    />
+  ),
   a: ({ className, ...props }: React.HTMLAttributes<HTMLAnchorElement>) => (
     <a
       className={cn("font-medium underline underline-offset-4", className)}
@@ -93,7 +103,7 @@ const components = {
   ),
   p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
     <p
-      className={cn("leading-7 not-first:mt-6", className)}
+      className={cn("text-md/7 not-first:mt-6", className)}
       {...props}
     />
   ),
@@ -112,6 +122,7 @@ const components = {
       {...props}
     />
   ),
+  Slot,
   img: ({
     className,
     alt,
