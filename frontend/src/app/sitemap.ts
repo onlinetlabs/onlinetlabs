@@ -1,13 +1,13 @@
-import { allChapters } from "contentlayer/generated"
+import { allCourses } from "contentlayer/generated"
 
 import { siteConfig } from "@shared/config/site"
 
 export default async function sitemap() {
-  const courses = allChapters
-    .filter((chapter) => chapter.sortOrder === 0)
-    .map((chapter) => ({
-      url: `${siteConfig.url}${chapter.slug}`,
-      lastModified: chapter.publishedAt,
+  const courses = allCourses
+    .filter((course) => course.sortOrder === 0)
+    .map((course) => ({
+      url: `${siteConfig.url}${course.slug}`,
+      lastModified: course.publishedAt,
     }))
 
   const routes = ["", "/courses"].map((route) => ({

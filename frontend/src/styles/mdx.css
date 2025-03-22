@@ -1,3 +1,5 @@
+@reference "./globals.css";
+
 [data-theme="light"] {
   display: block;
 }
@@ -79,4 +81,28 @@
 [data-rehype-autolink-heading]:after {
   @apply text-muted-foreground/50;
   content: '#';
+}
+
+
+.mermaid-diagram {
+  @apply mx-auto my-8 flex items-center justify-center;
+}
+
+.mermaid-diagram img {
+  @apply max-h-[300px] lg:max-h-[400px] w-auto max-w-full;
+  min-height: 0;
+}
+
+.mermaid-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mermaid-light {
+      display: none;
+  }
+  
+  .mermaid-dark {
+      display: block;
+  }
 }

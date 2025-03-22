@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { TableOfContents } from "@lib/toc"
 import { cn } from "@lib/utils"
+import { CircleArrowUpIcon } from "lucide-react"
 
 interface TocProps {
   toc: TableOfContents
@@ -29,9 +30,45 @@ export function DashboardTableOfContents({ toc }: TocProps) {
 
   return (
     <div className="space-y-2">
-      <p className="font-medium">Содержание</p>
+      <h3 className="font-mono text-sm/6 font-medium tracking-widest text-primary uppercase">Содержание</h3>
       <Tree tree={toc} activeItem={activeHeading} />
+      <ScrollToTopButton />
     </div>
+  )
+}
+
+function ScrollToTopButton() {
+  const [isVisible, setIsVisible] = React.useState(false)
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setIsVisible(true)
+      } else {
+        setIsVisible(false)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  return (
+    <button
+      onClick={scrollToTop}
+      className={cn(
+        "pl-5 sm:pl-4 border-l mt-8 flex items-center gap-x-1.5 text-muted-foreground hover:text-primary cursor-pointer transition-opacity opacity-100",
+        {
+          "opacity-0": !isVisible,
+        }
+      )}
+    >
+      Наверх <CircleArrowUpIcon className="size-4" />
+    </button>
   )
 }
 
@@ -78,18 +115,21 @@ interface TreeProps {
 
 function Tree({ tree, level = 1, activeItem }: TreeProps) {
   return tree?.items?.length && level < 3 ? (
-    <ul className={cn("m-0 list-none", { "pl-4": level !== 1 })}>
+    <ul className={cn("flex flex-col gap-2 border-l")}>
       {tree.items.map((item, index) => {
         return (
-          <li key={index} className={cn("mt-0 pt-2")}>
+          <li key={index} className={cn("-ml-px flex flex-col items-start gap-2")}>
             <a
-              href={item.url}
               className={cn(
-                "inline-block no-underline transition-colors hover:text-foreground",
-                item.url === `#${activeItem}`
-                  ? "font-medium text-foreground"
-                  : "text-muted-foreground"
-              )}
+                "inline-block border-l border-transparent text-sm/6 text-muted-foreground hover:border-primary/25 hover:text-primary aria-[current]:border-primary aria-[current]:font-semibold aria-[current]:text-primary",
+                {
+                  "pl-5 sm:pl-4": level === 1,
+                  "pl-8 sm:pl-7.5": level === 2
+                }
+              )} 
+              type="button" 
+              href={item.url}
+              aria-current={item.url === `#${activeItem}` ? "location" : undefined}
             >
               {item.title}
             </a>

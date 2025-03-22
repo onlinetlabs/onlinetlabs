@@ -1,9 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { allChapters } from "contentlayer/generated"
-
-import { navConfig } from "@shared/config/nav"
+import { allCourses } from "contentlayer/generated"
 
 export const useCourse = ({ namespace }: Props) => {
   const lsKey = `${namespace}-completion`
@@ -16,7 +14,7 @@ export const useCourse = ({ namespace }: Props) => {
   }, [lsKey])
 
   const total = useMemo(() => {
-    return allChapters.filter((chapter) => chapter.namespace === namespace)
+    return allCourses.filter((course) => course.namespace === namespace)
       .length
   }, [namespace])
 
@@ -29,7 +27,7 @@ export const useCourse = ({ namespace }: Props) => {
   }, [completed, total])
 
   const course = useMemo(() => {
-    return navConfig.courses.items.find((course) => course.slug === namespace)
+    return allCourses.filter(page => page.isEntryPage).find((course) => course.slug === namespace)
   }, [namespace])
 
   return {

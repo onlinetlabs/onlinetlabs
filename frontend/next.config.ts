@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   // eslint: {
   //   ignoreDuringBuilds: true,
   // },
+  experimental: {
+    turbo: {
+      // ...
+    },
+  },
+  transpilePackages: ['next-mdx-remote'],
   async rewrites() {
     return [
       {

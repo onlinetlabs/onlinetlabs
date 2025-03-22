@@ -1,13 +1,14 @@
 import { Metadata } from "next"
 import Link from "next/link"
 
-import { navConfig } from "@shared/config/nav"
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@components/page-header"
-import { Badge } from "@ui/badge"
+import { cn } from "@lib/utils"
+import { allCourses } from "contentlayer/generated"
+import { BlocksIcon } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Список курсов",
@@ -23,46 +24,37 @@ export default function CoursesPage() {
           Полный список всех доступных курсов.
         </PageHeaderDescription>
       </PageHeader>
-      <div className="container py-6 grid auto-rows-min sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 list-none h-auto">
-        <ul className="contents">
-          {navConfig.courses.items.map((item, idx) => (
-            <li key={idx} className="list-none min-h-[136px]">
-              <article className="h-full">
-                <Link
-                  className="group flex flex-col h-full p-4 bg-background rounded-xl transition-all relative border hover:bg-accent"
-                  href={`/courses/${item.slug}`}
-                >
-                  <div className="mb-1">
-                    <p className="inline-block m-0 text-xs text-muted-foreground after:content-['•'] after:px-[0.33em]">
-                      4 часа
-                    </p>
-                    <p className="inline-block m-0 text-xs text-muted-foreground">
-                      10 лекций
-                    </p>
-                  </div>
-                  <header className="mb-4">
-                    <h2 className="text-xl">{item.title}</h2>
-                  </header>
-                  <div className="flex content-center m-[auto_0_0] py-5 rounded overflow-hidden">
-                    <div className="max-w-full h-[132px]" role="img"></div>
-                  </div>
-                  <footer className="mt-3 flex items-center [&>*:not(:last-child)]:mr-2">
-                    {item.tags &&
-                      item.tags.map((tag, idx) => (
-                        <Badge
-                          key={idx}
-                          variant="outline"
-                          className="rounded-none"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                  </footer>
-                </Link>
-              </article>
-            </li>
-          ))}
-        </ul>
+      <div className="container mx-auto grid gap-4 py-4 sm:py-8 md:grid-cols-2 lg:grid-cols-3">
+        {allCourses.filter(page => page.isEntryPage).sort((a, b) => a.sortOrder - b.sortOrder).map((course, idx) => {
+          const isFirst = idx === 0;
+          const isEveryFifth = (idx + 1) % 5 === 0;
+
+          return (
+            <Link key={idx} href={course.slug} className={cn(
+              "transition-transform duration-300 hover:-translate-y-2",
+              {
+                "flex flex-col justify-between gap-6 rounded-lg bg-muted/70 p-8 md:col-span-2 lg:row-span-2": isFirst,
+                "flex h-80 flex-col justify-between gap-4 rounded-lg bg-muted/70 p-8": !isFirst && !isEveryFifth,
+                "flex h-80 flex-col-reverse justify-between gap-4 rounded-lg bg-muted/70 p-8 lg:col-span-2 lg:grid lg:grid-cols-2": isEveryFifth
+              }
+            )}>
+              <div className={cn({"flex flex-col h-full": !isFirst })}>
+                {!isEveryFifth && <BlocksIcon className="mb-6 h-auto w-11" />}
+                <h2 className="mb-1 mt-auto text-2xl font-medium">{course.title}</h2>
+                <p className="text-muted-foreground">{course.description}</p>
+              </div>
+              {(isFirst || isEveryFifth) && (
+                <img src="/placeholder.svg" alt="integration feature" className={cn(
+                    "rounded-lg object-cover min-h-0 w-full h-full",
+                    {
+                      "ml-auto max-h-80 sm:w-11/12": isFirst,
+                    },
+                  )} 
+                />
+              )}
+            </Link>
+          )
+        })}
       </div>
     </div>
   )

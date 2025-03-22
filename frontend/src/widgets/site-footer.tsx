@@ -7,7 +7,7 @@ import { Button } from "@ui/button"
 
 export function SiteFooter() {
   return (
-    <footer className="flex items-center justify-between gap-4 h-14 border-t border-border/40 dark:border-border px-4">
+    <footer className="flex items-center justify-between gap-4 h-14 border-t border-border px-4">
       <p className="text-balance text-sm text-muted-foreground text-left">
         © 2025 {siteConfig.name}
       </p>

@@ -1,12 +1,12 @@
 import Link from "next/link"
-import { allChapters, Chapter } from "contentlayer/generated"
+import { allCourses, Course } from "contentlayer/generated"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { NavItem, NavItemWithChildren } from "@shared/types/nav"
 import { Button } from "@ui/button"
 
 interface ChaptersPagerProps {
-  chapter: Chapter
+  chapter: Course
 }
 
 export function ChaptersPager({ chapter }: ChaptersPagerProps) {
@@ -38,8 +38,8 @@ export function ChaptersPager({ chapter }: ChaptersPagerProps) {
   )
 }
 
-export function getPagerForChapter(chapter: Chapter) {
-  const links = allChapters
+export function getPagerForChapter(chapter: Course) {
+  const links = allCourses
     .filter((c) => c.slugAsParams.startsWith(chapter.namespace))
     .toSorted((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
 

@@ -1,18 +1,11 @@
 "use client"
 
 import * as React from "react"
-// import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { type DialogProps } from "@radix-ui/react-dialog"
-import {
-  // Circle, File, Laptop
-  Moon,
-  Search,
-  Sun,
-} from "lucide-react"
+import { File, FlaskConical, Laptop, Moon, Search, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
-// import { docsConfig } from "@shared/config/docs"
-// import { cn } from "@lib/utils"
 import { Button } from "@ui/button"
 import {
   CommandDialog,
@@ -23,9 +16,10 @@ import {
   CommandList,
   CommandSeparator,
 } from "@ui/command"
+import { allCourses, allLabs } from "contentlayer/generated"
 
-export function CommandMenu({ ...props }: DialogProps) {
-  // const router = useRouter()
+export function CommandMenu(props: DialogProps) {
+  const router = useRouter()
   const [open, setOpen] = React.useState(false)
   const { setTheme } = useTheme()
 
@@ -59,54 +53,52 @@ export function CommandMenu({ ...props }: DialogProps) {
     <>
       <Button
         variant="ghost"
-        className="h-8 w-8 px-0"
-        size="icon"
+        className="hidden sm:inline-flex h-fit items-center gap-1 bg-muted/50 px-2 py-1"
         onClick={() => setOpen(true)}
-        disabled
         {...props}
       >
-        <Search />
+        <Search className="-ml-0.5 size-3.5! text-muted-foreground" />
+        <kbd className="hidden font-sans text-xs/4 text-muted-foreground [.os-macos_&]:block">⌘K</kbd>
+        <kbd className="hidden font-sans text-xs/4 text-muted-foreground not-[.os-macos_&]:block">Ctrl&nbsp;K</kbd>
       </Button>
+      <button className="inline-grid sm:hidden size-7 place-items-center rounded-md" onClick={() => setOpen(true)} {...props}>
+        <Search className="size-4" />
+      </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Введите текст..." />
+        <CommandInput placeholder="Найти..." />
         <CommandList>
-          <CommandEmpty>Результаты не найдены.</CommandEmpty>
-          <CommandGroup heading="Ресурсы">
-            {/* {docsConfig.mainNav
-              .filter((navitem) => !navitem.external)
-              .map((navItem) => (
-                <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
-                  onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string))
-                  }}
-                >
-                  <File />
-                  {navItem.title}
-                </CommandItem>
-              ))} */}
+          <CommandEmpty>Результатов не найдено.</CommandEmpty>
+          <CommandGroup heading="Курсы">
+            {allCourses.filter(page => page.isEntryPage).map((course, idx) => (
+              <CommandItem
+                key={idx}
+                value={course.title}
+                onSelect={() => {
+                  runCommand(() => router.push(course.slug as string))
+                }}
+              >
+                <File />
+                {course.title}
+              </CommandItem>
+            ))}
           </CommandGroup>
-          {/* {docsConfig.sidebarNav.map((group) => (
-            <CommandGroup key={group.title} heading={group.title}>
-              {group.items.map((navItem) => (
-                <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
-                  onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string))
-                  }}
-                >
-                  <div className="mr-2 flex h-4 w-4 items-center justify-center">
-                    <Circle className="h-3 w-3" />
-                  </div>
-                  {navItem.title}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          ))} */}
           <CommandSeparator />
-          <CommandGroup heading="Тема">
+          <CommandGroup heading="Лабы">
+            {allLabs.filter(page => page.isEntryPage).map((lab, idx) => (
+              <CommandItem
+                key={idx}
+                value={lab.title}
+                onSelect={() => {
+                  runCommand(() => router.push(lab.slug as string))
+                }}
+              >
+                <FlaskConical />
+                {lab.title}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Темы">
             <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
               <Sun />
               Светлая
@@ -114,6 +106,10 @@ export function CommandMenu({ ...props }: DialogProps) {
             <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
               <Moon />
               Темная
+            </CommandItem>
+            <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
+              <Laptop />
+              Системная
             </CommandItem>
           </CommandGroup>
         </CommandList>

@@ -1,6 +1,7 @@
 import "@styles/globals.css"
 
 import type { Metadata } from "next"
+import { headers } from "next/headers"
 
 import { siteConfig } from "@shared/config/site"
 import { Providers } from "@shared/providers"
@@ -56,9 +57,12 @@ interface RootLayoutProps {
   children: React.ReactNode
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const userAgent = (await headers()).get("user-agent") ?? "";
+  const isMac = userAgent.toLowerCase().includes("mac os x")
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={cn({ "os-macos": isMac })} suppressHydrationWarning>
       <body
         className={cn(
           "min-h-screen font-sans antialiased",

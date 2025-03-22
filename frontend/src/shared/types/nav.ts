@@ -13,16 +13,6 @@ export type NavItemWithChildren = NavItem & {
   items: NavItem[]
 }
 
-export type CourseNavItem = NavItem & {
-  slug: string
-  tags?: string[]
-}
-
-export type CoursesNav = {
-  title: string
-  items: CourseNavItem[]
-}
-
 export type MainNavItem = NavItem & {
   href: string
   exact?: boolean

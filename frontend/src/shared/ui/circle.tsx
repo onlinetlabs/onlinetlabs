@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@shared/lib/utils"
 
 const circleVariants = cva(
-  "flex flex-shrink-0 justify-center items-center min-h-7 min-w-7 text-sm rounded-full",
+  "flex shrink-0 justify-center items-center min-h-7 min-w-7 text-sm rounded-full",
   {
     variants: {
       variant: {

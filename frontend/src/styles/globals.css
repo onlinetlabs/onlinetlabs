@@ -1,6 +1,160 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-link: hsl(var(--link));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-blue-100: hsl(var(--ds-blue-100));
+  --color-blue-200: hsl(var(--ds-blue-200));
+  --color-blue-300: hsl(var(--ds-blue-300));
+  --color-blue-400: hsl(var(--ds-blue-400));
+  --color-blue-500: hsl(var(--ds-blue-500));
+  --color-blue-600: hsl(var(--ds-blue-600));
+  --color-blue-700: hsl(var(--ds-blue-700));
+  --color-blue-800: hsl(var(--ds-blue-800));
+  --color-blue-900: hsl(var(--ds-blue-900));
+  --color-blue-1000: hsl(var(--ds-blue-1000));
+
+  --color-red-100: hsl(var(--ds-red-100));
+  --color-red-200: hsl(var(--ds-red-200));
+  --color-red-300: hsl(var(--ds-red-300));
+  --color-red-400: hsl(var(--ds-red-400));
+  --color-red-500: hsl(var(--ds-red-500));
+  --color-red-600: hsl(var(--ds-red-600));
+  --color-red-700: hsl(var(--ds-red-700));
+  --color-red-800: hsl(var(--ds-red-800));
+  --color-red-900: hsl(var(--ds-red-900));
+  --color-red-1000: hsl(var(--ds-red-1000));
+
+  --color-amber-100: hsl(var(--ds-amber-100));
+  --color-amber-200: hsl(var(--ds-amber-200));
+  --color-amber-300: hsl(var(--ds-amber-300));
+  --color-amber-400: hsl(var(--ds-amber-400));
+  --color-amber-500: hsl(var(--ds-amber-500));
+  --color-amber-600: hsl(var(--ds-amber-600));
+  --color-amber-700: hsl(var(--ds-amber-700));
+  --color-amber-800: hsl(var(--ds-amber-800));
+  --color-amber-900: hsl(var(--ds-amber-900));
+  --color-amber-1000: hsl(var(--ds-amber-1000));
+
+  --color-green-100: hsl(var(--ds-green-100));
+  --color-green-200: hsl(var(--ds-green-200));
+  --color-green-300: hsl(var(--ds-green-300));
+  --color-green-400: hsl(var(--ds-green-400));
+  --color-green-500: hsl(var(--ds-green-500));
+  --color-green-600: hsl(var(--ds-green-600));
+  --color-green-700: hsl(var(--ds-green-700));
+  --color-green-800: hsl(var(--ds-green-800));
+  --color-green-900: hsl(var(--ds-green-900));
+  --color-green-1000: hsl(var(--ds-green-1000));
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1536px) {
+    max-width: 1536px;
+  }
+}
+
+@utility decoration-chill {
+  &:not(:is(:hover, :focus)) {
+    text-decoration-color: 
+      color-mix(in srgb, currentColor, transparent 75%);
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 @layer base {
   :root {

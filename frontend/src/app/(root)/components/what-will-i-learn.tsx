@@ -2,40 +2,12 @@ import Link from "next/link"
 import {
   ArrowRightIcon,
   ArrowUpRightIcon,
-  InfoIcon,
   SparkleIcon,
 } from "lucide-react"
 
-import { navConfig } from "@shared/config/nav"
 import { Button } from "@ui/button"
 import { Circle } from "@ui/circle"
-
-const features = [
-  {
-    icon: <InfoIcon />,
-    title: "Free and open source",
-    description:
-      "All packages are published under MIT license, you can use Mantine in any project",
-  },
-  {
-    icon: <InfoIcon />,
-    title: "TypeScript based",
-    description:
-      "Build type safe applications, all components and hooks export types",
-  },
-  {
-    icon: <InfoIcon />,
-    title: "No annoying focus ring",
-    description:
-      "With new :focus-visible selector focus ring will appear only when user navigates with keyboard",
-  },
-  {
-    icon: <InfoIcon />,
-    title: "Flexible",
-    description:
-      "Customize colors, spacing, shadows, fonts and many other settings with global theme object",
-  },
-]
+import { allCourses } from "contentlayer/generated"
 
 export const WhatWillILearn = () => {
   return (
@@ -47,12 +19,12 @@ export const WhatWillILearn = () => {
         </div>
       </div>
       <div className="grid grid-flow-row grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {navConfig.courses.items.map((item, idx) => (
+        {allCourses.filter(page => page.isEntryPage).sort((a, b) => a.sortOrder - b.sortOrder).map((item, idx) => (
           <div
             key={idx}
-            className="group h-full rounded-[12px] shadow-sm group transition-all border hover:bg-accent"
+            className="group h-full rounded-[12px] shadow-xs group transition-all border hover:bg-accent"
           >
-            <Link className="flex flex-col p-6" href={`/courses/${item.slug}`}>
+            <Link className="flex flex-col p-6" href={item.slug}>
               <div className="mb-2 flex items-center">
                 <Circle
                   variant="subtle-blue"
