@@ -24,10 +24,7 @@ import { VisuallyHidden } from "@ui/visually-hidden"
 
 import { ChapterCount } from "./chapter-count"
 
-export const TableOfContentsDrawer = ({
-  chapters,
-  className,
-}: Props) => {
+export const TableOfContentsDrawer = ({ chapters, className }: Props) => {
   const [intro, ...rest] = chapters
   return (
     <Drawer>
@@ -57,14 +54,14 @@ export const TableOfContentsDrawer = ({
           </DrawerHeader>
         </VisuallyHidden>
         <div className="flex gap-3 p-3">
-          <div className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px] bg-background">
+          <div className="bg-background flex w-full items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px]">
             <Icons.chapter />
             <ChapterCount namespace={intro.namespace} type="info" />
           </div>
         </div>
         <div className="border-t">
           <div className="grid grid-flow-row p-2">
-            <Button variant="ghost" className="justify-start group" asChild>
+            <Button variant="ghost" className="group justify-start" asChild>
               <Link href={intro.slug}>
                 <Circle variant="subtle-blue">
                   <InfoIcon className="h-4 w-4" />
@@ -73,12 +70,12 @@ export const TableOfContentsDrawer = ({
               </Link>
             </Button>
           </div>
-          <div className="grid grid-flow-row p-2 border-t">
+          <div className="grid grid-flow-row border-t p-2">
             {rest.map((chapter, idx) => (
               <Button
                 key={idx}
                 variant="ghost"
-                className="justify-start h-[50px] group"
+                className="group h-[50px] justify-start"
                 asChild
               >
                 <Link href={chapter.slug}>
@@ -89,7 +86,7 @@ export const TableOfContentsDrawer = ({
                     <p className="text-muted-foreground text-sm">
                       Глава {chapter.sortOrder}
                     </p>
-                    <p className="text-primary text-sm truncate">
+                    <p className="text-primary truncate text-sm">
                       {chapter.title}
                     </p>
                   </div>

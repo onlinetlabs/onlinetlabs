@@ -33,18 +33,21 @@ ss -tuln
 ```
 
 <Callout>
-Команда `ss` работает быстрее и даёт более детальную информацию о текущих сетевых соединениях по сравнению с `netstat`.
+  Команда `ss` работает быстрее и даёт более детальную информацию о текущих
+  сетевых соединениях по сравнению с `netstat`.
 </Callout>
 
 ## Мониторинг и безопасность
 
-1. **Firewall (Межсетевой экран)**: Позволяет фильтровать входящие и исходящие пакеты, защищая сеть от несанкционированного доступа.  
+1. **Firewall (Межсетевой экран)**: Позволяет фильтровать входящие и исходящие пакеты, защищая сеть от несанкционированного доступа.
+
    - Примеры: `iptables`, `ufw` (Linux), встроенный Firewall в Windows.
 
-2. **IDS и IPS (Intrusion Detection/Prevention System)**: Системы обнаружения и предотвращения вторжений анализируют трафик и выявляют подозрительную активность.  
+2. **IDS и IPS (Intrusion Detection/Prevention System)**: Системы обнаружения и предотвращения вторжений анализируют трафик и выявляют подозрительную активность.
+
    - Пример: `Snort`, `Suricata`.
 
-3. **VPN (Virtual Private Network)**: Обеспечивает защищённый канал связи поверх небезопасной сети (Интернет).  
+3. **VPN (Virtual Private Network)**: Обеспечивает защищённый канал связи поверх небезопасной сети (Интернет).
    - Примеры: OpenVPN, WireGuard, IPSec.
 
 <div>
@@ -53,14 +56,14 @@ ss -tuln
     width="716"
     height="430"
     alt="Основные аспекты сетевой безопасности"
-    className="border dark:hidden shadow-xs rounded-lg overflow-hidden mt-6 w-full"
+    className="mt-6 w-full overflow-hidden rounded-lg border shadow-xs dark:hidden"
   />
   <Image
     src="/images/network-security-dark.jpg"
     width="716"
     height="430"
     alt="Основные аспекты сетевой безопасности (темная тема)"
-    className="border hidden dark:block shadow-xs rounded-lg overflow-hidden mt-6 w-full"
+    className="mt-6 hidden w-full overflow-hidden rounded-lg border shadow-xs dark:block"
   />
   <span className="sr-only">View the network security</span>
 </div>
@@ -81,11 +84,7 @@ sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 
 <Quiz
   question="Какая технология обеспечивает шифрование и защищённую передачу данных поверх Интернета?"
-  options={[
-    "SSH",
-    "VPN",
-    "HTTP",
-  ]}
+  options={["SSH", "VPN", "HTTP"]}
   answer={2}
 />
 
@@ -94,5 +93,7 @@ sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 В этой главе мы увидели, как на практике управлять настройками сети и обеспечивать её безопасность. Настройка IP-адресов, использование межсетевых экранов, защитных систем и VPN – всё это позволяет поддерживать работоспособность и защищённость современной сетевой инфраструктуры.
 
 <Callout className="mt-6">
-Дальнейшее изучение тем, связанных с мониторингом (например, системы Zabbix, Nagios) и расследованием инцидентов, позволит ещё глубже погрузиться в мир сетевых технологий и безопасности.
+  Дальнейшее изучение тем, связанных с мониторингом (например, системы Zabbix,
+  Nagios) и расследованием инцидентов, позволит ещё глубже погрузиться в мир
+  сетевых технологий и безопасности.
 </Callout>

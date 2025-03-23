@@ -33,7 +33,7 @@ export const NextButton = ({
 
   return (
     <Button
-      className="w-full md:w-fit gap-2"
+      className="w-full gap-2 md:w-fit"
       onClick={handleClick}
       {...props}
     />

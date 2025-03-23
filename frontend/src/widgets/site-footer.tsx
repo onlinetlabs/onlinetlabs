@@ -7,11 +7,11 @@ import { Button } from "@ui/button"
 
 export function SiteFooter() {
   return (
-    <footer className="flex items-center justify-between gap-4 h-14 border-t border-border px-4">
-      <p className="text-balance text-sm text-muted-foreground text-left">
+    <footer className="border-border flex h-14 items-center justify-between gap-4 border-t px-4">
+      <p className="text-muted-foreground text-left text-sm text-balance">
         © 2025 {siteConfig.name}
       </p>
-      <div className="flex items-center ml-auto">
+      <div className="ml-auto flex items-center">
         <Button variant="ghost" size="icon" className="">
           <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
             <Icons.gitHub className="h-4 w-4" />

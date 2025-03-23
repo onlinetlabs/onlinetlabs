@@ -18,5 +18,5 @@ export const computedFields: ComputedFields = {
   isEntryPage: {
     type: "boolean",
     resolve: (doc) => doc._raw.sourceFileName === "index.mdx",
-  }
+  },
 }

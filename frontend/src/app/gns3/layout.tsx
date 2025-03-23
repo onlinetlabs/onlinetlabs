@@ -5,13 +5,10 @@ interface AppLayoutProps {
   children: React.ReactNode
 }
 
-export default function AppLayout({ children }: AppLayoutProps) {
+export default function GNS3Layout({ children }: AppLayoutProps) {
   return (
-    <div
-      data-wrapper=""
-      className="border-border flex flex-col flex-1"
-    >
-      <div className="flex flex-col flex-1 mx-auto w-full border-border min-[1800px]:max-w-[1536px] min-[1800px]:border-x">
+    <div data-wrapper="" className="border-border flex flex-1 flex-col">
+      <div className="border-border mx-auto flex w-full flex-1 flex-col min-[1800px]:max-w-[1536px] min-[1800px]:border-x">
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

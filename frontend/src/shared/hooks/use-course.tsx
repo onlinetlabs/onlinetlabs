@@ -14,8 +14,7 @@ export const useCourse = ({ namespace }: Props) => {
   }, [lsKey])
 
   const total = useMemo(() => {
-    return allCourses.filter((course) => course.namespace === namespace)
-      .length
+    return allCourses.filter((course) => course.namespace === namespace).length
   }, [namespace])
 
   const completed = useMemo(() => {
@@ -27,7 +26,9 @@ export const useCourse = ({ namespace }: Props) => {
   }, [completed, total])
 
   const course = useMemo(() => {
-    return allCourses.filter(page => page.isEntryPage).find((course) => course.slug === namespace)
+    return allCourses
+      .filter((page) => page.isEntryPage)
+      .find((course) => course.slug === namespace)
   }, [namespace])
 
   return {

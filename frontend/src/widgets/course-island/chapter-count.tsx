@@ -9,7 +9,7 @@ export const ChapterCount = ({ namespace, type }: Props) => {
     <div
       className={cn({
         "flex flex-col items-start text-left": type === "info",
-        "hidden md:flex flex-col ml-auto": type === "progress",
+        "ml-auto hidden flex-col md:flex": type === "progress",
       })}
     >
       <p

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
+import { allCourses, allLabs } from "contentlayer/generated"
 import { File, FlaskConical, Laptop, Moon, Search, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -15,7 +16,6 @@ import {
   CommandList,
   CommandSeparator,
 } from "@ui/command"
-import { allCourses, allLabs } from "contentlayer/generated"
 import { DialogProps } from "@ui/dialog"
 
 export function CommandMenu(props: DialogProps) {
@@ -53,15 +53,23 @@ export function CommandMenu(props: DialogProps) {
     <>
       <Button
         variant="ghost"
-        className="hidden sm:inline-flex h-fit items-center gap-1 bg-muted/50 px-2 py-1"
+        className="bg-muted/50 hidden h-fit items-center gap-1 px-2 py-1 sm:inline-flex"
         onClick={() => setOpen(true)}
         {...props}
       >
-        <Search className="-ml-0.5 size-3.5! text-muted-foreground" />
-        <kbd className="hidden font-sans text-xs/4 text-muted-foreground [.os-macos_&]:block">⌘K</kbd>
-        <kbd className="hidden font-sans text-xs/4 text-muted-foreground not-[.os-macos_&]:block">Ctrl&nbsp;K</kbd>
+        <Search className="text-muted-foreground -ml-0.5 size-3.5!" />
+        <kbd className="text-muted-foreground hidden font-sans text-xs/4 [.os-macos_&]:block">
+          ⌘K
+        </kbd>
+        <kbd className="text-muted-foreground hidden font-sans text-xs/4 not-[.os-macos_&]:block">
+          Ctrl&nbsp;K
+        </kbd>
       </Button>
-      <button className="inline-grid sm:hidden size-7 place-items-center rounded-md" onClick={() => setOpen(true)} {...props}>
+      <button
+        className="inline-grid size-7 place-items-center rounded-md sm:hidden"
+        onClick={() => setOpen(true)}
+        {...props}
+      >
         <Search className="size-4" />
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -69,33 +77,37 @@ export function CommandMenu(props: DialogProps) {
         <CommandList>
           <CommandEmpty>Результатов не найдено.</CommandEmpty>
           <CommandGroup heading="Курсы">
-            {allCourses.filter(page => page.isEntryPage).map((course, idx) => (
-              <CommandItem
-                key={idx}
-                value={course.title}
-                onSelect={() => {
-                  runCommand(() => router.push(course.slug as string))
-                }}
-              >
-                <File />
-                {course.title}
-              </CommandItem>
-            ))}
+            {allCourses
+              .filter((page) => page.isEntryPage)
+              .map((course, idx) => (
+                <CommandItem
+                  key={idx}
+                  value={course.title}
+                  onSelect={() => {
+                    runCommand(() => router.push(course.slug as string))
+                  }}
+                >
+                  <File />
+                  {course.title}
+                </CommandItem>
+              ))}
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Лабы">
-            {allLabs.filter(page => page.isEntryPage).map((lab, idx) => (
-              <CommandItem
-                key={idx}
-                value={lab.title}
-                onSelect={() => {
-                  runCommand(() => router.push(lab.slug as string))
-                }}
-              >
-                <FlaskConical />
-                {lab.title}
-              </CommandItem>
-            ))}
+            {allLabs
+              .filter((page) => page.isEntryPage)
+              .map((lab, idx) => (
+                <CommandItem
+                  key={idx}
+                  value={lab.title}
+                  onSelect={() => {
+                    runCommand(() => router.push(lab.slug as string))
+                  }}
+                >
+                  <FlaskConical />
+                  {lab.title}
+                </CommandItem>
+              ))}
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Темы">

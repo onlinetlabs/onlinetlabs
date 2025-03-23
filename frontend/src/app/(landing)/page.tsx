@@ -4,7 +4,7 @@ import { WhatWillILearn } from "./components/what-will-i-learn"
 
 export default function IndexPage() {
   return (
-    <div className="lg:px-4 py-6">
+    <div className="py-6 lg:px-4">
       <About />
       <HowDoesItWork />
       <WhatWillILearn />

@@ -48,12 +48,13 @@ export const Boundary = ({
         "border-ds-red-500": color === "red",
         "border-ds-amber-500": color === "amber",
         "border-ds-green-500": color === "green",
-        "animate-[rerender_1s_ease-in-out_1] text-ds-blue-500": animateRerendering,
+        "text-ds-blue-500 animate-[rerender_1s_ease-in-out_1]":
+          animateRerendering,
       })}
     >
       <div
         className={clsx(
-          "absolute -top-2.5 flex gap-x-1 text-[9px] uppercase leading-4 tracking-widest",
+          "absolute -top-2.5 flex gap-x-1 text-[9px] leading-4 tracking-widest uppercase",
           {
             "left-3 lg:left-5": size === "small",
             "left-4 lg:left-9": size === "default",

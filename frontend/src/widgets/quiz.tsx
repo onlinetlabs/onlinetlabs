@@ -91,7 +91,7 @@ export const Quiz = ({
         </QuizHeroIcon>
         <QuizHeroTitle>{hero.title}</QuizHeroTitle>
         <QuizHeroDescription>
-          <p className="pt-2 text-sm text-muted-foreground">
+          <p className="text-muted-foreground pt-2 text-sm">
             {hero.description}
           </p>
         </QuizHeroDescription>
@@ -123,21 +123,21 @@ export const Quiz = ({
           )}
           {status === "incorrect" && (
             <>
-              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+              <div className="bg-muted text-muted-foreground mb-2 flex h-8 w-8 items-center justify-center rounded-full">
                 {LETTERS[selected || SELECTED_FALLBACK]}
               </div>
-              <p className="text-sm text-primary text-center">
+              <p className="text-primary text-center text-sm">
                 {options[selected || SELECTED_FALLBACK]}
               </p>
               <Badge
                 variant="warning"
-                className="gap-1 my-6 h-8 px-3 pointer-events-none"
+                className="pointer-events-none my-6 h-8 gap-1 px-3"
               >
                 <XIcon className="h-4 w-4" />
                 Не совсем
               </Badge>
               {hint && (
-                <p className="mx-auto max-w-96 w-full text-sm text-muted-foreground text-center">
+                <p className="text-muted-foreground mx-auto w-full max-w-96 text-center text-sm">
                   Подсказка: {hint}
                 </p>
               )}
@@ -145,21 +145,21 @@ export const Quiz = ({
           )}
           {status === "correct" && (
             <>
-              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+              <div className="bg-muted text-muted-foreground mb-2 flex h-8 w-8 items-center justify-center rounded-full">
                 {LETTERS[selected || SELECTED_FALLBACK]}
               </div>
-              <p className="text-sm text-primary text-center">
+              <p className="text-primary text-center text-sm">
                 {options[selected || SELECTED_FALLBACK]}
               </p>
               <Badge
                 variant="success"
-                className="gap-1 my-6 h-8 px-3 pointer-events-none"
+                className="pointer-events-none my-6 h-8 gap-1 px-3"
               >
                 <CheckIcon className="h-4 w-4" />
                 Правильно
               </Badge>
               {explanation && (
-                <p className="mx-auto max-w-96 w-full text-sm text-muted-foreground text-center">
+                <p className="text-muted-foreground mx-auto w-full max-w-96 text-center text-sm">
                   {explanation}
                 </p>
               )}

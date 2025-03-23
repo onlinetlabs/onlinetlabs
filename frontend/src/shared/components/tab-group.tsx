@@ -1,4 +1,4 @@
-import { Tab, type Item } from './tab';
+import { Tab, type Item } from "./tab"
 
 export const TabGroup = ({ path, items }: { path: string; items: Item[] }) => {
   return (
@@ -7,5 +7,5 @@ export const TabGroup = ({ path, items }: { path: string; items: Item[] }) => {
         <Tab key={path + item.slug} item={item} path={path} />
       ))}
     </div>
-  );
-};
+  )
+}

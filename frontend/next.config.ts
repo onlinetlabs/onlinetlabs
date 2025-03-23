@@ -3,7 +3,7 @@ import { createContentlayerPlugin } from "next-contentlayer2"
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
+  output: "standalone",
   // eslint: {
   //   ignoreDuringBuilds: true,
   // },
@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
       // ...
     },
   },
-  transpilePackages: ['next-mdx-remote'],
+  transpilePackages: ["next-mdx-remote"],
   async rewrites() {
     return [
       {

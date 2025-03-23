@@ -1,9 +1,9 @@
 import * as React from "react"
-import { Slot, Slottable } from "@ui/slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva, type VariantProps } from "cva"
 import { Loader2 } from "lucide-react"
 
 import { cn } from "@shared/lib/utils"
+import { Slot, Slottable } from "@ui/slot"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",

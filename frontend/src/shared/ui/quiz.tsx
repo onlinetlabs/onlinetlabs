@@ -1,5 +1,5 @@
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva, type VariantProps } from "cva"
 
 import { cn } from "@lib/utils"
 
@@ -42,7 +42,7 @@ const QuizDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("text-muted-foreground text-sm", className)}
     {...props}
   />
 ))
@@ -55,7 +55,7 @@ const QuizContent = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "bg-background dark:bg-muted/25 border mx-auto mt-8 flex w-full max-w-[640px] flex-col items-center rounded-lg p-4 shadow-md md:p-8",
+      "bg-background dark:bg-muted/25 mx-auto mt-8 flex w-full max-w-[640px] flex-col items-center rounded-lg border p-4 shadow-md md:p-8",
       className
     )}
     {...props}
@@ -69,7 +69,7 @@ const QuizOptions = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("border group mt-4 w-full rounded-lg md:mt-6", className)}
+    className={cn("group mt-4 w-full rounded-lg border md:mt-6", className)}
     {...props}
   />
 ))

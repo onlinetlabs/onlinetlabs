@@ -1,43 +1,44 @@
+import { allCourses, allLabs } from "contentlayer/generated"
 
 import { siteConfig } from "@shared/config/site"
-import { allCourses, allLabs } from "contentlayer/generated";
 
 export async function GET() {
-  const coursesXml = allCourses.filter(page => page.isEntryPage)
+  const coursesXml = allCourses
+    .filter((page) => page.isEntryPage)
     .sort((a, b) => {
       if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
-        return -1;
+        return -1
       }
-      return 1;
+      return 1
     })
     .map(
       (post) =>
         `<item>
           <title>${post.title}</title>
           <link>${siteConfig.url}${post.slug}</link>
-          <description>${post.description || ''}</description>
+          <description>${post.description || ""}</description>
           <pubDate>${new Date(post.publishedAt).toUTCString()}</pubDate>
-        </item>`,
+        </item>`
     )
-    .join('\n');
+    .join("\n")
 
-  const labsXml = allLabs.sort((a, b) => {
+  const labsXml = allLabs
+    .sort((a, b) => {
       if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
-        return -1;
+        return -1
       }
-      return 1;
+      return 1
     })
     .map(
       (lab) =>
         `<item>
           <title>${lab.title}</title>
           <link>${siteConfig.url}${lab.slug}</link>
-          <description>${lab.description || ''}</description>
+          <description>${lab.description || ""}</description>
           <pubDate>${new Date(lab.publishedAt).toUTCString()}</pubDate>
-        </item>`,
+        </item>`
     )
-    .join('\n');
-
+    .join("\n")
 
   const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
   <rss version="2.0">
@@ -48,7 +49,7 @@ export async function GET() {
         ${coursesXml}
         ${labsXml}
     </channel>
-  </rss>`;
+  </rss>`
 
   return new Response(rssFeed, {
     headers: {

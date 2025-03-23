@@ -27,7 +27,7 @@ export function MainNav() {
             {siteConfig.name}
           </span>
         </Link>
-        <nav className="lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2 flex items-center gap-4 text-sm xl:gap-6">
+        <nav className="flex items-center gap-4 text-sm lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:transform xl:gap-6">
           {navConfig.main.map((item, idx) => {
             const active = isActive(pathname, item.href, item.exact)
             return (
@@ -35,7 +35,7 @@ export function MainNav() {
                 key={idx}
                 href={item.href}
                 className={cn(
-                  "transition-colors hover:text-foreground/80",
+                  "hover:text-foreground/80 transition-colors",
                   active ? "text-foreground" : "text-foreground/80"
                 )}
               >

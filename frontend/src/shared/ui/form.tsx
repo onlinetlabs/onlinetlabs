@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Label as LabelPrimitive } from "radix-ui"
-import { Slot } from "@ui/slot"
 import {
   Controller,
   ControllerProps,
@@ -12,6 +11,7 @@ import {
 
 import { cn } from "@shared/lib/utils"
 import { Label } from "@shared/ui/label"
+import { Slot } from "@ui/slot"
 
 const Form = FormProvider
 
@@ -133,7 +133,7 @@ const FormDescription = React.forwardRef<
     <p
       ref={ref}
       id={formDescriptionId}
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-muted-foreground text-sm", className)}
       {...props}
     />
   )
@@ -155,7 +155,7 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn("text-sm font-medium text-destructive", className)}
+      className={cn("text-destructive text-sm font-medium", className)}
       {...props}
     >
       {body}

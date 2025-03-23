@@ -1,16 +1,16 @@
 import { defineNestedType } from "contentlayer2/source-files"
 
 export const seo = defineNestedType(() => ({
-  name: 'SEO',
+  name: "SEO",
   fields: {
     title: {
-      type: 'string',
+      type: "string",
     },
     description: {
-      type: 'string',
+      type: "string",
     },
     imagePath: {
-      type: 'string',
+      type: "string",
       required: true,
     },
   },

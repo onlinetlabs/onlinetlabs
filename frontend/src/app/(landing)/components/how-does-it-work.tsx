@@ -12,9 +12,9 @@ import { Circle } from "@ui/circle"
 export const HowDoesItWork = () => {
   return (
     <div className="hero">
-      <div className="mb-4 flex flex-col justify-center text-center md:mb-8 md:flex-row md:items-baseline md:justify-center md:text-left text-primary">
+      <div className="text-primary mb-4 flex flex-col justify-center text-center md:mb-8 md:flex-row md:items-baseline md:justify-center md:text-left">
         <h2 className="text-base md:text-xl">Как это работает?</h2>
-        <div className="mx-auto my-1 w-[70%] md:mx-0 md:my-0 md:ml-4 md:w-auto md:text-xl text-muted-foreground">
+        <div className="text-muted-foreground mx-auto my-1 w-[70%] md:mx-0 md:my-0 md:ml-4 md:w-auto md:text-xl">
           Прохождение курса. Шаг за шагом.
         </div>
       </div>
@@ -141,12 +141,12 @@ export const HowDoesItWork = () => {
               <div className="flex flex-col items-center leading-6 lg:flex-row">
                 <Circle
                   variant="subtle-blue"
-                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mr-4 lg:mb-0"
                 >
                   <SettingsIcon className="h-4 w-4" />
                 </Circle>
                 <div className="text-center lg:text-left">
-                  <p className="text-base text-primary">
+                  <p className="text-primary text-base">
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                   </p>
                 </div>
@@ -154,12 +154,12 @@ export const HowDoesItWork = () => {
               <div className="flex flex-col items-center leading-6 lg:flex-row">
                 <Circle
                   variant="subtle-blue"
-                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mr-4 lg:mb-0"
                 >
                   <PanelsTopLeftIcon className="h-4 w-4" />
                 </Circle>
                 <div className="text-center lg:text-left">
-                  <p className="text-base text-primary">
+                  <p className="text-primary text-base">
                     Minus fugit neque quo quas ab quia natus a animi, minima
                     quisquam similique dolorem quasi?
                   </p>
@@ -168,12 +168,12 @@ export const HowDoesItWork = () => {
               <div className="flex flex-col items-center leading-6 lg:flex-row">
                 <Circle
                   variant="subtle-blue"
-                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mr-4 lg:mb-0"
                 >
                   <PcCaseIcon className="h-4 w-4" />
                 </Circle>
                 <div className="text-center lg:text-left">
-                  <p className="text-base text-primary">
+                  <p className="text-primary text-base">
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                   </p>
                 </div>
@@ -181,12 +181,12 @@ export const HowDoesItWork = () => {
               <div className="flex flex-col items-center leading-6 lg:flex-row">
                 <Circle
                   variant="subtle-blue"
-                  className="mb-3 h-10 w-10 md:mb-4 lg:mb-0 lg:mr-4"
+                  className="mb-3 h-10 w-10 md:mb-4 lg:mr-4 lg:mb-0"
                 >
                   <CloudUploadIcon className="h-4 w-4" />
                 </Circle>
                 <div className="text-center lg:text-left">
-                  <p className="text-base text-primary">
+                  <p className="text-primary text-base">
                     Minus fugit neque quo quas ab quia natus a animi, minima
                     quisquam similique dolorem quasi?
                   </p>
@@ -198,7 +198,7 @@ export const HowDoesItWork = () => {
       </div>
       <div className="mx-auto flex flex-col items-center justify-center px-4 lg:max-w-5xl lg:flex-row lg:space-x-8">
         <div className="bg-muted/75 mb-4 flex w-full flex-col items-center rounded-lg p-5 md:p-2 lg:mb-0 lg:flex-row lg:rounded-full">
-          <div className="relative mb-2 flex h-12 w-12 items-center justify-center lg:mb-0 lg:mr-4">
+          <div className="relative mb-2 flex h-12 w-12 items-center justify-center lg:mr-4 lg:mb-0">
             <div className="absolute inset-0">
               <svg
                 fill="none"
@@ -228,14 +228,14 @@ export const HowDoesItWork = () => {
             </Circle>
           </div>
           <div className="mt-1 space-y-1 text-center lg:text-left">
-            <p className="text-sm text-primary">Учитесь в своем темпе</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-primary text-sm">Учитесь в своем темпе</p>
+            <p className="text-muted-foreground text-sm">
               Ваш прогресс синхронизируется по ходу обучения
             </p>
           </div>
         </div>
         <div className="bg-muted/75 mb-4 flex w-full flex-col items-center rounded-lg p-5 md:p-2 lg:mb-0 lg:flex-row lg:rounded-full">
-          <div className="relative mb-2 flex h-12 w-12 items-center justify-center lg:mb-0 lg:mr-4">
+          <div className="relative mb-2 flex h-12 w-12 items-center justify-center lg:mr-4 lg:mb-0">
             <div className="absolute inset-0">
               <svg
                 fill="none"
@@ -279,10 +279,10 @@ export const HowDoesItWork = () => {
             </Circle>
           </div>
           <div className="mt-1 space-y-1 text-center lg:text-left">
-            <p className="text-sm text-primary">
+            <p className="text-primary text-sm">
               Проверяйте свои знания в каждой главе
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Пройдите викторину, чтобы проверить себя
             </p>
           </div>

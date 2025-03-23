@@ -1,13 +1,13 @@
 import "@styles/globals.css"
 
 import type { Metadata } from "next"
+import { Inter } from "next/font/google"
 import { headers } from "next/headers"
 
 import { siteConfig } from "@shared/config/site"
 import { Providers } from "@shared/providers"
-import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: {
@@ -59,17 +59,19 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-  const userAgent = (await headers()).get("user-agent") ?? "";
+  const userAgent = (await headers()).get("user-agent") ?? ""
   const isMac = userAgent.toLowerCase().includes("mac os x")
 
   return (
-    <html lang="en" className={isMac ? "os-macos" : ""} suppressHydrationWarning>
-      <body
-        className={inter.className}
-      >
+    <html
+      lang="en"
+      className={isMac ? "os-macos" : ""}
+      suppressHydrationWarning
+    >
+      <body className={inter.className}>
         <Providers>
           <div vaul-drawer-wrapper="">
-            <div className="relative flex min-h-screen flex-col bg-background">
+            <div className="bg-background relative flex min-h-screen flex-col">
               {children}
             </div>
           </div>

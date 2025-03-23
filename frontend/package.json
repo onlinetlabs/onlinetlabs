@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail \"set ENV_NAME=localhost && contentlayer2 dev\" \"next dev --turbopack\"",
+    "dev": "concurrently --kill-others-on-fail \"contentlayer2 dev\" \"next dev --turbopack\"",
     "build": "next build",
     "build:content": "contentlayer2 build",
-    "typecheck": "contentlayer2 build && tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -16,11 +16,10 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@tanstack/react-query": "^5.62.15",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "contentlayer2": "^0.5.4",
-    "geist": "^1.3.1",
+    "cva": "npm:class-variance-authority@^0.7.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.462.0",
     "next": "^15.2.3",
@@ -36,10 +35,10 @@
     "tailwind-merge": "^2.5.5",
     "unified": "^11.0.5",
     "vaul": "^1.1.1",
-    "zod": "^3.24.1",
-    "zustand": "^5.0.2"
+    "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.0",
     "@mermaid-js/mermaid-cli": "^11.4.2",
     "@puppeteer/browsers": "^2.7.0",
@@ -49,16 +48,14 @@
     "@types/node": "^20.17.9",
     "@types/react": "^19.0.5",
     "@types/react-dom": "^19.0.3",
-    "@typescript-eslint/parser": "^8.19.1",
     "concurrently": "^9.1.2",
     "esbuild": "^0.24.2",
-    "eslint": "^8",
-    "eslint-config-next": "15.0.3",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.37.3",
+    "eslint": "^9.23.0",
+    "eslint-config-next": "^15.2.3",
     "mdast-util-toc": "^7.1.0",
     "postcss": "^8",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-pretty-code": "^0.14.0",
     "rehype-slug": "^6.0.0",
@@ -78,5 +75,48 @@
   },
   "peerDependencies": {
     "esbuild": "^0.17.3"
+  },
+  "prettier": {
+    "endOfLine": "lf",
+    "semi": false,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "importOrder": [
+      "^(react/(.*)$)|^(react$)",
+      "^(next/(.*)$)|^(next$)",
+      "<THIRD_PARTY_MODULES>",
+      "",
+      "^types$",
+      "^@app/(.*)$",
+      "^@widgets/(.*)$",
+      "^@features/(.*)$",
+      "^@entities/(.*)$",
+      "^@shared/(.*)$",
+      "^@content/(.*)$",
+      "^@stores/(.*)$",
+      "^@styles/(.*)$",
+      "^@api/(.*)$",
+      "^@providers/(.*)$",
+      "^@components/(.*)$",
+      "^@ui/(.*)$",
+      "^@lib/(.*)$",
+      "",
+      "^[./]"
+    ],
+    "importOrderSeparation": false,
+    "importOrderSortSpecifiers": true,
+    "importOrderBuiltinModulesToTop": true,
+    "importOrderParserPlugins": [
+      "typescript",
+      "jsx",
+      "decorators-legacy"
+    ],
+    "importOrderMergeDuplicateImports": true,
+    "importOrderCombineTypeAndValueImports": true,
+    "plugins": [
+      "@ianvs/prettier-plugin-sort-imports",
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }

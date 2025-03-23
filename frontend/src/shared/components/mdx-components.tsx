@@ -17,9 +17,9 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@ui/alert"
 import { AspectRatio } from "@ui/aspect-ratio"
 import { Separator } from "@ui/separator"
+import { Slot } from "@ui/slot"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/tabs"
 import { cn } from "@lib/utils"
-import { Slot } from "@ui/slot"
 
 const components = {
   Accordion,
@@ -35,7 +35,7 @@ const components = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
-        "group relative font-heading mt-2 scroll-m-20 text-3xl font-bold",
+        "group font-heading relative mt-2 scroll-m-20 text-3xl font-bold",
         className
       )}
       {...props}
@@ -44,7 +44,7 @@ const components = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        "group relative font-heading mt-10 scroll-m-20 text-xl font-semibold tracking-tight first:mt-0",
+        "group font-heading relative mt-10 scroll-m-20 text-xl font-semibold tracking-tight first:mt-0",
         className
       )}
       {...props}
@@ -53,7 +53,7 @@ const components = {
   h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
       className={cn(
-        "group relative font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        "group font-heading relative mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -62,7 +62,7 @@ const components = {
   h4: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4
       className={cn(
-        "group relative font-heading mt-8 scroll-m-20 text-md font-semibold tracking-tight",
+        "group font-heading text-md relative mt-8 scroll-m-20 font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -71,7 +71,7 @@ const components = {
   h5: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h5
       className={cn(
-        "group relative mt-6 scroll-m-16 text-md font-semibold tracking-tight",
+        "group text-md relative mt-6 scroll-m-16 font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -86,10 +86,13 @@ const components = {
       {...props}
     />
   ),
-  Subtitle: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+  Subtitle: ({
+    className,
+    ...props
+  }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <Slot
       className={cn(
-        "text-xs/6 font-medium font-mono text-muted-foreground uppercase tracking-[.1em] scroll-mt-4.5 mt-12",
+        "text-muted-foreground mt-12 scroll-mt-4.5 font-mono text-xs/6 font-medium tracking-[.1em] uppercase",
         className
       )}
       {...props}
@@ -102,10 +105,7 @@ const components = {
     />
   ),
   p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p
-      className={cn("text-md/7 not-first:mt-6", className)}
-      {...props}
-    />
+    <p className={cn("text-md/7 not-first:mt-6", className)} {...props} />
   ),
   ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
     <ul className={cn("my-6 ml-6 list-disc", className)} {...props} />
@@ -183,7 +183,7 @@ const components = {
       <>
         <pre
           className={cn(
-            "mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-xl bg-zinc-900 py-4",
+            "mt-6 mb-4 max-h-[650px] overflow-x-auto rounded-xl bg-zinc-900 py-4",
             className
           )}
           {...props}
@@ -193,7 +193,7 @@ const components = {
         {__rawString__ && (
           <CopyButton
             value={__rawString__}
-            className={cn("absolute right-4 top-10", __withMeta__ && "top-20")}
+            className={cn("absolute top-10 right-4", __withMeta__ && "top-20")}
           />
         )}
       </>
@@ -202,7 +202,7 @@ const components = {
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <code
       className={cn(
-        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm",
+        "bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm",
         className
       )}
       {...props}
@@ -231,7 +231,7 @@ const components = {
   }: React.ComponentProps<typeof TabsTrigger>) => (
     <TabsTrigger
       className={cn(
-        "relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none",
+        "text-muted-foreground data-[state=active]:border-b-primary data-[state=active]:text-foreground relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pt-2 pb-3 font-semibold shadow-none transition-none data-[state=active]:shadow-none",
         className
       )}
       {...props}
@@ -258,7 +258,7 @@ const components = {
   LinkedCard: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
     <Link
       className={cn(
-        "flex w-full flex-col items-center rounded-xl border bg-card p-6 text-card-foreground shadow-sm transition-colors hover:bg-muted/50 sm:p-10",
+        "bg-card text-card-foreground hover:bg-muted/50 flex w-full flex-col items-center rounded-xl border p-6 shadow-sm transition-colors sm:p-10",
         className
       )}
       {...props}

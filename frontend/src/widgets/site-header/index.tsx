@@ -1,16 +1,16 @@
 import AuthProvider from "@providers/auth-provider"
+import { CommandMenu } from "@components/command-menu"
 import { cn } from "@lib/utils"
 
 import { Actions } from "./actions"
 import { MainNav } from "./main-nav"
 import { MobileNav } from "./mobile-nav"
-import { CommandMenu } from "@components/command-menu"
 
 export function SiteHeader({ sticky = true }: Props) {
   return (
     <header
       className={cn(
-        "top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60",
+        "border-border bg-background/95 supports-backdrop-filter:bg-background/60 top-0 z-50 w-full border-b backdrop-blur-sm",
         { sticky: sticky }
       )}
     >
