@@ -1,0 +1,31 @@
+Mar 19 15:03:11.462 HYPERVISOR: Release 0.2.23-amd64/Linux (tag 2023010200)
+Mar 19 15:03:11.462 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 45527.
+Mar 19 15:03:11.470 HYPERVISOR: exec_cmd: hypervisor version 
+Mar 19 15:03:11.470 HYPERVISOR: exec_cmd: hypervisor working_dir /data/projects/c2186c02-45bf-4793-ad32-e75b5dcb2f59/project-files/dynamips 
+Mar 19 15:03:11.470 GENERAL: working_dir=/data/projects/c2186c02-45bf-4793-ad32-e75b5dcb2f59/project-files/dynamips
+Mar 19 15:03:11.470 HYPERVISOR: exec_cmd: hypervisor working_dir /data/projects/c2186c02-45bf-4793-ad32-e75b5dcb2f59/project-files/dynamips/c9da3d21-7b7a-4550-8608-2c2f8bf66ab8 
+Mar 19 15:03:11.470 GENERAL: working_dir=/data/projects/c2186c02-45bf-4793-ad32-e75b5dcb2f59/project-files/dynamips/c9da3d21-7b7a-4550-8608-2c2f8bf66ab8
+Mar 19 15:03:11.471 HYPERVISOR: exec_cmd: vm create R2 2 c3745 
+Mar 19 15:03:11.471 VM: VM R2 created.
+Mar 19 15:03:11.472 HYPERVISOR: exec_cmd: vm set_con_tcp_port R2 2003 
+Mar 19 15:03:11.472 HYPERVISOR: exec_cmd: c3745 get_mac_addr R2 
+Mar 19 15:03:11.472 HYPERVISOR: exec_cmd: vm set_ram R2 256 
+Mar 19 15:03:11.473 HYPERVISOR: exec_cmd: vm set_nvram R2 256 
+Mar 19 15:03:11.474 HYPERVISOR: exec_cmd: vm set_ios R2 /data/images/IOS/c3745-adventerprisek9-mz.124-25d.image 
+Mar 19 15:03:11.475 HYPERVISOR: exec_cmd: vm set_disk0 R2 0 
+Mar 19 15:03:11.475 HYPERVISOR: exec_cmd: c3745 set_mac_addr R2 c402.01b8.0000 
+Mar 19 15:03:11.816 HYPERVISOR: exec_cmd: nio create_udp udp-e9141a0d-28c5-480c-b60a-50a6b6aa4576 10008 127.0.0.1 10009 
+Mar 19 15:03:12.024 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 0 0 udp-e9141a0d-28c5-480c-b60a-50a6b6aa4576 
+Mar 19 15:03:12.025 HYPERVISOR: exec_cmd: vm get_status R2 
+Mar 19 15:03:12.045 HYPERVISOR: exec_cmd: nio create_udp udp-ec5f389c-1376-4124-9f15-c8060e6a7153 10012 127.0.0.1 10013 
+Mar 19 15:03:12.046 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 0 1 udp-ec5f389c-1376-4124-9f15-c8060e6a7153 
+Mar 19 15:03:12.047 HYPERVISOR: exec_cmd: vm get_status R2 
+Mar 19 15:08:55.135 HYPERVISOR: exec_cmd: vm set_ghost_status R2 2 
+Mar 19 15:08:55.136 HYPERVISOR: exec_cmd: vm set_ghost_file R2 /data/projects/c2186c02-45bf-4793-ad32-e75b5dcb2f59/project-files/dynamips/c3745-adventerprisek9-mz.124-25d.image-256.ghost 
+Mar 19 15:08:55.137 HYPERVISOR: exec_cmd: vm get_status R2 
+Mar 19 15:08:55.138 HYPERVISOR: exec_cmd: vm set_config R2 configs/i2_startup-config.cfg 
+Mar 19 15:08:55.138 HYPERVISOR: exec_cmd: vm start R2 
+Mar 19 15:10:21.139 HYPERVISOR: exec_cmd: vm get_status R2 
+Mar 19 15:10:21.139 HYPERVISOR: exec_cmd: vm stop R2 
+Mar 19 15:10:21.198 VM: VM R2 shutdown.
+Mar 19 15:10:21.200 HYPERVISOR: exec_cmd: vm extract_config R2 
