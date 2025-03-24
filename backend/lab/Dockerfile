@@ -7,6 +7,7 @@ FROM alpine:3.21.0
 # to specific locations inside the container filesystem.
 # (Install the magic wrapper)
 ADD ./start.sh /start.sh
+ADD ./unzip_devices.sh /unzip_devices.sh
 ADD ./config.ini /config.ini
 ADD ./requirements.txt /requirements.txt
 ADD ./dependencies.json /tmp/dependencies.json

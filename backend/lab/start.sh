@@ -8,8 +8,13 @@ a network bridge and configuring a local Docker and GNS3 environment."
 # Copy projects folder that contains labs to the /data volume:
 # But first it should be transfered to the / via Dockerfile.
 mv /projects /data/projects
-mv /devices /data/devices
 mv /install_devices.py /data/install_devices.py
+
+mv /devices /data/devices
+mv /unzip_devices.sh /data/unzip_devices.sh
+cd /data
+./unzip_devices.sh
+
 
 
 # Check if the CONFIG variable is set; if not, it assigns
