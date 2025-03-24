@@ -160,51 +160,51 @@ services:
   # This is the name of the service defined in the Docker Compose file.
   # It is used to refer to this particular service
   # (in this case, Network lab - GNS3)
-  # netlab_lab:
-  #   # This assigns a specific name (netlab_database) to the container
-  #   # running this service. By default, Docker generates container
-  #   # names but specifying one makes it easier to manage.
-  #   container_name: netlab_lab
-  #   build:
-  #     # The context specifies where Docker should look for
-  #     # the files needed to build the image (Dockerfile etc).
-  #     context: ./backend/lab/
-  #     # This specifies that Docker should use the Dockerfile
-  #     # located in the "context" directory to build the image.
-  #     dockerfile: Dockerfile
+  netlab_lab:
+    # This assigns a specific name (netlab_database) to the container
+    # running this service. By default, Docker generates container
+    # names but specifying one makes it easier to manage.
+    container_name: netlab_lab
+    build:
+      # The context specifies where Docker should look for
+      # the files needed to build the image (Dockerfile etc).
+      context: ./backend/lab/
+      # This specifies that Docker should use the Dockerfile
+      # located in the "context" directory to build the image.
+      dockerfile: Dockerfile
        
-  #   environment:
-  #     # Configure the internal NAT network bridge for GNS3
-  #     BRIDGE_ADDRESS: "172.21.1.1/24"
+    environment:
+      # Configure the internal NAT network bridge for GNS3
+      BRIDGE_ADDRESS: "172.21.1.1/24"
 
-  #   # Always restart if it stops or if Docker itself is restarted.
-  #   restart: always
+    # Always restart if it stops or if Docker itself is restarted.
+    restart: always
 
-  #   # This defines a bind mount volume that maps a directory on the host
-  #   # (in this case, ./lab_data) to a directory in the container
-  #   # (/data). This allows for persistent storage
-  #   # of LAB (GNS3) data, meaning the data will be retained even if the
-  #   # container is stopped or removed. The data will be kept in the
-  #   # specified folder on the host.
-  #   volumes:
-  #     # Common dir for scripts etc
-  #     # If using bind mount - .dockerignore will be ignored itself :)
-  #     # Path to persistant data. May be saved as regular folder
-  #     # and used as backup.
-  #     - ./volumes/lab:/data
+    # This defines a bind mount volume that maps a directory on the host
+    # (in this case, ./lab_data) to a directory in the container
+    # (/data). This allows for persistent storage
+    # of LAB (GNS3) data, meaning the data will be retained even if the
+    # container is stopped or removed. The data will be kept in the
+    # specified folder on the host.
+    volumes:
+      # Common dir for scripts etc
+      # If using bind mount - .dockerignore will be ignored itself :)
+      # Path to persistant data. May be saved as regular folder
+      # and used as backup.
+      - ./volumes/lab:/data
       
-  #   # This instructs Docker Compose to load environment variables
-  #   # from the .env file located in the same directory as the
-  #   # docker-compose.yaml.
-  #   env_file: ./backend/.env
+    # This instructs Docker Compose to load environment variables
+    # from the .env file located in the same directory as the
+    # docker-compose.yaml.
+    env_file: ./backend/.env
     
-  #   # When you set network_mode: host for a service in a Docker Compose file,
-  #   # it means that the container will share the network namespace of
-  #   # the host machine. In other words, the container will not get its
-  #   # own private network (which is the default behavior), but rather it
-  #   # will use the host's network directly.
-  #   network_mode: host
-  #   privileged: true
+    # When you set network_mode: host for a service in a Docker Compose file,
+    # it means that the container will share the network namespace of
+    # the host machine. In other words, the container will not get its
+    # own private network (which is the default behavior), but rather it
+    # will use the host's network directly.
+    # network_mode: host
+    privileged: true
 
   netlab_frontend:
     container_name: netlab_frontend
@@ -216,8 +216,8 @@ services:
     restart: always
     ports:
       - '3000:3000'
-    depends_on:
-      - netlab_server
+    # depends_on:
+    #   - netlab_server
     # network_mode: host
 
   netlab_nginx:
