@@ -1,9 +1,12 @@
 # -------------- #
 # System imports #
 
+import configparser
 import os
+from pathlib import Path
 from typing             import List
 import telnetlib
+import uuid
 
 # ------------------- #
 # Third party imports #
@@ -39,6 +42,14 @@ TAGS:List = [
 
 LAB_HOST = os.getenv('LAB_HOST')
 
+# Get the absolute path of this script's directory
+# script_dir = Path(__file__).resolve().parent.parent.parent.parent
+# # Navigate to project root -> m1 -> config.ini
+# config_path = script_dir / "lab" / "config.ini"
+# lab_config = configparser.ConfigParser()
+# # Read the config.ini file
+# lab_config.read( config_path )
+
 # ------- #
 # OBJECTS #
 
@@ -46,15 +57,20 @@ LAB_HOST = os.getenv('LAB_HOST')
 # --------- #
 # FUNCTIONS #
 
-def temp_gns3_get_token() -> str|None:
+
+def gns3_user_get_token(port:int) -> str|None:
     """
     """
 
     # URL and data
-    url = f"http://{LAB_HOST}:3080/v3/access/users/authenticate"
+    url = f"http://{LAB_HOST}:{port}/v3/access/users/authenticate"
+    # data = {
+    #     "username": lab_config["Controller"]["default_admin_username"],
+    #     "password": lab_config["Controller"]["default_admin_password"]
+    # }
     data = {
         "username": "admin",
-        "password": "admin_gns3"
+        "password": "admin"
     }
     
     # Set headers
@@ -72,11 +88,14 @@ def temp_gns3_get_token() -> str|None:
         return None
 
 
-def temp_gns3_duplicate(token:str, project_id:str) -> str|None:
+def gns3_user_project_create(
+        token:str, port:int,
+        project_name:str,
+        ) -> str|None:
     """
     """
 
-    url = f"http://{LAB_HOST}:3080/v3/projects/{project_id}/duplicate"
+    url = f"http://{LAB_HOST}:{port}/v3/projects"
     
     headers = {
         "Authorization": f"Bearer {token}",
@@ -84,7 +103,7 @@ def temp_gns3_duplicate(token:str, project_id:str) -> str|None:
     }
     
     payload = {
-        "name": "test_lab"
+        "name": project_name,
     }
     
     response = requests.post(url, headers=headers, json=payload)
@@ -94,26 +113,6 @@ def temp_gns3_duplicate(token:str, project_id:str) -> str|None:
         return response
     else:
         return None
-
-
-def temp_get_project_nodes(token:str, project_id:str) -> list[dict]:
-    """
-    """
-
-    url = f"http://{LAB_HOST}:3080/v3/projects/{project_id}/nodes"
-    
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
-    
-    response = requests.get(url, headers=headers)
-    
-    if response.ok:
-        response = response.json()
-        return response
-    else:
-        return []
 
 
 def temp_gns3_ping(node:dict) -> bool:
@@ -141,7 +140,6 @@ def temp_gns3_ping(node:dict) -> bool:
 
 
 
-# TODO: nodes reboot wipes nodes configs.
 # TODO: remove (block) extra abilities in upper left corner menu.
 def temp_gns3_lab_check(token:str, lab_project_id:str) -> bool:
     """
@@ -164,35 +162,43 @@ def temp_gns3_lab_check(token:str, lab_project_id:str) -> bool:
 # --------- #
 # ENDPOINTS #
 
-@app.post("/lab/deploy",
+@app.post("/lab/start",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
-def lab_deploy(cource_num:int, lab_num:int):
+def lab_start(lab_id:str):
     """
-    - cource_num:
-    - lab_num:
+    - lab_id:
     """
+    
+    #TODO: check if the lab is already created
+    project_id:str|None = None
 
-    # Get access_token for GNS3 API:
-    access_token = temp_gns3_get_token()
-    if access_token is None:
-        # If GNS3 API credentials were incorrect:
-        raise HTTPException(
-                status_code=401,
-                detail="Not authenticated",
+    #TODO: get port from DB
+    user_port = 3080
+
+    if project_id is None:
+        # Get access_token for GNS3 API:
+        access_token = gns3_user_get_token(user_port)
+        if access_token is None:
+            # If GNS3 API credentials were incorrect:
+            raise HTTPException(
+                    status_code=401,
+                    detail="Not authenticated",
+                    )
+
+        project_id = gns3_user_project_create(
+                access_token, user_port,
+                lab_id,
                 )
 
-    duplicate_from_project_id:str = "00000000-0000-0000-0000-000000000000"
-    project_id_duplicate = temp_gns3_duplicate(
-            access_token, duplicate_from_project_id)
-
     # Return project_id for lab
-    lab_duplicate_link:str = \
-            f"http://127.0.0.1:3080/static/web-ui/controller/1/project/{project_id_duplicate}"
+    lab_link:str = \
+            f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/{project_id}"
 
     return {
-        "lab_link": lab_duplicate_link,
-        "lab_project_id": project_id_duplicate
+        "lab_link": lab_link,
+        "lab_project_id": project_id,
+        "lab_port": user_port,
     }
 
 
