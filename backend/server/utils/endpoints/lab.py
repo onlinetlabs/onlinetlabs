@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 from typing             import List
 import telnetlib
-import uuid
+from uuid               import UUID
 
 # ------------------- #
 # Third party imports #
@@ -26,6 +26,8 @@ from requests.models import HTTPError
 
 from utils.auth.model       import PostSchema
 from utils.auth.auth_bearer import JWTBearer
+
+from utils.labs_checker     import checkers
 
 
 from .core                   import app
@@ -115,45 +117,6 @@ def gns3_user_project_create(
         return None
 
 
-def temp_gns3_ping(node:dict) -> bool:
-    """
-    """
-
-    # host = node['console_host']
-    host = LAB_HOST
-    port = node['console']
-
-    tn = telnetlib.Telnet(host, port)
-    tn.write(b"ping 192.168.1.2\r\n")
-    while True:
-        response = tn.read_until(b"\r\n")
-        # b'84 bytes from 192.168.1.2 icmp_seq=5 ttl=64 time=0.337 ms\r\n'
-        if b'bytes from' in response:
-            tn.write(b"quit\r\n")
-            tn.close()
-            return True
-        # b'host (192.168.1.3) not reachable\r\n'
-        elif b'not reachable' in response:
-            tn.write(b"quit\r\n")
-            tn.close()
-            return False
-
-
-
-# TODO: remove (block) extra abilities in upper left corner menu.
-def temp_gns3_lab_check(token:str, lab_project_id:str) -> bool:
-    """
-    """
-
-    project_nodes = temp_get_project_nodes(token, lab_project_id)
-    PC1 = project_nodes[0]
-    try:
-        is_success:bool = temp_gns3_ping(PC1)
-    except Exception as e:
-        print(f"[!] ERROR: could not ping PC1: {e}")
-        is_success:bool = False
-    return is_success
-
 
 # ------- #
 # CLASSES #
@@ -183,7 +146,7 @@ def lab_start(lab_id:str):
             # If GNS3 API credentials were incorrect:
             raise HTTPException(
                     status_code=401,
-                    detail="Not authenticated",
+                    detail="Cannot access lab server. Address admin.",
                     )
 
         project_id = gns3_user_project_create(
@@ -205,21 +168,37 @@ def lab_start(lab_id:str):
 @app.post("/lab/check",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
-def lab_check(lab_project_id:str):
+async def lab_check(lab_id:str, project_id:str):
     """
     """
 
+    #TODO: lab_host
+    lab_host = "127.0.0.1"
+
+    #TODO: get port from DB
+    user_port = 3080
+
     # Duplicate target lab
-    access_token = temp_gns3_get_token()
+    access_token = gns3_user_get_token(user_port)
     if access_token is None:
         # For some reasons GNS3 server credentials were incorrect
         raise HTTPException(
                 status_code=401,
-                detail="Not authenticated",
+                detail="Cannot access lab server. Address admin.",
                 )
 
-    is_passed:bool = temp_gns3_lab_check(access_token, lab_project_id)
+    if not lab_id in checkers:
+        check_result = False
+        logs = [f"lab_id '{lab_id}' not found"]
+
+    else:
+        checker = checkers[lab_id](
+                lab_host, user_port)
+        check_result, logs = await checker.lab_perform_check(
+                access_token, project_id,
+                )
 
     return {
-        "passed": is_passed
+        "passed": check_result,
+        "log": logs
     }
