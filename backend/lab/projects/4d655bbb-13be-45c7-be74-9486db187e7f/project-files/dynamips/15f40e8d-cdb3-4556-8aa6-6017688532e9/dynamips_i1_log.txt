@@ -1,0 +1,18 @@
+Mar 19 12:31:53.758 HYPERVISOR: Release 0.2.23-amd64/Linux (tag 2023010200)
+Mar 19 12:31:53.758 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 41755.
+Mar 19 12:31:53.766 HYPERVISOR: exec_cmd: hypervisor version 
+Mar 19 12:31:53.767 HYPERVISOR: exec_cmd: hypervisor working_dir /data/projects/00000000-0000-0000-0000-000000000000/project-files/dynamips 
+Mar 19 12:31:53.767 GENERAL: working_dir=/data/projects/00000000-0000-0000-0000-000000000000/project-files/dynamips
+Mar 19 12:31:53.767 HYPERVISOR: exec_cmd: hypervisor working_dir /data/projects/00000000-0000-0000-0000-000000000000/project-files/dynamips/18a78244-10c5-4c2b-87bd-15e5ada62459 
+Mar 19 12:31:53.767 GENERAL: working_dir=/data/projects/00000000-0000-0000-0000-000000000000/project-files/dynamips/18a78244-10c5-4c2b-87bd-15e5ada62459
+Mar 19 12:31:53.767 HYPERVISOR: exec_cmd: vm create R1 1 c3745 
+Mar 19 12:31:53.767 VM: VM R1 created.
+Mar 19 12:31:53.767 HYPERVISOR: exec_cmd: vm set_con_tcp_port R1 2005 
+Mar 19 12:31:53.768 HYPERVISOR: exec_cmd: c3745 get_mac_addr R1 
+Mar 19 12:31:53.768 HYPERVISOR: exec_cmd: vm set_ram R1 256 
+Mar 19 12:31:53.768 HYPERVISOR: exec_cmd: vm set_nvram R1 256 
+Mar 19 12:31:53.769 HYPERVISOR: exec_cmd: vm set_ios R1 /data/images/IOS/c3745-adventerprisek9-mz.124-25d.image 
+Mar 19 12:31:53.769 HYPERVISOR: exec_cmd: vm set_disk0 R1 0 
+Mar 19 14:49:09.017 HYPERVISOR: exec_cmd: nio create_udp udp-5776afca-d14a-45fa-974a-4486559b8270 10002 127.0.0.1 10003 
+Mar 19 14:49:09.267 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R1 0 0 udp-5776afca-d14a-45fa-974a-4486559b8270 
+Mar 19 14:49:09.268 HYPERVISOR: exec_cmd: vm get_status R1 

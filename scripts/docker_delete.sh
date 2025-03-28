@@ -5,7 +5,7 @@
 
 
 echo "[*] Stopping and deleting service and image..."
-docker compose down --rmi all
+docker compose down --rmi all -t 2
 if [ $? -ne 0 ]; then
     echo "[✘] ERROR: Deleting service. Exiting."
     exit

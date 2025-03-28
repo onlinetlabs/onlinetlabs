@@ -8,7 +8,7 @@
 
 
 echo "[*] Building new service(s) image(s)..."
-docker compose build --no-cache
+docker compose build
 if [ $? -ne 0 ]; then
     echo "[✘] ERROR: Building new service(s) image(s). Exiting."
     exit
