@@ -34,6 +34,8 @@ export const authConfig = {
         const email = credentials.email as string
         const password = credentials.password as string
 
+        console.log('process.env.API_URL', process.env.API_URL)
+
         const { accessToken, refreshToken } = await login(
           { email, password },
           process.env.API_URL

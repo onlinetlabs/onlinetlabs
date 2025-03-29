@@ -54,8 +54,6 @@ const rehypeMermaid: Plugin<[MermaidOptions?], Root> = (options = {}) => {
         // Write mermaid content to temp file
         writeFileSync(inputFile, mermaidCode, "utf-8")
 
-        console.log("Processing mermaid diagram:", inputFile)
-
         try {
           // Generate light mode SVG
           const backgroundArg = options.background

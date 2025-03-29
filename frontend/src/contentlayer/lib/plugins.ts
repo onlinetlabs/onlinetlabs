@@ -11,7 +11,7 @@ import remarkGfm from "remark-gfm"
 import { Pluggable } from "unified"
 import { visit } from "unist-util-visit"
 
-import rehypeMermaid from "./rehype-mermaid"
+// import rehypeMermaid from "./rehype-mermaid"
 
 const prettyCodeOptions: RehypePrettyCodeOptions = {
   theme: "github-dark",
@@ -40,13 +40,13 @@ const autolinkHeadingsOptions: RehypeAutolinkHeadingsOptions = {
 export const remarkPlugins = [remarkGfm, codeImport]
 
 export const rehypePlugins: Pluggable[] = [
-  [
-    rehypeMermaid,
-    {
-      background: "transparent",
-      className: "mermaid-diagram",
-    },
-  ],
+  // [
+  //   rehypeMermaid,
+  //   {
+  //     background: "transparent",
+  //     className: "mermaid-diagram",
+  //   },
+  // ],
   rehypeSlug,
   () => (tree) => {
     visit(tree, (node) => {
