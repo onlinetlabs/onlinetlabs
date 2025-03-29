@@ -162,7 +162,7 @@ def temp_gns3_lab_check(token:str, lab_project_id:str) -> bool:
 # --------- #
 # ENDPOINTS #
 
-@app.post("/lab/start",
+@app.post("/api/lab/start",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 def lab_start(lab_id:str):
@@ -202,7 +202,7 @@ def lab_start(lab_id:str):
     }
 
 
-@app.post("/lab/check",
+@app.post("/api/lab/check",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 def lab_check(lab_project_id:str):

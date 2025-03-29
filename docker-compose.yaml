@@ -45,8 +45,8 @@ services:
       # Docker-default bridge network). This allows the container to
       # communicate with services on the host as if they were on the
       # network interface attached to the bridge.
-      - POSTGRES_HOST=172.17.0.1
-      - LAB_HOST=172.17.0.1
+      - POSTGRES_HOST=netlab_database
+      - LAB_HOST=netlab_lab
 
     # Indicates that the service should restart automatically under
     # certain conditions (e.g., if it crashes).
@@ -89,7 +89,7 @@ services:
     # starting this service.
     depends_on:
       - netlab_database
-      # - netlab_lab
+      - netlab_lab
 
     # When you set network_mode: host for a service in a Docker Compose file,
     # it means that the container will share the network namespace of
@@ -127,8 +127,8 @@ services:
     # This maps port 5432 of the host machine to port 5432 of the
     # container. PostgreSQL's default port is 5432, so this allows
     # external access to the database service running inside the container.
-    # ports:
-    #   - '5432:${POSTGRES_PORT:-5432}'   # No need because of network_mode: host
+    ports:
+      - '5432:${POSTGRES_PORT:-5432}'   # No need because of network_mode: host
     
     # This defines a bind mount volume that maps a directory on the host
     # (in this case, ./database_volume/data) to a directory in the container
@@ -179,7 +179,8 @@ services:
     environment:
       # Configure the internal NAT network bridge for GNS3
       BRIDGE_ADDRESS: "172.21.1.1/24"
-
+    ports:
+      - '3080:80'
     # Always restart if it stops or if Docker itself is restarted.
     restart: always
 
@@ -216,6 +217,8 @@ services:
       dockerfile: ../docker/frontend.dockerfile
     environment:
       - NODE_ENV=production
+      - AUTH_TRUST_HOST=1
+      - JWT_SECRET=8afdb1798b39721602f544317af81e8e58b55887bba4a0085b00528da0030c7c
     restart: always
     ports:
       - '3000:3000'
@@ -234,3 +237,23 @@ services:
     depends_on:
       - netlab_frontend
       - netlab_server
+      - netlab_lab  # Add this dependency
+    networks:
+      - default  # Ensure shared network
+
+  # netlab_pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   container_name: netlab_pgadmin
+  #   environment:
+  #     # Default email and password for logging into pgAdmin
+  #     - PGADMIN_DEFAULT_EMAIL=admin@domain.com
+  #     - PGADMIN_DEFAULT_PASSWORD=admin
+  #     - PGADMIN_CONFIG_SERVER_MODE=False
+  #     - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+  #   ports:
+  #     - "5050:80" # Expose pgAdmin on port 5050
+  #   depends_on:
+  #     - netlab_database
+  #   volumes:
+  #     # Persist pgAdmin data
+  #     - ./volumes/pgadmin:/var/lib/pgadmin
