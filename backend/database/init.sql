@@ -8,13 +8,6 @@ CREATE TABLE users (
     last_seen DATE
 );
 
-CREATE TABLE chatlogs (
-    id BIGSERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    message VARCHAR(500),
-    timestamp DATE
-);
-
 CREATE TABLE tasks (
     id SMALLSERIAL PRIMARY KEY,
     max_score SMALLINT,
