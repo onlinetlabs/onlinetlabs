@@ -188,17 +188,19 @@ async def lab_check(lab_id:str, project_id:str):
                 )
 
     if not lab_id in checkers:
-        check_result = False
-        logs = [f"lab_id '{lab_id}' not found"]
+        logs = {f"Project_id valid": False}
 
     else:
         checker = checkers[lab_id](
                 lab_host, user_port)
-        check_result, logs = await checker.lab_perform_check(
+        await checker.lab_perform_check(
                 access_token, project_id,
                 )
+        logs = checker.checklog
+
+    passed = all(check for check in logs.values())
 
     return {
-        "passed": check_result,
-        "log": logs
+        "passed": passed,
+        "logs": logs,
     }
