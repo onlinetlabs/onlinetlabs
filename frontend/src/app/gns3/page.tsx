@@ -1,5 +1,3 @@
-// 'use client';
-
 import { BookOpenIcon } from "lucide-react"
 
 import {
@@ -11,6 +9,8 @@ import {
 import { Card } from "@ui/card"
 
 import { ActiveCard } from "./components/active-card"
+import { auth } from "@auth"
+import { unauthorized } from "next/navigation"
 
 const data = [
   {
@@ -81,7 +81,12 @@ function ContentPlaceholder() {
   )
 }
 
-export default function IndexPage() {
+export default async function IndexPage() {
+  const session = await auth()
+  if (!session) {
+    unauthorized()
+  }
+
   return (
     <>
       <div className="bg-muted p-4 sm:p-6 lg:p-8">
@@ -117,7 +122,7 @@ export default function IndexPage() {
       </div>
       <div>
         <div className="p-4 sm:p-6 lg:p-8">
-          <main>
+          <div>
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Ваши работы</h2>
             </div>
@@ -187,7 +192,7 @@ export default function IndexPage() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-          </main>
+          </div>
         </div>
       </div>
     </>

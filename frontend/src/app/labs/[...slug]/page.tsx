@@ -87,7 +87,7 @@ export default async function CoursePage({ params }: { params: Params }) {
             {lab.toc && (
               <DashboardTableOfContents toc={toc}>
                 <AuthProvider>
-                  <StartLab labId={lab.slugAsParams} />
+                  <StartLab labId={lab.id} />
                 </AuthProvider>
               </DashboardTableOfContents>
             )}

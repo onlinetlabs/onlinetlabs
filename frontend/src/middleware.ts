@@ -1,9 +1,13 @@
 import { auth } from "@auth"
 
-const AUTH_PATHS = ["/login", "/signup"]
+const authRoutes = ["/login", "/signup"];
 
 export default auth((req) => {
-  if (req.auth && AUTH_PATHS.includes(req.nextUrl.pathname)) {
+  const path = req.nextUrl.pathname;
+  const isPublicRoute = authRoutes.includes(path);
+  const isAuthenticated = req.auth;
+
+  if (isAuthenticated && isPublicRoute) {
     const newUrl = new URL("/", req.nextUrl.origin)
     return Response.redirect(newUrl)
   }

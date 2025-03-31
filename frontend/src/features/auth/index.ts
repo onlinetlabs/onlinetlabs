@@ -44,7 +44,26 @@ export async function signIn(params: SignInParams) {
     refresh_token: string
   }
   
-  console.log('SIGNIN RESPONSE', data)
+  return {
+    accessToken: data.access_token,
+    refreshToken: data.refresh_token,
+  };
+}
+
+export async function refresh(refreshToken: string) {
+  const response = await fetch(`${process.env.API_URL}/api/auth/refresh`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      refresh_token: refreshToken,
+    }),
+  })
+  const data = (await response.json()) as {
+    access_token: string
+    refresh_token: string
+  }
 
   return {
     accessToken: data.access_token,

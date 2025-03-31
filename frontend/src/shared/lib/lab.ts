@@ -78,3 +78,7 @@ export function getLabs({
     })
     .sort((a, b) => (a?.sortOrder ?? 0) - (b?.sortOrder ?? 0))
 }
+
+export function getLabById(id: string) {
+  return allLabs.find((lab) => lab.id === id)
+}

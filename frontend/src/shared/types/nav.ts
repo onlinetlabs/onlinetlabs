@@ -16,4 +16,5 @@ export type NavItemWithChildren = NavItem & {
 export type MainNavItem = NavItem & {
   href: string
   exact?: boolean
+  protected?: boolean
 }

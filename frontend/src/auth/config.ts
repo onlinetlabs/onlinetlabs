@@ -1,5 +1,4 @@
-import { refresh } from "@/shared/api/auth"
-import { signIn } from "@features/auth"
+import { signIn, refresh } from "@features/auth"
 import { jwtDecode } from "jwt-decode"
 import { NextAuthConfig, User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
@@ -63,10 +62,7 @@ export const authConfig = {
         decodedAccessToken.exp &&
         Date.now() >= decodedAccessToken.exp * 1000
       ) {
-        const { accessToken, refreshToken } = await refresh(
-          token.refreshToken,
-          process.env.API_URL
-        )
+        const { accessToken, refreshToken } = await refresh(token.refreshToken)
 
         token.accessToken = accessToken
         token.refreshToken = refreshToken

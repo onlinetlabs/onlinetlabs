@@ -19,5 +19,10 @@ export const navConfig: NavConfig = {
       title: "Лабораторные",
       href: "/labs",
     },
+    {
+      title: "GNS3",
+      href: "/gns3",
+      protected: true,
+    }
   ],
 }
