@@ -1,16 +1,20 @@
 "use client"
 
 import * as React from "react"
+
 // import { CircleArrowUpIcon } from "lucide-react"
 
 import { TableOfContents } from "@lib/toc"
 import { cn } from "@lib/utils"
 
 interface TocProps {
-  toc: TableOfContents;
+  toc: TableOfContents
 }
 
-export function DashboardTableOfContents({ toc, children }: React.PropsWithChildren<TocProps>) {
+export function DashboardTableOfContents({
+  toc,
+  children,
+}: React.PropsWithChildren<TocProps>) {
   const itemIds = React.useMemo(
     () =>
       toc.items

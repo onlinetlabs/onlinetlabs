@@ -13,7 +13,9 @@ export const Providers = ({ children }: ProvidersProps) => {
       enableSystem
       disableTransitionOnChange
     >
-      <QueryProvider>{children}</QueryProvider>
+      <QueryProvider>
+        {children}
+      </QueryProvider>
     </ThemeProvider>
   )
 }

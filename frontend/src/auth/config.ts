@@ -1,4 +1,5 @@
-import { login, refresh } from "@/shared/api/auth"
+import { refresh } from "@/shared/api/auth"
+import { signIn } from "@features/auth"
 import { jwtDecode } from "jwt-decode"
 import { NextAuthConfig, User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
@@ -34,12 +35,7 @@ export const authConfig = {
         const email = credentials.email as string
         const password = credentials.password as string
 
-        console.log('process.env.API_URL', process.env.API_URL)
-
-        const { accessToken, refreshToken } = await login(
-          { email, password },
-          process.env.API_URL
-        )
+        const { accessToken, refreshToken } = await signIn({ email, password })
 
         if (!accessToken || !refreshToken) {
           return null
@@ -54,19 +50,6 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
-      if (token.accessToken) {
-        session.user.accessToken = token.accessToken
-      }
-
-      if (token.refreshToken) {
-        session.user.refreshToken = token.refreshToken
-      }
-
-      // session.user.id = token.id
-
-      return session
-    },
     async jwt({ token, user, account }) {
       if (user && account) {
         return { ...token, ...user }
@@ -100,6 +83,19 @@ export const authConfig = {
       }
 
       return token
+    },
+    async session({ session, token }) {
+      if (token.accessToken) {
+        session.accessToken = token.accessToken
+      }
+
+      if (token.refreshToken) {
+        session.refreshToken = token.refreshToken
+      }
+
+      // session.user.id = token.id
+
+      return session
     },
   },
   basePath: BASE_PATH,

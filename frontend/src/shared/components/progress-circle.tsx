@@ -1,6 +1,7 @@
 import React from "react"
-import { cn } from "@lib/utils"
 import { cva, VariantProps } from "cva"
+
+import { cn } from "@lib/utils"
 
 const circleVariants = cva("", {
   variants: {
@@ -10,11 +11,11 @@ const circleVariants = cva("", {
       warning: "stroke-yellow-500 dark:stroke-yellow-500",
       error: "stroke-red-500 dark:stroke-red-500",
       success: "stroke-emerald-500 dark:stroke-emerald-500",
-    }
+    },
   },
   defaultVariants: {
-    variant: "default"
-  }
+    variant: "default",
+  },
 })
 
 const backgroundVariants = cva("", {
@@ -25,16 +26,17 @@ const backgroundVariants = cva("", {
       warning: "stroke-yellow-200 dark:stroke-yellow-500/30",
       error: "stroke-red-200 dark:stroke-red-500/30",
       success: "stroke-emerald-200 dark:stroke-emerald-500/30",
-    }
+    },
   },
   defaultVariants: {
-    variant: "default"
-  }
+    variant: "default",
+  },
 })
 
 interface ProgressCircleProps
   extends Omit<React.SVGProps<SVGSVGElement>, "value">,
-    VariantProps<typeof circleVariants>, VariantProps<typeof backgroundVariants> {
+    VariantProps<typeof circleVariants>,
+    VariantProps<typeof backgroundVariants> {
   value?: number
   max?: number
   showAnimation?: boolean
@@ -56,7 +58,7 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
       children,
       ...props
     }: ProgressCircleProps,
-    forwardedRef,
+    forwardedRef
   ) => {
     const safeValue = Math.min(max, Math.max(value, 0))
     const normalizedRadius = radius - strokeWidth / 2
@@ -90,7 +92,10 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
             fill="transparent"
             stroke=""
             strokeLinecap="round"
-            className={cn("transition-colors ease-linear", backgroundVariants({ variant }))}
+            className={cn(
+              "transition-colors ease-linear",
+              backgroundVariants({ variant })
+            )}
           />
           {safeValue >= 0 ? (
             <circle
@@ -107,7 +112,7 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
                 "transition-colors ease-linear",
                 circleVariants({ variant }),
                 showAnimation &&
-                  "transform-gpu transition-all duration-300 ease-in-out",
+                  "transform-gpu transition-all duration-300 ease-in-out"
               )}
             />
           ) : null}
@@ -119,7 +124,7 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
         </div>
       </div>
     )
-  },
+  }
 )
 
 ProgressCircle.displayName = "ProgressCircle"

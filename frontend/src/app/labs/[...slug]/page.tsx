@@ -8,12 +8,13 @@ import { FlaskConical } from "lucide-react"
 
 import { siteConfig } from "@shared/config/site"
 import { Mdx } from "@components/mdx-components"
+import { StartLab } from "@components/start-lab"
 import { DashboardTableOfContents } from "@components/toc"
 import { Circle } from "@ui/circle"
 import { getLabBySlug } from "@lib/lab"
 import { getTableOfContents } from "@lib/toc"
 import { absoluteUrl } from "@lib/utils"
-import { StartLab } from "@components/start-lab"
+import AuthProvider from "@providers/auth-provider"
 
 type Params = Promise<{ slug: string[] }>
 
@@ -85,7 +86,9 @@ export default async function CoursePage({ params }: { params: Params }) {
           <div className="no-scrollbar h-full pb-10">
             {lab.toc && (
               <DashboardTableOfContents toc={toc}>
-                <StartLab />
+                <AuthProvider>
+                  <StartLab labId={lab.slugAsParams} />
+                </AuthProvider>
               </DashboardTableOfContents>
             )}
           </div>

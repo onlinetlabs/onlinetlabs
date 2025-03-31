@@ -6,6 +6,7 @@ import { headers } from "next/headers"
 
 import { siteConfig } from "@shared/config/site"
 import { Providers } from "@shared/providers"
+import { Toaster } from "@ui/sonner"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -75,6 +76,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               {children}
             </div>
           </div>
+          <Toaster richColors />
         </Providers>
       </body>
     </html>

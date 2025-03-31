@@ -1,54 +1,61 @@
 // 'use client';
 
-import { Accordion, AccordionTrigger, AccordionContent, AccordionItem } from "@ui/accordion";
+import { BookOpenIcon } from "lucide-react"
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@ui/accordion"
 import { Card } from "@ui/card"
-import { BookOpenIcon } from 'lucide-react';
-import { ActiveCard } from "./components/active-card";
+
+import { ActiveCard } from "./components/active-card"
 
 const data = [
   {
     id: 1,
-    name: 'Report name',
-    description: 'Description',
-    href: '#',
+    name: "Report name",
+    description: "Description",
+    href: "#",
   },
   {
     id: 2,
-    name: 'Report name',
-    description: 'Description',
-    href: '#',
+    name: "Report name",
+    description: "Description",
+    href: "#",
   },
   {
     id: 3,
-    name: 'Report name',
-    description: 'Description',
-    href: '#',
+    name: "Report name",
+    description: "Description",
+    href: "#",
   },
   {
     id: 4,
-    name: 'Report name',
-    description: 'Description',
-    href: '#',
+    name: "Report name",
+    description: "Description",
+    href: "#",
   },
   {
     id: 5,
-    name: 'Report name',
-    description: 'Description',
-    href: '#',
+    name: "Report name",
+    description: "Description",
+    href: "#",
   },
   {
     id: 6,
-    name: 'Report name',
-    description: 'Description',
-    href: '#',
+    name: "Report name",
+    description: "Description",
+    href: "#",
   },
-];
+]
 
 function ContentPlaceholder() {
   return (
-    <div className="relative h-full overflow-hidden rounded bg-muted/50">
+    <div className="bg-muted/50 relative h-full overflow-hidden rounded">
       <svg
-        className="absolute inset-0 h-full w-full stroke-muted-foreground/25"
+        className="stroke-muted-foreground/25 absolute inset-0 h-full w-full"
         fill="none"
       >
         <defs>
@@ -71,63 +78,61 @@ function ContentPlaceholder() {
         ></rect>
       </svg>
     </div>
-  );
+  )
 }
 
 export default function IndexPage() {
   return (
     <>
-      <div className="border-b border-border bg-muted p-4 sm:p-6 lg:p-8">
-        <header>
-          <h1 className="text-foreground font-semibold text-lg">
+      <div className="bg-muted p-4 sm:p-6 lg:p-8">
+        <div>
+          <h1 className="text-foreground text-lg font-semibold">
             Лабораторные работы
           </h1>
           <p className="text-muted-foreground text-sm">
             Просматривайте и управляйте своими лабораторными работами
           </p>
-          <div className="mt-8 w-full flex flex-col md:flex-row md:max-w-3xl md:items-stretch md:space-x-4 gap-y-4">
+          <div className="mt-8 flex w-full flex-col gap-y-4 md:max-w-3xl md:flex-row md:items-stretch md:space-x-4">
             <ActiveCard />
-            <Card className="relative w-full md:w-7/12 p-6">
-              <div className="inline-flex items-center justify-center border border-border p-2 rounded-md">
+            <Card className="relative w-full p-6 md:w-7/12">
+              <div className="border-border inline-flex items-center justify-center rounded-md border p-2">
                 <BookOpenIcon
-                  className="size-5 text-foreground"
+                  className="text-foreground size-5"
                   aria-hidden={true}
                 />
               </div>
-              <h3 className="mt-4 font-medium text-sm">
+              <h3 className="mt-4 text-sm font-medium">
                 <a href="#" className="focus:outline-none">
                   {/* Extend link to entire card */}
                   <span className="absolute inset-0" aria-hidden={true} />
                   Полезная информация
                 </a>
               </h3>
-              <p className="text-muted-foreground text-sm mt-2">
+              <p className="text-muted-foreground mt-2 text-sm">
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
               </p>
             </Card>
           </div>
-        </header>
+        </div>
       </div>
       <div>
         <div className="p-4 sm:p-6 lg:p-8">
           <main>
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">
-                Ваши работы
-              </h2>
+              <h2 className="text-lg font-semibold">Ваши работы</h2>
             </div>
             <Accordion type="multiple" className="mt-6">
-              <AccordionItem value="recent" className="overflow-hidden border border-border rounded-md px-4">
-                <AccordionTrigger className="text-sm font-medium text-foreground cursor-pointer hover:no-underline">
+              <AccordionItem
+                value="recent"
+                className="border-border overflow-hidden rounded-md border px-4"
+              >
+                <AccordionTrigger className="text-foreground cursor-pointer text-sm font-medium hover:no-underline">
                   Последние (3)
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
                     {data.slice(0, 3).map((item) => (
-                      <Card
-                        key={item.id}
-                        className="relative p-2"
-                      >
+                      <Card key={item.id} className="relative p-2">
                         <div className="h-20">
                           <ContentPlaceholder />
                         </div>
@@ -149,21 +154,21 @@ export default function IndexPage() {
                   </div>
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="all" className="overflow-hidden mt-6 border border-border rounded-md px-4">
-                <AccordionTrigger className="text-sm font-medium text-foreground cursor-pointer hover:no-underline">
+              <AccordionItem
+                value="all"
+                className="border-border mt-6 overflow-hidden rounded-md border px-4"
+              >
+                <AccordionTrigger className="text-foreground cursor-pointer text-sm font-medium hover:no-underline">
                   Все (6)
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
                     {data.map((item) => (
-                      <Card
-                        key={item.id}
-                        className="relative p-2"
-                      >
+                      <Card key={item.id} className="relative p-2">
                         <div className="h-20">
                           <ContentPlaceholder />
                         </div>
-                        <h3 className="mt-2 font-medium text-sm">
+                        <h3 className="mt-2 text-sm font-medium">
                           <a href={item.href} className="focus:outline-none">
                             {/* Extend link to entire card */}
                             <span
@@ -182,10 +187,9 @@ export default function IndexPage() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-
           </main>
         </div>
       </div>
     </>
-  );
+  )
 }

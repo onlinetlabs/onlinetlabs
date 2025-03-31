@@ -20,13 +20,34 @@ const nextConfig: NextConfig = {
     },
   },
   transpilePackages: ["next-mdx-remote"],
-  async rewrites() {
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: "http://localhost:8000/api/:path*",
+  //     },
+  //   ]
+  // },
+  async headers() {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:8000/api/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*", // Set your origin
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization",
+          },
+        ],
       },
-    ]
+    ];
   },
 }
 

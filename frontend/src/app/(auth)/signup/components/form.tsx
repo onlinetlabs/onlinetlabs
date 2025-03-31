@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { siteConfig } from "@shared/config/site"
-import { signup } from "@api/auth"
 import { Icons } from "@components/icons"
 import { Button } from "@ui/button"
 import {
@@ -22,6 +21,7 @@ import {
 import { Input } from "@ui/input"
 import { Label } from "@ui/label"
 import { cn } from "@lib/utils"
+import { signUp } from "@features/auth"
 
 const formSchema = z.object({
   email: z.string().email({ message: "Введите корректную почту" }),
@@ -35,19 +35,20 @@ export function SignUpForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "test@test.com",
+      password: "1234",
     },
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { accessToken, refreshToken } = await signup(values)
+    const { accessToken, refreshToken } = await signUp(values)
     await signIn("credentials", { accessToken, refreshToken, redirectTo: "/" })
   }
 
   return (
     <Form {...form}>
       <form
+        // action={signUp}
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn("flex flex-col gap-6", className)}
         {...props}
