@@ -35,16 +35,16 @@ from utils.labs_checker.CheckerInterface    import CheckerInterface
 
 class Checker01(CheckerInterface):
     
+
     async def lab_perform_check(
             self,
             token:str,
             project_id:str,
-            ) -> tuple[bool, list[str]]:
+            ) -> None:
         """
         Algotithm to check the fiest lab: 'routing-in-ip-networks'.
         """
         
-        checklog:list[str] = []
         passed:bool = False
 
         # OPEN PROJECT
@@ -53,20 +53,18 @@ class Checker01(CheckerInterface):
                 project_id,
                 )
         if not project_opened:
-            checklog.append(f"Could not open project. Possible invalid project_id.")
-            checklog.append(f"Project checking terminated.")
-            return passed, checklog
-        checklog.append(f"Successfully opened project.")
+            self.checklog["Open project"] = False
+            return
+        self.checklog["Open project"] = True
 
 
         # GET PROJECT's NODEs
         nodes:list[dict]|None = \
                 await self.project_nodes_get(token, project_id)
         if nodes is None:
-            checklog.append(f"Could not get any project node.")
-            checklog.append(f"Project checking terminated.")
-            return passed, checklog
-        checklog.append(f"Successfully retreived ({len(nodes)}) nodes.")
+            self.checklog["Get project nodes"] = False
+            return
+        self.checklog["Get project nodes"] = True
         
 
         # RETREIVE KEY NODES
@@ -80,65 +78,50 @@ class Checker01(CheckerInterface):
             node:dict|None = await self.project_nodes_get_node_by_name(
                     node_name, nodes)
             if node is None:
-                checklog.append(f"Could not get node with name: '{node_name}'. Check node names or restart them.")
-                checklog.append(f"Project checking terminated.")
-                return passed, checklog
+                self.checklog[f"Key nodes found"] = False
+                return
             key_nodes.append(node)
-        if len(key_nodes) is None:
-            checklog.append(f"Lab checking misconfigured. Address admin.")
-            checklog.append(f"Project checking terminated.")
-            return passed, checklog
 
-        checklog.append(f"Key nodes successfully retreived.")
+        if len(key_nodes) == 0:
+            self.checklog[f"Key nodes found"] = False
+            return
+        self.checklog[f"Key nodes found"] = True
 
 
         # START ALL PROJECTS NODES
-
         nodes_started:bool = await self.project_nodes_start(
                 token, project_id)
         if not nodes_started:
-            checklog.append(f"Could not start project nodes. Address admin.")
-            checklog.append(f"Project checking terminated.")
-            return passed, checklog
+            self.checklog[f"Project nodes started"] = False
+            return
+        self.checklog[f"Project nodes started"] = True
 
-        checklog.append(f"All project nodes started.")
 
         # GATHER VPCS IPs
         key_nodes_ip:list[str] = []
         for node in key_nodes:
             node_ip:str|None = await self.get_vpcs_ip(node)
             if node_ip is None:
-                checklog.append(f"Could not get ip for {node['name']}")
-                checklog.append(f"Try again or check node config.")
-                checklog.append(f"Project checking terminated.")
-                return passed, checklog
+                self.checklog[f"Nodes' ips retreived"] = False
+                return
             key_nodes_ip.append(node_ip)
+        self.checklog[f"Nodes' ips retreived"] = True
 
 
         # PERFORM PING BETWEEN KEY NODES
-        checklog.append(f"Ping from {key_nodes[0]['name']} to {key_nodes_ip[1]}...")
-        res_1:bool = await self.project_nodes_ping(
-                key_nodes[0],
-                key_nodes_ip[1],
-                )
-        checklog.append(f"Ping from {key_nodes[0]['name']} to {key_nodes_ip[2]}...")
-        res_2:bool = await self.project_nodes_ping(
-                key_nodes[0],
-                key_nodes_ip[2],
-                )
-        checklog.append(f"Ping from {key_nodes[1]['name']} to {key_nodes_ip[2]}...")
-        res_3:bool = await self.project_nodes_ping(
-                key_nodes[1],
-                key_nodes_ip[2],
-                )
+        src_dst_list:list[tuple[dict,str]] = [
+                (key_nodes[0], key_nodes_ip[1]),
+                (key_nodes[0], key_nodes_ip[2]),
+                (key_nodes[1], key_nodes_ip[2]),
+                ]
 
-        if not res_1 or not res_2 or not res_3:
-            checklog.append(f"Ping stage didnt complete fuccessfully.")
-            checklog.append(f"{res_1} {res_2} {res_3}")
-            checklog.append("Try to conduct ping manually to each device then check again.")
-            checklog.append(f"Project checking terminated.")
-            return passed, checklog
-        checklog.append(f"Ping stage completed successfully.")
+        for ping_pair in src_dst_list:
+            src = ping_pair[0]
+            dst = ping_pair[1]
+            result:bool = await self.project_nodes_ping(src, dst)
+            if not result:
+                self.checklog[f"Ping ({src['name']}) -> ({dst})"] = False
+                return
+            self.checklog[f"Ping ({src['name']}) -> ({dst})"] = True
 
-        passed = True
-        return passed, checklog
+        return

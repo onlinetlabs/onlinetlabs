@@ -42,6 +42,7 @@ class CheckerInterface:
         self.lab_port = lab_port
 
         self.TIMEOUT = 2    # sec
+        self.checklog:dict[str,bool] = {}
 
 
     @abstractmethod
