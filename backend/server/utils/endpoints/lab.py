@@ -16,6 +16,8 @@ from fastapi            import HTTPException, Body, Depends
 from fastapi.encoders   import jsonable_encoder
 from fastapi.responses  import JSONResponse
 
+from psycopg2.extras    import RealDictRow
+
 # For gns3 project duplication
 import requests
 import json
@@ -310,3 +312,27 @@ async def lab_delete(
     return {
             "success": success,
     }
+
+
+@app.get("/lab/get_user_projects",
+         dependencies=[Depends(JWTBearer())],
+         tags=TAGS)
+async def get_user_projects(
+        payload:JWTPayloadSchema=Depends(JWTBearer()),
+        ):
+
+    user_email:str = payload.email
+
+    if payload is None:
+        # Invalid or expired token.
+        raise HTTPException(
+                status_code=403, detail="Invalid or expired token.")
+
+    user_projects:list[RealDictRow]|None \
+            = await database.test.get_user_projects(user_email)
+    return JSONResponse(
+            status_code=200,
+            # 'jsonable_encoder' fixes problem when JSONResponse cant
+            # parse python datetime.date object into string.
+            content=jsonable_encoder(user_projects),
+            )
