@@ -155,8 +155,12 @@ def lab_start(lab_id:str):
                 )
 
     # Return project_id for lab
+    # lab_link:str = \
+    #         f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/{project_id}"
+    #TODO: return real labs.
+    project_id = "4d655bbb-13be-45c7-be74-9486db187e7f"
     lab_link:str = \
-            f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/{project_id}"
+            f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/4d655bbb-13be-45c7-be74-9486db187e7f"
 
     return {
         "lab_link": lab_link,

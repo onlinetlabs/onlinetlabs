@@ -8,20 +8,13 @@ CREATE TABLE users (
     last_seen DATE
 );
 
-CREATE TABLE tasks (
-    id SMALLSERIAL PRIMARY KEY,
-    max_score SMALLINT,
-    task TEXT,
-    answer TEXT,
-    max_attempts SMALLINT
-);
-
-CREATE TABLE labs (
-    id SMALLSERIAL PRIMARY KEY,
-    max_score SMALLINT,
-    task TEXT,
-    link TEXT,
-    max_attempts SMALLINT
+-- New projects table
+CREATE TABLE user_projects (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    lab_id VARCHAR(64),                     -- Stores lab name basicaly.
+    project_id VARCHAR(64),                 -- Stores python uuid.UUID strings like.
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE courses (
@@ -38,23 +31,12 @@ CREATE TABLE users_courses (
     user_score SMALLINT
 );
 
-CREATE TABLE courses_tasks (
-    id SMALLSERIAL PRIMARY KEY,
-    task_id SMALLINT REFERENCES tasks(id),
-    course_id SMALLINT REFERENCES courses(id)
-);
-
-CREATE TABLE courses_labs (
-    id SMALLSERIAL PRIMARY KEY,
-    lab_id SMALLINT REFERENCES labs(id),
-    course_id SMALLINT REFERENCES courses(id)
-);
-
 CREATE TABLE progress_tasks (
     id BIGSERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
     course_id SMALLINT REFERENCES courses(id),
-    task_id SMALLINT REFERENCES tasks(id),
+    --task_id SMALLINT REFERENCES tasks(id),
+    task_id VARCHAR(64),
     user_attempts SMALLINT,
     score SMALLINT
 );
@@ -62,8 +44,31 @@ CREATE TABLE progress_tasks (
 CREATE TABLE progress_labs (
     id BIGSERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
-    lab_id SMALLINT REFERENCES labs(id),
-    course_id SMALLINT REFERENCES courses(id),
+    --lab_id SMALLINT REFERENCES labs(id),
+    lab_id VARCHAR(64),
     user_attempts SMALLINT,
-    score SMALLINT
+    passed BOOLEAN,             -- Stores True/False
+    checklog JSONB  -- Stores lists/dictionaries with boolean values
+);
+
+
+-- CREATE DEMO USER WITH LAB
+
+INSERT INTO users (name, surname, email, password_hash, role, last_seen)
+VALUES (
+    'Ivan',
+    'Ivanov',
+    'example@mail.ru',
+    -- Always hash passwords in real applications! (That's the hash)
+    '$2b$12$vA3VQA8H.UcpFJ882cSgpephTF8rUg0RpxhuLrdOR3px92I6yNEsK',
+    'user',
+    CURRENT_DATE
+);
+
+-- Insert a project for the demo user
+INSERT INTO user_projects (user_id, lab_id, project_id)
+VALUES (
+    1,                          -- DEMO user ID
+    'routing-in-ip-networks',   -- Example lab ID (up to 64 chars)
+    '4d655bbb-13be-45c7-be74-9486db187e7f'  -- Project_id
 );
