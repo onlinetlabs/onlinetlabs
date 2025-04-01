@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 from typing             import List
 import telnetlib
-from uuid               import UUID
+from uuid               import UUID, uuid4
 
 # ------------------- #
 # Third party imports #
@@ -24,8 +24,9 @@ from requests.models import HTTPError
 # ------------- #
 # Local imports #
 
-from utils.auth.model       import PostSchema
+from utils.auth.model       import JWTPayloadSchema, PostSchema
 from utils.auth.auth_bearer import JWTBearer
+from utils.datastructures   import database
 
 from utils.labs_checker     import checkers
 
@@ -60,7 +61,7 @@ LAB_HOST = os.getenv('LAB_HOST')
 # FUNCTIONS #
 
 
-def gns3_user_get_token(port:int) -> str|None:
+def lab_user_get_token(port:int) -> str|None:
     """
     """
 
@@ -90,13 +91,14 @@ def gns3_user_get_token(port:int) -> str|None:
         return None
 
 
-def gns3_user_project_create(
+async def lab_user_project_create(
         token:str, port:int,
-        project_name:str,
+        lab_id:str, user_email:str,
         ) -> str|None:
     """
     """
 
+    project_name = lab_id + str( uuid4() )
     url = f"http://{LAB_HOST}:{port}/v3/projects"
     
     headers = {
@@ -111,10 +113,38 @@ def gns3_user_project_create(
     response = requests.post(url, headers=headers, json=payload)
     
     if response.ok:
-        response = response.json()["project_id"]
-        return response
+        project_id = response.json()["project_id"]
+        await database.lab.add_user_project(
+                user_email, lab_id, project_id)
+        return project_id
     else:
         return None
+
+
+# TODO: Finish func
+async def lab_check_project_exists(
+        token:str, port:int,
+        project_id:str,
+        ) -> bool:
+    """
+    """
+
+    url = f"http://{LAB_HOST}:{port}/v3/projects/{project_id}"
+    
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+    }
+    
+    response = requests.get(url, headers=headers, json=payload)
+    
+    if response.ok:
+        return True
+    else:
+        return False
 
 
 
@@ -128,39 +158,53 @@ def gns3_user_project_create(
 @app.post("/lab/start",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
-def lab_start(lab_id:str):
+async def lab_start(
+        lab_id:str,
+        payload:JWTPayloadSchema=Depends(JWTBearer()),
+        ):
     """
     - lab_id:
     """
-    
-    #TODO: check if the lab is already created
-    project_id:str|None = None
 
     #TODO: get port from DB
     user_port = 3080
+    
+    user_email = payload.email
 
-    if project_id is None:
-        # Get access_token for GNS3 API:
-        access_token = gns3_user_get_token(user_port)
-        if access_token is None:
-            # If GNS3 API credentials were incorrect:
-            raise HTTPException(
-                    status_code=401,
-                    detail="Cannot access lab server. Address admin.",
+    # Get access_token for GNS3 API:
+    access_token:str|None = lab_user_get_token(user_port)
+    if access_token is None:
+        raise HTTPException(
+                status_code=501,
+                detail="Cannot start lab: lab token error.",
+                )
+    
+    project_id:str|None = await database.lab.get_user_project(
+            user_email=user_email,
+            lab_id=lab_id,
+            )
+    if project_id is not None:
+        result:bool = await lab_check_project_exists(
+                access_token, user_port, project_id)
+        if not result:
+            project_id = await lab_user_project_create(
+                    access_token, user_port,
+                    lab_id, user_email,
                     )
 
-        project_id = gns3_user_project_create(
+    elif project_id is None:
+        project_id = await lab_user_project_create(
                 access_token, user_port,
-                lab_id,
+                lab_id, user_email,
                 )
 
     # Return project_id for lab
-    # lab_link:str = \
-    #         f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/{project_id}"
-    #TODO: return real labs.
-    project_id = "4d655bbb-13be-45c7-be74-9486db187e7f"
     lab_link:str = \
-            f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/4d655bbb-13be-45c7-be74-9486db187e7f"
+            f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/{project_id}"
+    ##TODO: return real labs.
+    #project_id = "4d655bbb-13be-45c7-be74-9486db187e7f"
+    #lab_link:str = \
+    #        f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/4d655bbb-13be-45c7-be74-9486db187e7f"
 
     return {
         "lab_link": lab_link,
@@ -183,7 +227,7 @@ async def lab_check(lab_id:str, project_id:str):
     user_port = 3080
 
     # Duplicate target lab
-    access_token = gns3_user_get_token(user_port)
+    access_token = lab_user_get_token(user_port)
     if access_token is None:
         # For some reasons GNS3 server credentials were incorrect
         raise HTTPException(
@@ -195,8 +239,7 @@ async def lab_check(lab_id:str, project_id:str):
         logs = {f"Project_id valid": False}
 
     else:
-        checker = checkers[lab_id](
-                lab_host, user_port)
+        checker = checkers[lab_id](lab_host, user_port)
         await checker.lab_perform_check(
                 access_token, project_id,
                 )
@@ -207,4 +250,63 @@ async def lab_check(lab_id:str, project_id:str):
     return {
         "passed": passed,
         "logs": logs,
+    }
+
+
+#TODO: create endpoint
+@app.post("/lab/delete",
+          dependencies=[Depends(JWTBearer())],
+          tags=TAGS)
+async def lab_delete(
+        lab_id:str,
+        payload:JWTPayloadSchema=Depends(JWTBearer()),
+        ):
+    """
+    - lab_id:
+    """
+
+    #TODO: get port from DB
+    user_port = 3080
+    
+    user_email = payload.email
+
+    # Get access_token for GNS3 API:
+    access_token:str|None = lab_user_get_token(user_port)
+    if access_token is None:
+        raise HTTPException(
+                status_code=501,
+                detail="Cannot start lab: lab token error.",
+                )
+    
+    project_id:str|None = await database.lab.get_user_project(
+            user_email=user_email,
+            lab_id=lab_id,
+            )
+    if project_id is not None:
+        result:bool = await lab_check_project_exists(
+                access_token, project_id)
+        if not result:
+            project_id = await lab_user_project_create(
+                    access_token, user_port,
+                    lab_id, user_email,
+                    )
+
+    elif project_id is None:
+        project_id = await lab_user_project_create(
+                access_token, user_port,
+                lab_id, user_email,
+                )
+
+    # Return project_id for lab
+    lab_link:str = \
+            f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/{project_id}"
+    ##TODO: return real labs.
+    #project_id = "4d655bbb-13be-45c7-be74-9486db187e7f"
+    #lab_link:str = \
+    #        f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/4d655bbb-13be-45c7-be74-9486db187e7f"
+
+    return {
+        "lab_link": lab_link,
+        "lab_project_id": project_id,
+        "lab_port": user_port,
     }

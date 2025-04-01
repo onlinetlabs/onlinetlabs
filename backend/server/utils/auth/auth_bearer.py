@@ -31,7 +31,6 @@ class JWTBearer(HTTPBearer):
             if not self.verify_jwt(jwt_payload):
                 raise HTTPException(status_code=403, detail="Invalid token or expired token.")
             # return credentials.credentials
-            print(f"[DEBUG] Returning jwt_payload:\n{jwt_payload}")
             return jwt_payload
         else:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
@@ -42,7 +41,6 @@ class JWTBearer(HTTPBearer):
         try:
             payload:JWTPayloadSchema|None = decodeJWT(jwtoken)
         except Exception as e:
-            print(f"[DEBUG] Exception:\n{e}")
             payload = None
 
         return payload
