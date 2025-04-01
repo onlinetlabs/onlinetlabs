@@ -13,12 +13,14 @@ from uuid               import UUID, uuid4
 
 from fastapi            import Depends
 from fastapi            import HTTPException, Body, Depends
+from fastapi.encoders   import jsonable_encoder
+from fastapi.responses  import JSONResponse
 
 # For gns3 project duplication
 import requests
 import json
 
-from requests.models import HTTPError
+from requests.models import HTTPError, Response
 
 
 # ------------- #
@@ -121,7 +123,28 @@ async def lab_user_project_create(
         return None
 
 
-# TODO: Finish func
+async def lab_user_project_delete(
+        token:str,
+        port:int,
+        project_id:str,
+        ) -> Response:
+    """
+    """
+
+    url = f"http://{LAB_HOST}:{port}/v3/projects/{project_id}"
+    
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+    }
+    
+    response = requests.delete(url, headers=headers, json=payload)
+    return response
+
+
 async def lab_check_project_exists(
         token:str, port:int,
         project_id:str,
@@ -253,12 +276,11 @@ async def lab_check(lab_id:str, project_id:str):
     }
 
 
-#TODO: create endpoint
 @app.post("/lab/delete",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_delete(
-        lab_id:str,
+        project_id:str,
         payload:JWTPayloadSchema=Depends(JWTBearer()),
         ):
     """
@@ -267,6 +289,7 @@ async def lab_delete(
 
     #TODO: get port from DB
     user_port = 3080
+    success = False
     
     user_email = payload.email
 
@@ -277,36 +300,13 @@ async def lab_delete(
                 status_code=501,
                 detail="Cannot start lab: lab token error.",
                 )
-    
-    project_id:str|None = await database.lab.get_user_project(
-            user_email=user_email,
-            lab_id=lab_id,
-            )
-    if project_id is not None:
-        result:bool = await lab_check_project_exists(
-                access_token, project_id)
-        if not result:
-            project_id = await lab_user_project_create(
-                    access_token, user_port,
-                    lab_id, user_email,
-                    )
 
-    elif project_id is None:
-        project_id = await lab_user_project_create(
-                access_token, user_port,
-                lab_id, user_email,
-                )
-
-    # Return project_id for lab
-    lab_link:str = \
-            f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/{project_id}"
-    ##TODO: return real labs.
-    #project_id = "4d655bbb-13be-45c7-be74-9486db187e7f"
-    #lab_link:str = \
-    #        f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/4d655bbb-13be-45c7-be74-9486db187e7f"
+    response:Response = await lab_user_project_delete(
+            access_token, user_port, project_id)
+    if response.ok:
+        await database.lab.del_user_project(user_email, project_id)
+        success = True
 
     return {
-        "lab_link": lab_link,
-        "lab_project_id": project_id,
-        "lab_port": user_port,
+            "success": success,
     }

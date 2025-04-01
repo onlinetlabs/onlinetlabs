@@ -103,7 +103,9 @@ class APILab(APIInterface):
         Add project for user.
         """
 
-        cmd = f"SELECT up.lab_id, up.project_id, up.created_at FROM user_projects up JOIN users u ON up.user_id = u.id WHERE u.email = '{user_email}';"
+        cmd = f"""
+        DELETE FROM user_projects WHERE project_id = '{project_id}'
+        """
         try:
             response = await self.query(cmd)
             # In case of success 'response' is None
