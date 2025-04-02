@@ -1,5 +1,5 @@
-import * as context from './context';
+import * as api from './api';
 
 export const labEntity = {
-  ...context,
+  ...api
 }

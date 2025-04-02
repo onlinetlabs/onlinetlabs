@@ -7,8 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@ui/card"
 import { labEntity } from "@entities/lab"
 
 export function ActiveCard() {
-  const { projectId } = labEntity.useLab();
-
   return (
     <Card className="relative flex w-full flex-col md:w-9/12">
       <CardHeader className="flex flex-row space-x-2 items-center">
@@ -33,7 +31,7 @@ export function ActiveCard() {
           <p className="text-sm font-medium">Успешные проверки (7/10)</p>
         </div>
         <Link
-          href={`/gns3/${projectId}`}
+          href={`/gns3/#`}
           className="text-ds-blue-900 decoration-chill ml-auto text-sm font-medium underline decoration-2 underline-offset-2"
         >
           <span className="absolute inset-0" aria-hidden={true} />
