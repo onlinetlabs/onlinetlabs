@@ -1,10 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-import { startLab } from "./api";
-import { setLabDataInLocalStorage } from "@entities/lab/context";
+import * as API from "./api";
 
 export const useMutateStart = () => {
   return useMutation({
-    mutationFn: startLab,
-    onSuccess: setLabDataInLocalStorage,
+    mutationFn: API.start,
+  });
+};
+
+export const useMutateCheck = () => {
+  return useMutation({
+    mutationFn: API.check,
   });
 };

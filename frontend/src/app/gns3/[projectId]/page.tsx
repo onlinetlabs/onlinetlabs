@@ -6,9 +6,17 @@ import Link from "next/link"
 import { unauthorized } from "next/navigation"
 import CredentialsInput from "./components/credentials-input"
 import { cn } from "@lib/utils"
-import AutoCheck from "./components/auto-check"
+import { TableChecks } from "./components/table"
+import { labEntity } from "@entities/lab"
 
 type Params = Promise<{ projectId: string }>
+
+export async function Table({ labId }: { labId: string }) {
+  const logs = await labEntity.getUserChecklogs({ lab_id: labId });
+  return (
+    <TableChecks data={logs} />
+  )
+}
 
 export default async function IndexPage({ params }: { params: Params }) {
   const session = await auth()
@@ -73,10 +81,13 @@ export default async function IndexPage({ params }: { params: Params }) {
             </div>
             <div className="md:ml-auto mt-auto flex items-center gap-x-3">
               <Button variant="destructive" className="w-full md:w-fit" disabled>
-                Завершить
+                Остановить
               </Button>
-              <Link className={cn(buttonVariants(), "w-full md:w-fit")} href={`/gns3-server/static/web-ui/controller/1/project/${projectId}`} target="_blank">
-                Открыть
+              <Button className="w-full md:w-fit">
+                Отправить
+              </Button>
+              <Link className={cn(buttonVariants({ variant: "link" }), "w-full md:w-fit")} href={`/gns3-server/static/web-ui/controller/1/project/${projectId}`} target="_blank">
+                Перейти
                 <SquareArrowOutUpRightIcon size={16} aria-hidden="true" />
               </Link>
             </div>
@@ -85,11 +96,11 @@ export default async function IndexPage({ params }: { params: Params }) {
       </div>
       <div>
         <div className="p-4 sm:p-6 lg:p-8">
-          <div>
+          <div className="flex flex-col gap-4 md:gap-6">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Проверки</h2>
             </div>
-            <AutoCheck />
+            <Table labId="routing-in-ip-networks" />
           </div>
         </div>
       </div>

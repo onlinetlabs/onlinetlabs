@@ -30,7 +30,7 @@ export const StartLab = ({ labId }: { labId: string }) => {
         return (
           <div className="flex items-center gap-6">
             <p className="text-xs">Лабораторная работа запущена</p>
-            <Link href={`/gns3/${data.labProjectId}`} className={buttonVariants({ size: "sm" })}>Перейти</Link>
+            <Link href={`/gns3/${data.labProjectId}`} onClick={() => toast.dismiss()} className={buttonVariants({ size: "sm" })}>Перейти</Link>
           </div>
         )
       },

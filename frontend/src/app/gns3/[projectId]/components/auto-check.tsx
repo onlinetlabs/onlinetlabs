@@ -1,5 +1,6 @@
+import { UserChecklog } from "@entities/lab/types";
 import { cn } from "@lib/utils";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, XIcon } from "lucide-react";
 
 const steps = [
   {
@@ -40,17 +41,11 @@ const steps = [
   },
 ];
 
-const details = [
-  { name: 'Name', value: 'test_workspace' },
-  { name: 'Storage used', value: '0.25/10GB' },
-  { name: 'Payment cycle', value: '1st day of month' },
-];
-
-export default function AutoCheck() {
+export default function AutoCheck({ logs }: { logs: UserChecklog['checklog'] }) {
   return (
-    <ul role="list" className="mt-6 space-y-6">
-      {steps.map((step, stepIdx) => (
-        <li key={step.id} className="relative flex gap-x-3">
+    <ul role="list" className="space-y-6">
+      {Object.entries(logs).map(([key, passed], stepIdx) => (
+        <li key={stepIdx} className="relative flex gap-x-3">
           <div
             className={cn(
               stepIdx === steps.length - 1 ? 'h-6' : '-bottom-6',
@@ -64,32 +59,27 @@ export default function AutoCheck() {
           </div>
           <div className="flex items-start space-x-2.5">
             <div className="relative flex size-6 flex-none items-center justify-center bg-background">
-              {step.type === 'done' ? (
+              {passed ? (
                 <CheckIcon
                   className="size-5 text-ds-blue-900"
                   aria-hidden={true}
                 />
-              ) : step.type === 'in progress' ? (
-                <div
-                  className="size-2.5 rounded-full bg-ds-blue-900 ring-4 ring-background"
-                  aria-hidden={true}
-                />
               ) : (
-                <div
-                  className="size-3 rounded-full border border-border bg-background ring-4 ring-background"
+                <XIcon
+                  className="size-5 text-ds-red-900"
                   aria-hidden={true}
                 />
               )}
             </div>
             <div>
               <p className="mt-0.5 text-sm font-medium text-foreground">
-                {step.title}{' '}
-                <span className="font-normal text-muted-foreground">
-                  &#8729; {step.activityTime}
-                </span>
+                {key}{' '}
+                {/* <span className="font-normal text-muted-foreground">
+                  &#8729; 3d ago
+                </span> */}
               </p>
               <p className="mt-0.5 text-sm/6 text-muted-foreground">
-                {step.description}
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
               </p>
             </div>
           </div>

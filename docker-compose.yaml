@@ -99,7 +99,13 @@ services:
     # network_mode: host
     ports:
       - 8000:80
-
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "1.0"  # Limit to 1 CPU core
+    #       memory: "1G"  # Limit memory to 1GB
+    cpu_shares: 1024  # Default priority
+    mem_limit: 1g
   #------------------------#
   #  CONTAINER | DATABASE  #
   #------------------------#
@@ -153,7 +159,13 @@ services:
     # own private network (which is the default behavior), but rather it
     # will use the host's network directly.
     # network_mode: host
-  
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "1.0"  # Limit to 1 CPU core
+    #       memory: "2G"  # Limit memory to 2GB
+    cpu_shares: 2048  # Higher priority under contention
+    mem_limit: 4g  
   
   #----------------------------------#
   #  CONTAINER | NETWORK LABORATORY  #
@@ -209,7 +221,16 @@ services:
     # will use the host's network directly.
     # network_mode: host
     privileged: true
-
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "0.5"  # Limit to 50% of a single CPU core
+    #       memory: "512M"  # Limit memory to 512MB
+    # Strict CPU limit (35% of a core) and moderate memory
+    cpu_period: 100000  # 100ms CPU period
+    cpu_quota: 35000    # 35ms per period → 35% CPU
+    mem_limit: 2g
+    
   # netlab_frontend:
   #   container_name: netlab_frontend
   #   build:
@@ -239,3 +260,11 @@ services:
       - netlab_lab  # Add this dependency
     # networks:
     #   - default  # Ensure shared network
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "0.5"  # Limit to 50% of a single CPU core
+    #       memory: "256M"  # Limit memory to 256MB
+    # Lower CPU priority and memory allocation
+    cpu_shares: 512   # Lower priority
+    mem_limit: 512m

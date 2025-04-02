@@ -14,7 +14,6 @@ import { Circle } from "@ui/circle"
 import { getLabBySlug } from "@lib/lab"
 import { getTableOfContents } from "@lib/toc"
 import { absoluteUrl } from "@lib/utils"
-import AuthProvider from "@providers/auth-provider"
 
 type Params = Promise<{ slug: string[] }>
 
@@ -86,9 +85,7 @@ export default async function CoursePage({ params }: { params: Params }) {
           <div className="no-scrollbar h-full pb-10">
             {lab.toc && (
               <DashboardTableOfContents toc={toc}>
-                <AuthProvider>
-                  <StartLab labId={lab.id} />
-                </AuthProvider>
+                <StartLab labId={lab.id} />
               </DashboardTableOfContents>
             )}
           </div>

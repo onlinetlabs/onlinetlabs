@@ -1,6 +1,5 @@
 import { Metadata } from "next"
 import Link from "next/link"
-import AuthProvider from "@/shared/providers/auth-provider"
 
 import { siteConfig } from "@shared/config/site"
 import { Icons } from "@components/icons"
@@ -26,9 +25,7 @@ export default async function LoginPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <AuthProvider>
-              <LoginForm />
-            </AuthProvider>
+            <LoginForm />
           </div>
         </div>
       </div>

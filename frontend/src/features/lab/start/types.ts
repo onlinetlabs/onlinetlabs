@@ -7,3 +7,19 @@ export type LabStart = {
 export type LabStartParams = {
   lab_id: string
 }
+
+
+export type LabCheckParams = {
+  labId: string;
+  projectId: string;
+}
+
+
+export type LabCheck = {
+  passed: boolean;
+  logs: {
+    [key: string]: boolean;
+  }
+  // private
+  stored: boolean;
+}

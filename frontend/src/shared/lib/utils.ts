@@ -28,3 +28,11 @@ export function slugify(str: string) {
     .replace(/[^\w\-]+/g, "") // Remove all non-word characters except for -
     .replace(/\-\-+/g, "-") // Replace multiple - with single -
 }
+
+
+// Utility function to generate query parameters
+export function generateQueryParams(params: Record<string, any>): string {
+  return Object.entries(params)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    .join("&");
+}

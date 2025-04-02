@@ -2,8 +2,6 @@ import Link from "next/link"
 import { siteConfig } from "@shared/config/site"
 import { Icons } from "@components/icons"
 import { Nav } from "./nav"
-import AuthProvider from "@providers/auth-provider"
-
 
 export function MainNav() {
   return (
@@ -15,9 +13,7 @@ export function MainNav() {
             {siteConfig.name}
           </span>
         </Link>
-        <AuthProvider>
-          <Nav />
-        </AuthProvider>
+        <Nav />
       </div>
     </>
   )

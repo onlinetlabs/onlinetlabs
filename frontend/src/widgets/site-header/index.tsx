@@ -1,4 +1,3 @@
-import AuthProvider from "@providers/auth-provider"
 import { CommandMenu } from "@components/command-menu"
 import { cn } from "@lib/utils"
 
@@ -19,9 +18,7 @@ export function SiteHeader({ sticky = true }: Props) {
         <MobileNav />
         <div className="flex flex-1 items-center justify-end gap-2">
           <CommandMenu />
-          <AuthProvider>
-            <Actions />
-          </AuthProvider>
+          <Actions />
         </div>
       </div>
     </header>

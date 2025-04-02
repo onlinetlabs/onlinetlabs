@@ -1,3 +1,4 @@
+import { AuthProvider } from "./auth-provider"
 import { QueryProvider } from "./query-provider"
 import { ThemeProvider } from "./theme-provider"
 
@@ -13,9 +14,11 @@ export const Providers = ({ children }: ProvidersProps) => {
       enableSystem
       disableTransitionOnChange
     >
-      <QueryProvider>
-        {children}
-      </QueryProvider>
+      <AuthProvider>
+        <QueryProvider>
+          {children}
+        </QueryProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }

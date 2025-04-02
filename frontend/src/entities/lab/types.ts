@@ -9,5 +9,12 @@ export type UserChecklogsParams = {
 }
 
 export type UserChecklog = {
-
+  labId: string;
+  passed: boolean;
+  checklog: {
+    [key: string]: boolean;
+  }
+  createdAt: string;
+  // private
+  stored: boolean;
 }
