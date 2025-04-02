@@ -289,7 +289,7 @@ async def lab_check(
     }
 
 
-@app.post("/lab/delete",
+@app.post("/api/lab/delete",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_delete(
@@ -325,7 +325,7 @@ async def lab_delete(
     }
 
 
-@app.get("/lab/get_user_projects",
+@app.get("/api/lab/get_user_projects",
          dependencies=[Depends(JWTBearer())],
          tags=TAGS)
 async def get_user_projects(
@@ -349,7 +349,7 @@ async def get_user_projects(
             )
 
 
-@app.get("/lab/get_user_checklogs",
+@app.get("/api/lab/get_user_checklogs",
          dependencies=[Depends(JWTBearer())],
          tags=TAGS)
 async def get_user_checklogs(

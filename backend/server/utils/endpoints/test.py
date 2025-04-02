@@ -59,7 +59,7 @@ TAGS:List = [
 
 # DATABASE TEST
 
-@app.get("/database/get_all_users", tags=TAGS)
+@app.get("/api/database/get_all_users", tags=TAGS)
 async def get_all_users():
     users:list[RealDictRow] | None = await database.test.get_all_users()
     return JSONResponse(
@@ -70,7 +70,7 @@ async def get_all_users():
             )
 
 
-@app.get("/database/get_user_projects",
+@app.get("/api/database/get_user_projects",
          dependencies=[Depends(JWTBearer())],
          tags=TAGS)
 async def get_user_projects(
@@ -97,7 +97,7 @@ async def get_user_projects(
             )
 
 
-@app.get("/database/add_user_checklog",
+@app.get("/api/database/add_user_checklog",
          dependencies=[Depends(JWTBearer())],
          tags=TAGS)
 async def lab_add_checklog(
@@ -133,7 +133,7 @@ async def lab_add_checklog(
             )
 
 
-@app.get("/database/get_user_checklogs",
+@app.get("/api/database/get_user_checklogs",
          dependencies=[Depends(JWTBearer())],
          tags=TAGS)
 async def get_user_checklogs(
