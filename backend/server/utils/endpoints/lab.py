@@ -241,15 +241,20 @@ async def lab_start(
 @app.post("/lab/check",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
-async def lab_check(lab_id:str, project_id:str):
+async def lab_check(
+        lab_id:str,
+        project_id:str,
+        payload:JWTPayloadSchema=Depends(JWTBearer()),
+        ):
     """
     """
 
     #TODO: lab_host
     lab_host = "127.0.0.1"
-
     #TODO: get port from DB
     user_port = 3080
+
+    user_email:str = payload.email
 
     # Duplicate target lab
     access_token = lab_user_get_token(user_port)
@@ -272,9 +277,15 @@ async def lab_check(lab_id:str, project_id:str):
 
     passed = all(check for check in logs.values())
 
+    #TODO: process storage results
+    # Store check results in DB for that user:
+    result:bool = await database.lab.add_user_checklog(
+            user_email, lab_id, passed, logs)
+
     return {
         "passed": passed,
         "logs": logs,
+        "stored": result
     }
 
 
@@ -335,4 +346,31 @@ async def get_user_projects(
             # 'jsonable_encoder' fixes problem when JSONResponse cant
             # parse python datetime.date object into string.
             content=jsonable_encoder(user_projects),
+            )
+
+
+@app.get("/lab/get_user_checklogs",
+         dependencies=[Depends(JWTBearer())],
+         tags=TAGS)
+async def get_user_checklogs(
+        lab_id:str,
+        payload:JWTPayloadSchema=Depends(JWTBearer()),
+        ):
+
+    user_email:str = payload.email
+
+    if payload is None:
+        # Invalid or expired token.
+        raise HTTPException(
+                status_code=403, detail="Invalid or expired token.")
+
+
+    result:list[RealDictRow]|None = await database.lab.get_user_checklogs(
+            user_email, lab_id)
+
+    return JSONResponse(
+            status_code=200,
+            # 'jsonable_encoder' fixes problem when JSONResponse cant
+            # parse python datetime.date object into string.
+            content=jsonable_encoder(result),
             )

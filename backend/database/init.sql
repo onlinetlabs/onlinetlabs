@@ -46,9 +46,9 @@ CREATE TABLE progress_labs (
     user_id INTEGER REFERENCES users(id),
     --lab_id SMALLINT REFERENCES labs(id),
     lab_id VARCHAR(64),
-    user_attempts SMALLINT,
-    passed BOOLEAN,             -- Stores True/False
-    checklog JSONB  -- Stores lists/dictionaries with boolean values
+    passed BOOLEAN,         -- Stores True/False
+    checklog JSONB,         -- Stores lists/dictionaries with boolean values
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
 

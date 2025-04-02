@@ -95,3 +95,66 @@ async def get_user_projects(
             # parse python datetime.date object into string.
             content=jsonable_encoder(user_projects),
             )
+
+
+@app.get("/database/add_user_checklog",
+         dependencies=[Depends(JWTBearer())],
+         tags=TAGS)
+async def lab_add_checklog(
+        lab_id:str,
+        payload:JWTPayloadSchema=Depends(JWTBearer()),
+        ):
+
+    user_email:str = payload.email
+
+    if payload is None:
+        # Invalid or expired token.
+        raise HTTPException(
+                status_code=403, detail="Invalid or expired token.")
+
+    # user_projects:list[RealDictRow]|None \
+    #         = await database.test.get_user_projects(user_email)
+
+    passed = True
+    checklog = {
+            "First":True,
+            "Second":True,
+            "Third":True,
+            }
+
+    result:bool = await database.lab.add_user_checklog(
+            user_email, lab_id, passed, checklog)
+
+    return JSONResponse(
+            status_code=200,
+            # 'jsonable_encoder' fixes problem when JSONResponse cant
+            # parse python datetime.date object into string.
+            content=jsonable_encoder(result),
+            )
+
+
+@app.get("/database/get_user_checklogs",
+         dependencies=[Depends(JWTBearer())],
+         tags=TAGS)
+async def get_user_checklogs(
+        lab_id:str,
+        payload:JWTPayloadSchema=Depends(JWTBearer()),
+        ):
+
+    user_email:str = payload.email
+
+    if payload is None:
+        # Invalid or expired token.
+        raise HTTPException(
+                status_code=403, detail="Invalid or expired token.")
+
+
+    result:list[RealDictRow]|None = await database.lab.get_user_checklogs(
+            user_email, lab_id)
+
+    return JSONResponse(
+            status_code=200,
+            # 'jsonable_encoder' fixes problem when JSONResponse cant
+            # parse python datetime.date object into string.
+            content=jsonable_encoder(result),
+            )
