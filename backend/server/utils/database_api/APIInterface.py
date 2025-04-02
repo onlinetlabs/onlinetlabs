@@ -100,27 +100,27 @@ class APIInterface:
         # If parameter not given in constructor -
         # Retreive it from ENV:
         # DB_NAME
-        if not db_name:
+        if db_name is None:
             self.DB_NAME = os.getenv('POSTGRES_DB')
         else:
             self.DB_NAME = db_name
         # DB_USER
-        if not db_user:
+        if db_user is None:
             self.DB_USER = os.getenv('POSTGRES_USER')
         else:
             self.DB_USER = db_user
         # DB_PASSWORD
-        if not db_pass:
+        if db_pass is None:
             self.DB_PASS = os.getenv('POSTGRES_PASSWORD')
         else:
             self.DB_PASS = db_pass
         # DB_HOST
-        if not db_host:
+        if db_host is None:
             self.DB_HOST = os.getenv('POSTGRES_HOST')
         else:
             self.DB_HOST = db_host
         # DB_PORT
-        if not db_port:
+        if db_port is None:
             self.DB_PORT = os.getenv('POSTGRES_PORT')
         else:
             self.DB_PORT = db_port

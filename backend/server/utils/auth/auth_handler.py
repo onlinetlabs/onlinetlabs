@@ -54,7 +54,7 @@ def signJWT(user_email: str, ttl: int) -> str:
     return token
 
 
-def decodeJWT(token: str) -> dict|None:
+def decodeJWT(token: str) -> JWTPayloadSchema|None:
     """
         The decodeJWT function is used to verify and decode a given JWT.
         It checks if the token is valid and not expired, returning the
@@ -67,7 +67,9 @@ def decodeJWT(token: str) -> dict|None:
     try:
         decoded_token = jwt.decode(
                 token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-        return decoded_token if decoded_token["expires"] > time.time() else None
+        decoded_token = JWTPayloadSchema(**decoded_token)
+        # return decoded_token if decoded_token["expires"] > time.time() else None
+        return decoded_token if decoded_token.expires > time.time() else None
     except Exception as e:
         logger.core.error(f"Cant decode JWT:\n{token}.\nGot exception:\n{e}")
         return None
