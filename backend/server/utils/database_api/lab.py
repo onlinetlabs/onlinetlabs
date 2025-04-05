@@ -55,7 +55,7 @@ class APILab(APIInterface):
             lab_id:str,
             ) -> str|None:
         """
-        Get user project by lab_id. If absent - return None
+        Get user project_id by lab_id. If absent - return None
         """
 
         cmd = f"""
@@ -66,6 +66,25 @@ class APILab(APIInterface):
         response = await self.query(cmd)
         if response is not None and len(response) > 0:
             return response[0]["project_id"]
+        return None
+
+
+    async def get_user_labid(
+            self, user_email:str,
+            project_id:str,
+            ) -> str|None:
+        """
+        Get user lab_id by project_id. If absent - return None
+        """
+
+        cmd = f"""
+        SELECT up.lab_id, up.project_id, up.created_at
+        FROM user_projects up JOIN users u ON up.user_id = u.id
+        WHERE u.email = '{user_email}' AND up.project_id = '{project_id}';
+        """
+        response = await self.query(cmd)
+        if response is not None and len(response) > 0:
+            return response[0]["lab_id"]
         return None
 
 

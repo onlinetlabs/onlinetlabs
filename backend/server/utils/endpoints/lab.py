@@ -242,7 +242,6 @@ async def lab_start(
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_check(
-        lab_id:str,
         project_id:str,
         payload:JWTPayloadSchema=Depends(JWTBearer()),
         ):
@@ -263,6 +262,14 @@ async def lab_check(
         raise HTTPException(
                 status_code=401,
                 detail="Cannot access lab server. Address admin.",
+                )
+
+    lab_id:str|None = await database.lab.get_user_labid(
+            user_email, project_id)
+    if lab_id is None:
+        raise HTTPException(
+                status_code=400,
+                detail="Provided project_id doesnt exist.",
                 )
 
     if not lab_id in checkers:
@@ -353,7 +360,7 @@ async def get_user_projects(
          dependencies=[Depends(JWTBearer())],
          tags=TAGS)
 async def get_user_checklogs(
-        lab_id:str,
+        project_id:str,
         payload:JWTPayloadSchema=Depends(JWTBearer()),
         ):
 
@@ -364,6 +371,14 @@ async def get_user_checklogs(
         raise HTTPException(
                 status_code=403, detail="Invalid or expired token.")
 
+
+    lab_id:str|None = await database.lab.get_user_labid(
+            user_email, project_id)
+    if lab_id is None:
+        raise HTTPException(
+                status_code=400,
+                detail="Provided project_id doesnt exist.",
+                )
 
     result:list[RealDictRow]|None = await database.lab.get_user_checklogs(
             user_email, lab_id)
