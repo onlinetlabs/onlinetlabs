@@ -10,7 +10,6 @@ export type LabStartParams = {
 
 
 export type LabCheckParams = {
-  labId: string;
   projectId: string;
 }
 

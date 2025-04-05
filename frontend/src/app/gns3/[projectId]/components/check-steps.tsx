@@ -1,4 +1,4 @@
-import { UserChecklog } from "@entities/lab/types";
+import type { UserChecklog } from "@entities/lab";
 import { cn } from "@lib/utils";
 import { CheckIcon, XIcon } from "lucide-react";
 
@@ -41,7 +41,7 @@ const steps = [
   },
 ];
 
-export default function AutoCheck({ logs }: { logs: UserChecklog['checklog'] }) {
+export function CheckSteps({ logs }: { logs: UserChecklog['checklog'] }) {
   return (
     <ul role="list" className="space-y-6">
       {Object.entries(logs).map(([key, passed], stepIdx) => (

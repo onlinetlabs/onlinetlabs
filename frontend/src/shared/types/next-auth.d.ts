@@ -11,13 +11,13 @@ declare module "next-auth" {
 
   interface Session {
     user: DefaultSession["user"]
-    accessToken: string
-    refreshToken: string
+    token: JWT | undefined;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
+    expiresAt: number;
     accessToken: string
     refreshToken: string
   }

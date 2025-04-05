@@ -1,15 +1,14 @@
-import { auth } from "@auth"
+import { auth } from "auth";
 
 const authRoutes = ["/login", "/signup"];
 
 export default auth((req) => {
   const path = req.nextUrl.pathname;
-  const isPublicRoute = authRoutes.includes(path);
+  const isAuthRoute = authRoutes.includes(path);
   const isAuthenticated = req.auth;
 
-  if (isAuthenticated && isPublicRoute) {
-    const newUrl = new URL("/", req.nextUrl.origin)
-    return Response.redirect(newUrl)
+  if (isAuthenticated && isAuthRoute) {
+    return Response.redirect(new URL("/", req.nextUrl.origin))
   }
 })
 
@@ -25,3 +24,4 @@ export const config = {
     "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 }
+// export { auth as middleware } from "auth"

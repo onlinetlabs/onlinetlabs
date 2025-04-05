@@ -2,8 +2,8 @@ import { CommandMenu } from "@components/command-menu"
 import { cn } from "@lib/utils"
 
 import { Actions } from "./actions"
-import { MainNav } from "./main-nav"
 import { MobileNav } from "./mobile-nav"
+import { MainNav } from "./main-nav"
 
 export function SiteHeader({ sticky = true }: Props) {
   return (
@@ -18,7 +18,7 @@ export function SiteHeader({ sticky = true }: Props) {
         <MobileNav />
         <div className="flex flex-1 items-center justify-end gap-2">
           <CommandMenu />
-          <Actions />
+            <Actions />
         </div>
       </div>
     </header>

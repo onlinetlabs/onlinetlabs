@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { signIn } from "@auth/helpers"
+import { signIn } from "@features/auth/helpers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -21,7 +21,7 @@ import {
 import { Input } from "@ui/input"
 import { Label } from "@ui/label"
 import { cn } from "@lib/utils"
-import { signUp } from "@features/auth"
+import { signup } from "@features/auth"
 
 const formSchema = z.object({
   email: z.string().email({ message: "Введите корректную почту" }),
@@ -41,7 +41,7 @@ export function SignUpForm({
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { accessToken, refreshToken } = await signUp(values)
+    const { accessToken, refreshToken } = await signup(values)
     await signIn("credentials", { accessToken, refreshToken, redirectTo: "/" })
   }
 

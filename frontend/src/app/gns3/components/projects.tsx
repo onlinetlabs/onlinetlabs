@@ -1,4 +1,7 @@
-import { labEntity } from "@entities/lab"
+'use client'
+
+import { projectsOptions } from "@entities/lab"
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   Accordion,
   AccordionContent,
@@ -38,8 +41,11 @@ function ContentPlaceholder() {
   )
 }
 
-export async function Projects() {
-  const projects = await labEntity.getUserProjects();
+export function Projects() {
+  const { data: projects } = useSuspenseQuery({
+    ...projectsOptions,
+    initialData: []
+  });
 
   return (
     <Accordion type="multiple" className="mt-6">

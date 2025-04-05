@@ -1,4 +1,4 @@
-import { auth } from "@auth"
+import { auth } from "auth"
 import { Button, buttonVariants } from "@ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/card"
 import { BookOpenIcon, SquareArrowOutUpRightIcon } from "lucide-react"
@@ -6,17 +6,13 @@ import Link from "next/link"
 import { unauthorized } from "next/navigation"
 import CredentialsInput from "./components/credentials-input"
 import { cn } from "@lib/utils"
-import { TableChecks } from "./components/table"
-import { labEntity } from "@entities/lab"
+import { ChecksTable } from "./components/check-table"
+import { CheckLabButton } from "@features/lab"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
+import { checksOptions } from "@entities/lab"
+import { getQueryClient } from "@lib/get-query-client"
 
 type Params = Promise<{ projectId: string }>
-
-export async function Table({ labId }: { labId: string }) {
-  const logs = await labEntity.getUserChecklogs({ lab_id: labId });
-  return (
-    <TableChecks data={logs} />
-  )
-}
 
 export default async function IndexPage({ params }: { params: Params }) {
   const session = await auth()
@@ -25,7 +21,11 @@ export default async function IndexPage({ params }: { params: Params }) {
     unauthorized()
   }
 
-  const projectId = (await params).projectId
+  const projectId = (await params).projectId;
+
+  const queryClient = getQueryClient()
+
+  queryClient.prefetchQuery(checksOptions(projectId))
 
   return (
     <>
@@ -83,11 +83,12 @@ export default async function IndexPage({ params }: { params: Params }) {
               <Button variant="destructive" className="w-full md:w-fit" disabled>
                 Остановить
               </Button>
-              <Button className="w-full md:w-fit">
-                Отправить
-              </Button>
-              <Link className={cn(buttonVariants({ variant: "link" }), "w-full md:w-fit")} href={`/gns3-server/static/web-ui/controller/1/project/${projectId}`} target="_blank">
+              <CheckLabButton className="w-full md:w-fit" projectId={projectId} />
+              <Link className={cn(buttonVariants({ variant: "link" }), "hidden md:flex")} href={`/gns3-server/static/web-ui/controller/1/project/${projectId}`} target="_blank">
                 Перейти
+                <SquareArrowOutUpRightIcon size={16} aria-hidden="true" />
+              </Link>
+              <Link className={cn(buttonVariants({ variant: "outline", size: "icon" }), "hidden sm:flex md:hidden shrink-0")} href={`/gns3-server/static/web-ui/controller/1/project/${projectId}`} target="_blank">
                 <SquareArrowOutUpRightIcon size={16} aria-hidden="true" />
               </Link>
             </div>
@@ -100,7 +101,9 @@ export default async function IndexPage({ params }: { params: Params }) {
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Проверки</h2>
             </div>
-            <Table labId="routing-in-ip-networks" />
+            <HydrationBoundary state={dehydrate(queryClient)}>
+              <ChecksTable projectId={projectId} />
+            </HydrationBoundary>
           </div>
         </div>
       </div>

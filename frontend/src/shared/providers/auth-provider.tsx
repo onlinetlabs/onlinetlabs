@@ -1,20 +1,8 @@
-import { auth } from "@auth"
-import { BASE_PATH } from "@auth/config"
 import { SessionProvider } from "next-auth/react"
 
-export async function AuthProvider({ children }: Props) {
-  const session = await auth()
-  if (session && session.user) {
-    session.user = {
-      name: session.user.name,
-      email: session.user.email,
-      accessToken: session.user.accessToken,
-      refreshToken: session.user.refreshToken,
-    }
-  }
-
+export function AuthProvider({ children }: Props) {
   return (
-    <SessionProvider basePath={BASE_PATH} session={session}>
+    <SessionProvider basePath="/auth">
       {children}
     </SessionProvider>
   )

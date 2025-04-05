@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from "@auth";
+import { auth } from "auth";
 import { LabCheck, LabCheckParams, LabStart, LabStartParams } from "./types";
 import { generateQueryParams } from "@lib/utils";
 
@@ -11,7 +11,7 @@ export async function start(params: LabStartParams) {
   const response = await fetch(`${process.env.API_URL}/api/lab/start?${queryParams}`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${session?.accessToken}`,
+      Authorization: `Bearer ${session?.token?.accessToken}`,
       "Content-Type": "application/json",
     },
   });
@@ -32,7 +32,7 @@ export async function check(params: ApiMapping<LabCheckParams>) {
   const response = await fetch(`${process.env.API_URL}/api/lab/check?${queryParams}`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${session?.accessToken}`,
+      Authorization: `Bearer ${session?.token?.accessToken}`,
       "Content-Type": "application/json",
     },
   });

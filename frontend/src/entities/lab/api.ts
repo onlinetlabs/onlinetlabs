@@ -1,8 +1,8 @@
 'use server';
 
-import { auth } from "@auth";
-import { UserChecklog, UserChecklogsParams, UserProject } from "./types";
+import { auth } from "auth";
 import { generateQueryParams } from "@lib/utils";
+import { UserChecklog, UserChecklogsParams, UserProject } from "./types";
 
 export async function getUserProjects() {
   const session = await auth();
@@ -10,7 +10,7 @@ export async function getUserProjects() {
   const response = await fetch(`${process.env.API_URL}/api/lab/get_user_projects`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${session?.accessToken}`,
+      Authorization: `Bearer ${session?.token?.accessToken}`,
       "Content-Type": "application/json",
     },
   })
@@ -23,6 +23,7 @@ export async function getUserProjects() {
     createdAt: item.created_at,
   }));
 
+
   return result;
 }
 
@@ -33,7 +34,7 @@ export async function getUserChecklogs(params: UserChecklogsParams) {
   const response = await fetch(`${process.env.API_URL}/api/lab/get_user_checklogs?${queryParams}`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${session?.accessToken}`,
+      Authorization: `Bearer ${session?.token?.accessToken}`,
       "Content-Type": "application/json",
     },
   });

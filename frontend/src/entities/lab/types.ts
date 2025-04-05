@@ -1,3 +1,4 @@
+
 export type UserProject = {
   labId: string;
   projectId: string;
@@ -5,7 +6,7 @@ export type UserProject = {
 }
 
 export type UserChecklogsParams = {
-  lab_id: string;
+  project_id: string;
 }
 
 export type UserChecklog = {

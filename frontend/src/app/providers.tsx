@@ -1,6 +1,5 @@
-import { AuthProvider } from "./auth-provider"
-import { QueryProvider } from "./query-provider"
-import { ThemeProvider } from "./theme-provider"
+import { QueryProvider } from "@providers/query-provider"
+import { ThemeProvider } from "@providers/theme-provider"
 
 type ProvidersProps = {
   children: React.ReactNode
@@ -14,11 +13,9 @@ export const Providers = ({ children }: ProvidersProps) => {
       enableSystem
       disableTransitionOnChange
     >
-      <AuthProvider>
-        <QueryProvider>
-          {children}
-        </QueryProvider>
-      </AuthProvider>
+      <QueryProvider>
+        {children}
+      </QueryProvider>
     </ThemeProvider>
   )
 }

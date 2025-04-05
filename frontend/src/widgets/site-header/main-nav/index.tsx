@@ -1,9 +1,12 @@
 import Link from "next/link"
 import { siteConfig } from "@shared/config/site"
 import { Icons } from "@components/icons"
-import { Nav } from "./nav"
+import { auth } from "auth"
+import { Nav } from "./nav";
 
-export function MainNav() {
+export async function MainNav() {
+  const session = await auth();
+
   return (
     <>
       <div className="mr-4 hidden md:flex">
@@ -13,7 +16,7 @@ export function MainNav() {
             {siteConfig.name}
           </span>
         </Link>
-        <Nav />
+        <Nav authenticated={!!session?.user} />
       </div>
     </>
   )

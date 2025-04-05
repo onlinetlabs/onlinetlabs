@@ -1,20 +1,18 @@
 "use client"
 
-import { Fragment, useEffect, useState } from "react"
+import { Fragment } from "react"
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   getExpandedRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { AlertTriangleIcon, CheckCircle2Icon, ChevronDownIcon, ChevronUpIcon, InfoIcon } from "lucide-react"
+import { AlertTriangleIcon, CheckCircle2Icon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
-import { cn } from "@lib/utils"
-import { Badge } from "@ui/badge"
 import { Button } from "@ui/button"
-import { Checkbox } from "@ui/checkbox"
-import { format, parse } from 'date-fns'
+import { format } from 'date-fns'
 import {
   Table,
   TableBody,
@@ -23,8 +21,9 @@ import {
   TableHeader,
   TableRow,
 } from "@ui/table"
-import { UserChecklog } from "@entities/lab/types"
-import AutoCheck from "./auto-check"
+import { checksOptions, type UserChecklog } from "@entities/lab"
+import { CheckSteps } from "./check-steps"
+import { useSuspenseQuery } from "@tanstack/react-query"
 
 const columns: ColumnDef<UserChecklog>[] = [
   {
@@ -107,7 +106,12 @@ const columns: ColumnDef<UserChecklog>[] = [
   }
 ]
 
-export function TableChecks({ data }: { data: UserChecklog[] }) {
+export function ChecksTable({ projectId }: { projectId: string }) {
+  const { data } = useSuspenseQuery({
+    ...checksOptions(projectId),
+    initialData: []
+  });
+
   const table = useReactTable({
     data,
     columns,
@@ -115,10 +119,17 @@ export function TableChecks({ data }: { data: UserChecklog[] }) {
       columnVisibility: {
         checklog: false
       },
+      sorting: [
+        {
+          id: "createdAt",
+          desc: true,
+        }
+      ]
     },
     getRowCanExpand: () => true,
     getCoreRowModel: getCoreRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
+    getSortedRowModel: getSortedRowModel()
   })
 
   return (
@@ -168,7 +179,7 @@ export function TableChecks({ data }: { data: UserChecklog[] }) {
                   <TableRow className="pointer-events-none">
                     <TableCell colSpan={row.getVisibleCells().length}>
                       <div className="text-primary/80 flex items-start py-2">
-                        <AutoCheck logs={row.getValue("checklog")} />
+                        <CheckSteps logs={row.getValue("checklog")} />
                       </div>
                     </TableCell>
                   </TableRow>

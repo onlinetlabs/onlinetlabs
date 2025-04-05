@@ -1,16 +1,23 @@
 import { BookOpenIcon } from "lucide-react"
 import { Card } from "@ui/card"
 import { ActiveCard } from "./components/active-card"
-import { auth } from "@auth"
+import { auth } from "auth"
 import { unauthorized } from "next/navigation"
 import { Suspense } from "react"
 import { Projects } from "./components/projects"
+import { getQueryClient } from "@lib/get-query-client"
+import { projectsOptions } from "@entities/lab"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 
 export default async function IndexPage() {
   const session = await auth()
   if (!session) {
     unauthorized()
   }
+
+  const queryClient = getQueryClient()
+
+  queryClient.prefetchQuery(projectsOptions)
 
   return (
     <>
@@ -50,9 +57,9 @@ export default async function IndexPage() {
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Ваши работы</h2>
             </div>
-            <Suspense fallback={<div>Loading...</div>}>
+            <HydrationBoundary state={dehydrate(queryClient)}>
               <Projects />
-            </Suspense>
+            </HydrationBoundary>
           </div>
         </div>
       </div>

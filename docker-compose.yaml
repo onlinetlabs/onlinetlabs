@@ -228,7 +228,7 @@ services:
     #       memory: "512M"  # Limit memory to 512MB
     # Strict CPU limit (35% of a core) and moderate memory
     cpu_period: 100000  # 100ms CPU period
-    cpu_quota: 35000    # 35ms per period → 35% CPU
+    cpu_quota: 75000    # 35ms per period → 35% CPU
     mem_limit: 2g
     
   # netlab_frontend:

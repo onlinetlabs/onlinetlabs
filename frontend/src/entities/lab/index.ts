@@ -1,5 +1,2 @@
-import * as api from './api';
-
-export const labEntity = {
-  ...api
-}
+export * from './query';
+export * from './types';

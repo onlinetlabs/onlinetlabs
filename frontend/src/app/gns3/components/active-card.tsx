@@ -4,7 +4,6 @@ import Link from "next/link"
 
 import { ProgressCircle } from "@components/progress-circle"
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card"
-import { labEntity } from "@entities/lab"
 
 export function ActiveCard() {
   return (
