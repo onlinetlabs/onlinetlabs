@@ -41,7 +41,7 @@ export const RingProgress = ({ namespace, className }: Props) => {
           gridType="circle"
           radialLines={false}
           stroke="none"
-          className="first:fill-muted last:fill-background"
+          className="first:fill-muted last:fill-background-100"
           polarRadius={[16, 12]}
         />
         <RadialBar dataKey="value" background cornerRadius={10} />

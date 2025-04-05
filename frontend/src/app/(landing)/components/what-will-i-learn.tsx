@@ -27,7 +27,7 @@ export const WhatWillILearn = () => {
                 <div className="mb-2 flex items-center">
                   <Circle
                     variant="subtle-blue"
-                    className="group-hover:bg-foreground group-hover:text-background mr-2 h-8 w-8 text-sm font-bold"
+                    className="group-hover:bg-foreground group-hover:text-background-100 mr-2 h-8 w-8 text-sm font-bold"
                   >
                     <SparkleIcon className="block h-4 w-4 group-hover:hidden" />
                     <ArrowUpRightIcon className="hidden h-4 w-4 group-hover:block" />

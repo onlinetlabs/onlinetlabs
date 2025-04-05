@@ -20,7 +20,7 @@ import { useMutateStart } from "../query"
 export function StartLabButton({ labId }: { labId: string }) {
   const { mutateAsync, isPending } = useMutateStart()
 
-  const onClickStart = () => {
+  const onClick = () => {
     toast.promise(mutateAsync({ lab_id: labId }), {
       loading: "Запуск лабораторной работы...",
       success: (data) => {
@@ -57,7 +57,7 @@ export function StartLabButton({ labId }: { labId: string }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Отмена</AlertDialogCancel>
-          <AlertDialogAction onClick={onClickStart} disabled={isPending}>
+          <AlertDialogAction onClick={onClick} disabled={isPending}>
             Продолжить
           </AlertDialogAction>
         </AlertDialogFooter>

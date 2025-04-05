@@ -93,7 +93,7 @@ const columns: ColumnDef<UserChecklog>[] = [
       const createdAt = row.getValue("createdAt") as string;
       return (
         <span>
-          {format(new Date(createdAt), "dd.MM.yyyy HH:mm")}
+          {format(new Date(createdAt), "dd.MM.yyyy HH:mm:ss")}
         </span>
       );
     },
@@ -133,7 +133,7 @@ export function ChecksTable({ projectId }: { projectId: string }) {
   })
 
   return (
-    <div className="flex flex-col overflow-auto bg-background rounded-md border">
+    <div className="flex flex-col overflow-auto bg-background-100 rounded-md border">
       <Table className="w-full" style={{ minWidth: table.getCenterTotalSize() }}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

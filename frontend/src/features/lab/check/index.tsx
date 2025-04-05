@@ -4,9 +4,9 @@ import { Button } from "@ui/button"
 import { toast } from "sonner"
 import { useMutateCheck } from "../query"
 
+
 export function CheckLabButton({ projectId, ...props }: Props) {
   const { mutateAsync, isPending } = useMutateCheck()
-
   const onClickStart = async () => {
     const toastId = toast.loading("Проверяем работу...")
     

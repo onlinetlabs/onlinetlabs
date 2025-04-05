@@ -40,7 +40,7 @@ export const CourseCompletion = ({
         {type !== "start" && (
           <Circle
             variant="blue"
-            className="border-background absolute right-0 bottom-0 h-8 w-8 translate-x-[6px] translate-y-[6px] border-[3px] md:h-10 md:w-10"
+            className="border-background-100 absolute right-0 bottom-0 h-8 w-8 translate-x-[6px] translate-y-[6px] border-[3px] md:h-10 md:w-10"
           >
             <CheckIcon className="h-5 w-5" />
           </Circle>

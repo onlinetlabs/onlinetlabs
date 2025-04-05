@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from "auth";
-import { LabCheck, LabCheckParams, LabStart, LabStartParams } from "./types";
+import { LabCheck, LabCheckParams, LabDeleteParams, LabStart, LabStartParams } from "./types";
 import { generateQueryParams } from "@lib/utils";
 
 export async function start(params: LabStartParams) {
@@ -38,6 +38,24 @@ export async function check(params: ApiMapping<LabCheckParams>) {
   });
 
   const data = (await response.json()) as LabCheck;
+
+  return data;
+}
+
+export async function remove(params: ApiMapping<LabDeleteParams>) {
+  const session = await auth();
+
+  const queryParams = generateQueryParams(params);
+  const response = await fetch(`${process.env.API_URL}/api/lab/delete?${queryParams}`, {
+    // TODO: use DELETE method
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${session?.token?.accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = (await response.json()) as { success: boolean };
 
   return data;
 }

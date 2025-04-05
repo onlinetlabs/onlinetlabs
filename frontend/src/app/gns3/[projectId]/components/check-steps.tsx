@@ -58,7 +58,7 @@ export function CheckSteps({ logs }: { logs: UserChecklog['checklog'] }) {
             />
           </div>
           <div className="flex items-start space-x-2.5">
-            <div className="relative flex size-6 flex-none items-center justify-center bg-background">
+            <div className="relative flex size-6 flex-none items-center justify-center bg-background-100">
               {passed ? (
                 <CheckIcon
                   className="size-5 text-ds-blue-900"

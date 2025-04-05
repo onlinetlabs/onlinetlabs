@@ -1,5 +1,5 @@
 import { auth } from "auth"
-import { Button, buttonVariants } from "@ui/button"
+import { buttonVariants } from "@ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/card"
 import { BookOpenIcon, SquareArrowOutUpRightIcon } from "lucide-react"
 import Link from "next/link"
@@ -11,6 +11,7 @@ import { CheckLabButton } from "@features/lab"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { checksOptions } from "@entities/lab"
 import { getQueryClient } from "@lib/get-query-client"
+import { DeleteLabButton } from "@features/lab/delete"
 
 type Params = Promise<{ projectId: string }>
 
@@ -80,9 +81,7 @@ export default async function IndexPage({ params }: { params: Params }) {
               </Card>
             </div>
             <div className="md:ml-auto mt-auto flex items-center gap-x-3">
-              <Button variant="destructive" className="w-full md:w-fit" disabled>
-                Остановить
-              </Button>
+              <DeleteLabButton className="w-full md:w-fit" projectId={projectId} />
               <CheckLabButton className="w-full md:w-fit" projectId={projectId} />
               <Link className={cn(buttonVariants({ variant: "link" }), "hidden md:flex")} href={`/gns3-server/static/web-ui/controller/1/project/${projectId}`} target="_blank">
                 Перейти

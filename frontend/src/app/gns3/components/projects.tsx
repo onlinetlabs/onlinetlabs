@@ -1,6 +1,7 @@
 'use client'
 
 import { projectsOptions } from "@entities/lab"
+import { cn } from "@lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   Accordion,
@@ -8,7 +9,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@ui/accordion"
+import { buttonVariants } from "@ui/button";
 import { Card } from "@ui/card";
+import { FlaskConicalIcon } from "lucide-react";
 import Link from "next/link";
 
 function ContentPlaceholder() {
@@ -46,6 +49,40 @@ export function Projects() {
     ...projectsOptions,
     initialData: []
   });
+
+  if (!projects.length) {
+    return (
+      <div className="relative">
+        <ul
+          role="list"
+          className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          <li className="h-44 rounded-lg bg-ds-gray-100" />
+          <li className="h-44 rounded-lg bg-ds-gray-100" />
+          <li className="hidden h-44 rounded-lg bg-ds-gray-100 lg:block" />
+          <li className="hidden h-44 rounded-lg bg-ds-gray-100 lg:block" />
+          <li className="hidden h-44 rounded-lg bg-ds-gray-100 sm:block" />
+          <li className="hidden h-44 rounded-lg bg-ds-gray-100 sm:block" />
+        </ul>
+        {/* Change dark:from-gray-950 in parent below according to your dark mode background */}
+        <div className="absolute inset-x-0 bottom-0 flex h-32 flex-col items-center justify-center bg-gradient-to-t from-white to-transparent dark:from-gray-950">
+          <p className="font-medium text-foreground">
+            Нет лабораторных работ
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Запусти свою первую лабораторную работу
+          </p>
+          <Link
+            href="/labs"
+            className={cn("mt-6", buttonVariants())}
+          >
+            Лабораторные
+            <FlaskConicalIcon className="-me-1 opacity-60" size={16} aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Accordion type="multiple" className="mt-6">

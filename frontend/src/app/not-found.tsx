@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="bg-background relative mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center gap-6 p-6 md:p-10">
+    <div className="bg-background-100 relative mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center gap-6 p-6 md:p-10">
       <div className="relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"

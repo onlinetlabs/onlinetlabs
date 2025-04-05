@@ -20,7 +20,7 @@ export const CourseIsland = async ({
   return (
     <aside
       className={cn(
-        "bg-background sticky top-4 z-20 flex h-[52px] w-full items-center rounded-lg border px-3 py-3 lg:h-[auto]",
+        "bg-background-100 sticky top-4 z-20 flex h-[52px] w-full items-center rounded-lg border px-3 py-3 lg:h-[auto]",
         className
       )}
     >

@@ -24,7 +24,7 @@ export function SearchFilter() {
           })
         }}
         defaultValue={filters.q}
-        className="bg-background h-8 pl-8 shadow-none"
+        className="bg-background-100 h-8 pl-8 shadow-none"
       />
     </form>
   )

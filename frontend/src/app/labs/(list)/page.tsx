@@ -65,7 +65,7 @@ export default async function Page({
           <li key={idx} className="min-h-[136px] list-none">
             <article className="h-full">
               <Link
-                className="group bg-background hover:bg-accent relative flex h-full flex-col p-4 transition-all"
+                className="group bg-background-100 hover:bg-accent relative flex h-full flex-col p-4 transition-all"
                 href={lab.slug}
                 data-link
               >

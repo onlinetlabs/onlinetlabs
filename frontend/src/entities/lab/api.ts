@@ -15,7 +15,11 @@ export async function getUserProjects() {
     },
   })
 
-  const data = (await response.json()) as ApiMapping<UserProject>[];
+  const data = (await response.json()) as ApiMapping<UserProject>[] | null;
+
+  if (!data) {
+    return [];
+  }
 
   const result: UserProject[] = data.map((item) => ({
     labId: item.lab_id,

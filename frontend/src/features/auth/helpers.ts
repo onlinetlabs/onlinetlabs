@@ -1,6 +1,6 @@
 "use server"
 
-import { signIn as naSignIn, signOut as naSignOut } from "auth"
+import { signIn as naSignIn } from "auth"
 
 export async function signIn(...args: ArgumentTypes<typeof naSignIn>) {
   await naSignIn(...args)

@@ -31,6 +31,7 @@ export function slugify(str: string) {
 
 
 // Utility function to generate query parameters
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function generateQueryParams(params: Record<string, any>): string {
   return Object.entries(params)
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)

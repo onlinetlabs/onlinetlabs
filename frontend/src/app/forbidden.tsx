@@ -10,7 +10,7 @@ export const metadata: Metadata = {
  
 export default function Forbidden() {
   return (
-    <main className="bg-background relative mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center gap-6 p-6 md:p-10">
+    <main className="bg-background-100 relative mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center gap-6 p-6 md:p-10">
     <div className="text-center">
       <p className="text-base font-semibold text-ds-blue-900">403</p>
       <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">

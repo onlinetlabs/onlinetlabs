@@ -81,7 +81,7 @@ export function MobileNav() {
                       {course.title}
                       {/* NEW label */}
                       {/* {course.label && (
-                      <span className="ml-2 rounded-md bg-chart-2 px-1.5 py-0.5 text-xs leading-none text-background no-underline group-hover:no-underline">
+                      <span className="ml-2 rounded-md bg-chart-2 px-1.5 py-0.5 text-xs leading-none text-background-100 no-underline group-hover:no-underline">
                         {course.label}
                       </span>
                     )} */}

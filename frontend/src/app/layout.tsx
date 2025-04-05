@@ -72,7 +72,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <body className={inter.className}>
         <Providers>
           <div vaul-drawer-wrapper="">
-            <div className="bg-background relative flex min-h-screen flex-col">
+            <div className="bg-background-100 relative flex min-h-screen flex-col">
               {children}
             </div>
           </div>

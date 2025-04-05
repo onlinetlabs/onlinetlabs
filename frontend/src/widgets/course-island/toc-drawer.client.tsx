@@ -54,7 +54,7 @@ export const TableOfContentsDrawer = ({ chapters, className }: Props) => {
           </DrawerHeader>
         </VisuallyHidden>
         <div className="flex gap-3 p-3">
-          <div className="bg-background flex w-full items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px]">
+          <div className="bg-background-100 flex w-full items-center gap-3 rounded-md px-3 py-2.5 md:w-auto md:min-w-[225px]">
             <Icons.chapter />
             <ChapterCount namespace={intro.namespace} type="info" />
           </div>

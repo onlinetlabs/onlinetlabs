@@ -7,12 +7,13 @@
 :root {
   --radius: 0.625rem;
 
-  --background: 0 0% 100%;
-  --foreground: 0 0% 3.9%;
+  --background-100: 0 0% 100%;
+  --background-200: 0 0% 98%;
+  --foreground: 0 0% 4%;
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 3.9%;
+  --card-foreground: 0 0% 4%;
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 3.9%;
+  --popover-foreground: 0 0% 4%;
   --primary: 0 0% 9%;
   --primary-foreground: 0 0% 98%;
   --secondary: 0 0% 96.1%;
@@ -29,12 +30,23 @@
   --warning-foreground: 30 100% 32%;
   --border: 0 0% 89.8%;
   --input: 0 0% 89.8%;
-  --ring: 0 0% 3.9%;
+  --ring: 0 0% 4%;
   --chart-1: 221.2 83.2% 53.3%;
   --chart-2: 212 95% 68%;
   --chart-3: 216 92% 60%;
   --chart-4: 210 98% 78%;
   --chart-5: 212 97% 87%;
+
+  --ds-gray-100: 0, 0%, 95%;
+  --ds-gray-200: 0, 0%, 92%;
+  --ds-gray-300: 0, 0%, 90%;
+  --ds-gray-400: 0, 0%, 92%;
+  --ds-gray-500: 0, 0%, 79%;
+  --ds-gray-600: 0, 0%, 66%;
+  --ds-gray-700: 0, 0%, 56%;
+  --ds-gray-800: 0, 0%, 49%;
+  --ds-gray-900: 0, 0%, 40%;
+  --ds-gray-1000: 0, 0%, 9%;
 
   --ds-blue-100: 212 100% 97%;
   --ds-blue-200: 210 100% 96%;
@@ -84,18 +96,19 @@
   --inter: 'inter', 'inter Fallback';
 }
 .dark {
-  --background: 0 0% 3.9%;
+  --background-100: 0 0% 4%;
+  --background-200: 0 0% 0%;
   --foreground: 0 0% 98%;
-  --card: 0 0% 3.9%;
+  --card: 0 0% 4%;
   --card-foreground: 0 0% 98%;
-  --popover: 0 0% 3.9%;
+  --popover: 0 0% 4%;
   --popover-foreground: 0 0% 98%;
   --primary: 0 0% 98%;
   --primary-foreground: 0 0% 9%;
   --secondary: 0 0% 14.9%;
   --secondary-foreground: 0 0% 98%;
   --muted: 0 0% 14.9%;
-  --muted-foreground: 0 0% 63.9%;
+  --muted-foreground: 0 0% 64%;
   --accent: 0 0% 14.9%;
   --accent-foreground: 0 0% 98%;
   --destructive: 0 62.8% 30.6%;
@@ -112,6 +125,17 @@
   --chart-3: 216 92% 60%;
   --chart-4: 210 98% 78%;
   --chart-5: 212 97% 87%;
+
+  --ds-gray-100: 0, 0%, 10%;
+  --ds-gray-200: 0, 0%, 12%;
+  --ds-gray-300: 0, 0%, 16%;
+  --ds-gray-400: 0, 0%, 18%;
+  --ds-gray-500: 0, 0%, 27%;
+  --ds-gray-600: 0, 0%, 53%;
+  --ds-gray-700: 0, 0%, 56%;
+  --ds-gray-800: 0, 0%, 49%;
+  --ds-gray-900: 0, 0%, 63%;
+  --ds-gray-1000: 0, 0%, 93%;
 
   --ds-blue-100: 216 50% 12%;
   --ds-blue-200: 214 59% 15%;
@@ -167,7 +191,8 @@
   --radius-xl: calc(var(--radius) + 4px);
 
 
-  --color-background: hsl(var(--background));
+  --color-background-100: hsl(var(--background-100));
+  --color-background-200: hsl(var(--background-200));
   --color-foreground: hsl(var(--foreground));
 
   --color-card: hsl(var(--card));
@@ -207,6 +232,17 @@
   --color-chart-3: hsl(var(--chart-3));
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
+
+  --color-ds-gray-100: hsl(var(--ds-gray-100));
+  --color-ds-gray-200: hsl(var(--ds-gray-200));
+  --color-ds-gray-300: hsl(var(--ds-gray-300));
+  --color-ds-gray-400: hsl(var(--ds-gray-400));
+  --color-ds-gray-500: hsl(var(--ds-gray-500));
+  --color-ds-gray-600: hsl(var(--ds-gray-600));
+  --color-ds-gray-700: hsl(var(--ds-gray-700));
+  --color-ds-gray-800: hsl(var(--ds-gray-800));
+  --color-ds-gray-900: hsl(var(--ds-gray-900));
+  --color-ds-gray-1000: hsl(var(--ds-gray-1000));
 
   --color-ds-blue-100: hsl(var(--ds-blue-100));
   --color-ds-blue-200: hsl(var(--ds-blue-200));
@@ -327,7 +363,7 @@
     @apply scroll-smooth;
   }
   body {
-    @apply bg-background text-foreground overscroll-none min-h-screen antialiased;
+    @apply bg-background-100 text-foreground overscroll-none min-h-screen antialiased;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }

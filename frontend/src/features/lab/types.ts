@@ -13,7 +13,6 @@ export type LabCheckParams = {
   projectId: string;
 }
 
-
 export type LabCheck = {
   passed: boolean;
   logs: {
@@ -21,4 +20,8 @@ export type LabCheck = {
   }
   // private
   stored: boolean;
+}
+
+export type LabDeleteParams = {
+  projectId: string;
 }

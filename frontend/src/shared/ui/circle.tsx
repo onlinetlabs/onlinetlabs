@@ -12,7 +12,7 @@ const circleVariants = cva(
         amber: "text-ds-amber-900 bg-ds-amber-300",
         red: "text-ds-red-900 bg-ds-red-300",
         green: "text-ds-green-900 bg-gds-reen-300",
-        blue: "text-background bg-ds-blue-700",
+        blue: "text-background-100 bg-ds-blue-700",
         "subtle-blue": "text-ds-blue-900 bg-ds-blue-300",
         white: "bg-primary text-primary-foreground",
       },
