@@ -50,7 +50,7 @@ class CheckerInterface:
             self,
             token:str,
             project_id:str,
-            ) -> tuple[bool, list[str]]:
+            ) -> None:
         ...
 
 
@@ -125,7 +125,7 @@ class CheckerInterface:
         await self.telnet_buffer_flush(tn)
         # await asyncio.sleep(0.5)
 
-        cmd = bytes(f"ping {dst_ip}\r\n", "utf-8")
+        cmd = bytes(f"ping {dst_ip} -c 7\r\n", "utf-8")
         tn.write(cmd)
         # Flush command entered
         tn.read_until(cmd, timeout=0.2)
