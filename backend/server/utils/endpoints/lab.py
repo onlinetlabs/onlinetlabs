@@ -187,6 +187,9 @@ class LabStartRequestBody(BaseModel):
 class LabCheckRequestBody(BaseModel):
     project_id:str="4d655bbb-13be-45c7-be74-9486db187e7f"
 
+class LabConvertRequestBody(BaseModel):
+    project_id:str="4d655bbb-13be-45c7-be74-9486db187e7f"
+
 # --------- #
 # ENDPOINTS #
 
@@ -344,6 +347,46 @@ async def lab_delete(
 
     return {
             "success": success,
+    }
+
+
+@app.get("/api/lab/projectid_to_labid",
+          dependencies=[Depends(JWTBearer())],
+          tags=TAGS)
+async def lab_project_id_to_lab_id(
+        project_id:str,
+        payload:JWTPayloadSchema=Depends(JWTBearer()),
+        ):
+    """
+    project_id to lab_id.
+    """
+
+    #TODO: lab_host
+    lab_host = "127.0.0.1"
+    #TODO: get port from DB
+    user_port = 3080
+
+    user_email:str = payload.email
+
+    # Duplicate target lab
+    access_token = lab_user_get_token(user_port)
+    if access_token is None:
+        # For some reasons GNS3 server credentials were incorrect
+        raise HTTPException(
+                status_code=401,
+                detail="Cannot access lab server. Address admin.",
+                )
+
+    lab_id:str|None = await database.lab.get_user_labid(
+            user_email, project_id)
+    if lab_id is None:
+        raise HTTPException(
+                status_code=400,
+                detail="Provided project_id doesnt exist.",
+                )
+
+    return {
+        "lab_id": lab_id
     }
 
 
