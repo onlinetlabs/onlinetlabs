@@ -192,7 +192,7 @@ class LabCheckRequestBody(BaseModel):
 
 
 
-@app.post("/lab/start",
+@app.post("/api/lab/start",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_start(
@@ -251,7 +251,7 @@ async def lab_start(
     }
 
 
-@app.post("/lab/check",
+@app.post("/api/lab/check",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_check(
@@ -310,7 +310,7 @@ async def lab_check(
     }
 
 
-@app.delete("/lab/delete",
+@app.delete("/api/lab/delete",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_delete(
@@ -347,7 +347,7 @@ async def lab_delete(
     }
 
 
-@app.get("/lab/get_user_projects",
+@app.get("/api/lab/get_user_projects",
          dependencies=[Depends(JWTBearer())],
          tags=TAGS)
 async def get_user_projects(
@@ -371,7 +371,7 @@ async def get_user_projects(
             )
 
 
-@app.get("/lab/get_user_checklogs",
+@app.get("/api/lab/get_user_checklogs",
          dependencies=[Depends(JWTBearer())],
          tags=TAGS)
 async def get_user_checklogs(
