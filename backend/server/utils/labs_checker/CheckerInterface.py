@@ -58,10 +58,12 @@ class CheckerInterface:
         """
         """
         
-         # Sort of buffer flush
+        # Sort of buffer flush
+        count = 0
         while True:
-            count = 0
-            _ = tn.read_until(b"\r\n", timeout=0.1)
+            # _ = tn.read_until(b"\r\n", timeout=0.1)
+            _ = tn.read_until(b"gateway", timeout=0.3)
+            # _ = tn.read_very_eager()
             logger.core.debug(f"Flushing tn buf:\n{_}")
             if _ == b"":
                 break
@@ -69,6 +71,7 @@ class CheckerInterface:
             count += 1
             if count > 10:
                 break
+        logger.core.debug(f"Exit from flashing.")
 
 
     async def project_open(
@@ -118,22 +121,28 @@ class CheckerInterface:
         # tn = telnetlib.Telnet(self.lab_host, src_port)
         tn = Telnet(self.lab_host, src_port)
         # Sort of buffer flush
-        tn.write(b"\x03")   # Ctrl+C to interrupt
+        # tn.write(b"\x03")   # Ctrl+C to interrupt
         await self.telnet_buffer_flush(tn)
-        await asyncio.sleep(0.5)
+        # await asyncio.sleep(0.5)
 
-        tn.write(bytes(f"ping {dst_ip}\r\n", "utf-8"))
+        cmd = bytes(f"ping {dst_ip}\r\n", "utf-8")
+        tn.write(cmd)
+        # Flush command entered
+        tn.read_until(cmd, timeout=0.2)
 
         #TODO: perform ping and check for errors
+        count = 0
         while True:
-            count = 0
-            response = tn.read_until(b"\r\n", timeout=1.5)
+            # response = tn.read_until(b"\r\n", timeout=0.5)
+            response = tn.read_until(b"\r\n")
             logger.core.debug(f"[DEBUG] Responce from ping:\n{response}")
             # b'84 bytes from 192.168.1.2 icmp_seq=5 ttl=64 time=0.337 ms\r\n'
-            if b'84 bytes from' in response:
+            if b' bytes from' in response:
                 tn.write(b"\x03")   # Ctrl+C to interrupt
                 tn.close()
                 return True
+            elif b'timeout' in response:
+                continue
             # b'host (192.168.1.3) not reachable\r\n'
             elif b'not reachable' in response:
                 tn.write(b"\x03")
@@ -143,9 +152,9 @@ class CheckerInterface:
                 tn.write(b"\x03")   # Ctrl+C to interrupt
                 tn.close()
                 return False
-            elif b'' in response:
+            elif len(response) == 0:
                 count += 1
-                if count > 3:
+                if count > 4:
                     tn.write(b"\x03")   # Ctrl+C to interrupt
                     tn.close()
                     return False
@@ -263,16 +272,21 @@ class CheckerInterface:
         # tn = telnetlib.Telnet(self.lab_host, port)
         tn = Telnet(self.lab_host, port)
         # Sort of buffer flush
-        tn.write(b"\x03")   # Ctrl+C to interrupt
         await self.telnet_buffer_flush(tn)
+        # tn.write(b"\x03")   # Ctrl+C to interrupt
 
-        tn.write(b"show\r\n")
+        cmd = b"show\r\n"
+        tn.write(cmd)
+        # Flush commant entered
+        _ = tn.read_until(cmd, timeout=0.2)
 
         # First reading stop at PC1 or watever vpcs name
-        _ = tn.read_until(bytes(node["name"], "utf-8"), timeout=0.3)
+        # _ = tn.read_until(bytes(node["name"], "utf-8"), timeout=0.3)
+        _ = tn.read_until(bytes(node["name"], "utf-8"))
         # Then extract its IP
-        response:str = tn.read_until(b"\r\n", timeout=0.3).decode()
-        logger.core.debug(f"Getting node IP (not final): {response}")
+        # response:str = tn.read_until(b"\r\n", timeout=0.3).decode()
+        response:str = tn.read_until(b"\r\n").decode()
+        logger.core.debug(f"Node IP (not final): {response}")
         # Get rid of spaces
         response_refined = \
                 [item for item in response.split(" ") if len(item) > 0 and item != ":"]
