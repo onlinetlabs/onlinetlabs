@@ -177,15 +177,26 @@ async def lab_check_project_exists(
 # ------- #
 # CLASSES #
 
+# POST-запрос с передачей данных через тело
+class LabDeleteRequestBody(BaseModel):
+    project_id:str="4d655bbb-13be-45c7-be74-9486db187e7f"
+
+class LabStartRequestBody(BaseModel):
+    lab_id:str="routing-in-ip-networks"
+
+class LabCheckRequestBody(BaseModel):
+    project_id:str="4d655bbb-13be-45c7-be74-9486db187e7f"
 
 # --------- #
 # ENDPOINTS #
+
+
 
 @app.post("/lab/start",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_start(
-        lab_id:str,
+        body:LabStartRequestBody,
         payload:JWTPayloadSchema=Depends(JWTBearer()),
         ):
     """
@@ -196,6 +207,7 @@ async def lab_start(
     user_port = 3080
     
     user_email = payload.email
+    lab_id = body.lab_id
 
     # Get access_token for GNS3 API:
     access_token:str|None = lab_user_get_token(user_port)
@@ -243,7 +255,7 @@ async def lab_start(
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_check(
-        project_id:str,
+        body:LabCheckRequestBody,
         payload:JWTPayloadSchema=Depends(JWTBearer()),
         ):
     """
@@ -255,6 +267,7 @@ async def lab_check(
     user_port = 3080
 
     user_email:str = payload.email
+    project_id = body.project_id
 
     # Duplicate target lab
     access_token = lab_user_get_token(user_port)
@@ -297,16 +310,10 @@ async def lab_check(
     }
 
 
-# POST-запрос с передачей данных через тело
-class LabDeleteRequestBody(BaseModel):
-    project_id:str="4d655bbb-13be-45c7-be74-9486db187e7f"
-
-
 @app.delete("/lab/delete",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_delete(
-        # project_id:str,
         body: LabDeleteRequestBody,
         payload:JWTPayloadSchema=Depends(JWTBearer()),
         ):
