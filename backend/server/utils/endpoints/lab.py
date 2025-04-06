@@ -103,7 +103,7 @@ async def lab_user_project_create(
     """
     """
 
-    project_name = lab_id + str( uuid4() )
+    project_name = lab_id + "__" + str( uuid4() )
     url = f"http://{LAB_HOST}:{port}/v3/projects"
     
     headers = {
