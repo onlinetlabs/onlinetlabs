@@ -352,7 +352,7 @@ async def lab_delete(
 
 @app.get("/api/lab/project_info/{project_id}",
          dependencies=[Depends(JWTBearer())],
-         summary="Get projects params",
+         summary="Get project params",
          tags=TAGS)
 async def lab_project_id_to_lab_id(
         project_id:UUID,
