@@ -102,10 +102,10 @@ class Checker01(CheckerInterface):
         for node in key_nodes:
             node_ip:str|None = await self.get_vpcs_ip(node)
             if node_ip is None:
-                self.checklog[f"Найдены IP адреса ключевых узлов"] = False
+                self.checklog[f"Извлечены IP адреса ключевых узлов"] = False
                 return
             key_nodes_ip.append(node_ip)
-        self.checklog[f"Найдены IP адреса ключевых узлов"] = True
+        self.checklog[f"Извлечены IP адреса ключевых узлов"] = True
 
 
         # PERFORM PING BETWEEN KEY NODES
