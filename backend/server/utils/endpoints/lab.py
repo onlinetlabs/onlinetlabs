@@ -350,11 +350,12 @@ async def lab_delete(
     }
 
 
-@app.get("/api/lab/projectid_to_labid",
-          dependencies=[Depends(JWTBearer())],
-          tags=TAGS)
+@app.get("/api/lab/project_info/{project_id}",
+         dependencies=[Depends(JWTBearer())],
+         summary="Get projects params",
+         tags=TAGS)
 async def lab_project_id_to_lab_id(
-        project_id:str,
+        project_id:UUID,
         payload:JWTPayloadSchema=Depends(JWTBearer()),
         ):
     """
@@ -377,6 +378,7 @@ async def lab_project_id_to_lab_id(
                 detail="Cannot access lab server. Address admin.",
                 )
 
+    # CONVERT PROJECT_ID TO LAB_ID
     lab_id:str|None = await database.lab.get_user_labid(
             user_email, project_id)
     if lab_id is None:
@@ -384,6 +386,8 @@ async def lab_project_id_to_lab_id(
                 status_code=400,
                 detail="Provided project_id doesnt exist.",
                 )
+
+    # GATHER SOME OTHER INFO
 
     return {
         "lab_id": lab_id
