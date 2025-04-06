@@ -17,6 +17,7 @@ from fastapi.encoders   import jsonable_encoder
 from fastapi.responses  import JSONResponse
 
 from psycopg2.extras    import RealDictRow
+from pydantic import BaseModel
 
 # For gns3 project duplication
 import requests
@@ -296,11 +297,17 @@ async def lab_check(
     }
 
 
-@app.post("/lab/delete",
+# POST-запрос с передачей данных через тело
+class LabDeleteRequestBody(BaseModel):
+    project_id:str="4d655bbb-13be-45c7-be74-9486db187e7f"
+
+
+@app.delete("/lab/delete",
           dependencies=[Depends(JWTBearer())],
           tags=TAGS)
 async def lab_delete(
-        project_id:str,
+        # project_id:str,
+        body: LabDeleteRequestBody,
         payload:JWTPayloadSchema=Depends(JWTBearer()),
         ):
     """
@@ -312,6 +319,7 @@ async def lab_delete(
     success = False
     
     user_email = payload.email
+    project_id = body.project_id
 
     # Get access_token for GNS3 API:
     access_token:str|None = lab_user_get_token(user_port)
