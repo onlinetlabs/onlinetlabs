@@ -33,7 +33,7 @@ from .core                   import app
 # CONSTANTS #
 
 TAGS:List = [
-        "TEST",
+        "DEBUG",
         ]
 
 
