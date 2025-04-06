@@ -59,8 +59,9 @@ const columns: ColumnDef<UserChecklog>[] = [
         </Button>
       ) : undefined
     },
-    enableResizing: false,
+    minSize: 24,
     size: 48,
+    maxSize: 48,
   },
   {
     header: "Статус",
@@ -124,7 +125,7 @@ export function ChecksTable({ projectId }: { projectId: string }) {
           id: "createdAt",
           desc: true,
         }
-      ]
+      ],
     },
     getRowCanExpand: () => true,
     getCoreRowModel: getCoreRowModel(),
@@ -178,7 +179,7 @@ export function ChecksTable({ projectId }: { projectId: string }) {
                 {row.getIsExpanded() && (
                   <TableRow className="pointer-events-none">
                     <TableCell colSpan={row.getVisibleCells().length}>
-                      <div className="text-primary/80 flex items-start py-2">
+                      <div className="text-primary/80 flex items-start py-2 overflow-hidden">
                         <CheckSteps logs={row.getValue("checklog")} />
                       </div>
                     </TableCell>

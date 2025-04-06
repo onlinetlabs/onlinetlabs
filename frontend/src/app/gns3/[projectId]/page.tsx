@@ -3,28 +3,49 @@ import { buttonVariants } from "@ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/card"
 import { BookOpenIcon, SquareArrowOutUpRightIcon } from "lucide-react"
 import Link from "next/link"
-import { unauthorized } from "next/navigation"
+import { notFound, unauthorized } from "next/navigation"
 import CredentialsInput from "./components/credentials-input"
 import { cn } from "@lib/utils"
 import { ChecksTable } from "./components/check-table"
 import { CheckLabButton } from "@features/lab"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
-import { checksOptions } from "@entities/lab"
+import { checksOptions, projectInfoOptions } from "@entities/lab"
 import { getQueryClient } from "@lib/get-query-client"
 import { DeleteLabButton } from "@features/lab/delete"
+import { Metadata } from "next"
 
-type Params = Promise<{ projectId: string }>
+type Props = {
+  params: Promise<{ projectId: string }>
+}
 
-export default async function IndexPage({ params }: { params: Params }) {
+export async function generateMetadata(
+  { params }: Props,
+): Promise<Metadata> {
+  const queryClient = getQueryClient()
+
+  const { projectId } = await params
+  const info = await queryClient.fetchQuery(projectInfoOptions(projectId))
+ 
+  return {
+    title: info?.labId,
+  }
+}
+ 
+
+export default async function IndexPage({ params }: Props) {
   const session = await auth()
 
   if (!session) {
     unauthorized()
   }
-
   const projectId = (await params).projectId;
-
   const queryClient = getQueryClient()
+
+  const info = await queryClient.fetchQuery(projectInfoOptions(projectId))
+
+  if (!info) {
+    notFound()
+  }
 
   queryClient.prefetchQuery(checksOptions(projectId))
 
@@ -96,7 +117,7 @@ export default async function IndexPage({ params }: { params: Params }) {
       </div>
       <div>
         <div className="p-4 sm:p-6 lg:p-8">
-          <div className="flex flex-col gap-4 md:gap-6">
+          <div className="flex flex-col gap-4 md:gap-6 w-1/2">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Проверки</h2>
             </div>

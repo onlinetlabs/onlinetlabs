@@ -19,3 +19,11 @@ export type UserChecklog = {
   // private
   stored: boolean;
 }
+
+export type ProjectInfo = {
+  labId: string;
+}
+
+export type ProjectInfoParams = {
+  projectId: string;
+}
