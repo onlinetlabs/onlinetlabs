@@ -11,7 +11,7 @@ import {
   TimelineTitle,
 } from "@ui/timeline"
 
-export function CheckSteps({ logs }: { logs: UserChecklog['checklog'] }) {
+export function Steps({ logs }: { logs: UserChecklog['checklog'] }) {
   return (
     <Timeline>
       {Object.entries(logs).map(([key, passed], idx) => (

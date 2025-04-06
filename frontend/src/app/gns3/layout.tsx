@@ -1,8 +1,17 @@
 import { SiteFooter } from "@widgets/site-footer"
 import { SiteHeader } from "@widgets/site-header"
+import { Metadata } from "next"
 
 interface AppLayoutProps {
   children: React.ReactNode
+}
+
+export const metadata: Metadata = {
+  title: {
+    default: "GNS3 Проекты",
+    template: `%s - GNS3`,
+  },
+  description: 'Создавайте и управляйте своими проектами в GNS3',
 }
 
 export default function GNS3Layout({ children }: AppLayoutProps) {

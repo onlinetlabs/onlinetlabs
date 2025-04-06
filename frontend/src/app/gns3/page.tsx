@@ -29,7 +29,9 @@ export default async function IndexPage() {
             Просматривайте и управляйте своими лабораторными работами
           </p>
           <div className="mt-8 flex w-full flex-col gap-y-4 md:max-w-3xl md:flex-row md:items-stretch md:space-x-4">
-            <ActiveCard />
+            <HydrationBoundary state={dehydrate(queryClient)}>
+              <ActiveCard />
+            </HydrationBoundary>
             <Card className="relative w-full p-6 md:w-7/12">
               <div className="border-border inline-flex items-center justify-center rounded-md border p-2">
                 <BookOpenIcon
@@ -40,11 +42,11 @@ export default async function IndexPage() {
               <h3 className="mt-4 text-sm font-medium">
                 <a href="#" className="focus:outline-none">
                   <span className="absolute inset-0" aria-hidden={true} />
-                  Полезная информация
+                  Часто задаваемые вопросы
                 </a>
               </h3>
               <p className="text-muted-foreground mt-2 text-sm">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
+                Если у вас остались вопросы, вы можете обратиться в тех. поддержку
               </p>
             </Card>
           </div>

@@ -1,10 +1,8 @@
 import { auth } from "auth"
 import { buttonVariants } from "@ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/card"
-import { BookOpenIcon, SquareArrowOutUpRightIcon } from "lucide-react"
+import { SquareArrowOutUpRightIcon } from "lucide-react"
 import Link from "next/link"
 import { notFound, unauthorized } from "next/navigation"
-import CredentialsInput from "./components/credentials-input"
 import { cn } from "@lib/utils"
 import { ChecksTable } from "./components/check-table"
 import { CheckLabButton } from "@features/lab"
@@ -13,6 +11,9 @@ import { checksOptions, projectInfoOptions } from "@entities/lab"
 import { getQueryClient } from "@lib/get-query-client"
 import { DeleteLabButton } from "@features/lab/delete"
 import { Metadata } from "next"
+import { CredentialsCard } from "./components/credentials-card"
+import { LabCard } from "./components/lab-card"
+import { getLabById } from "@lib/lab"
 
 type Props = {
   params: Promise<{ projectId: string }>
@@ -25,9 +26,18 @@ export async function generateMetadata(
 
   const { projectId } = await params
   const info = await queryClient.fetchQuery(projectInfoOptions(projectId))
+
+  if (info) {
+    const lab = getLabById(info.labId);
+
+    return {
+      title: lab?.title,
+      description: lab?.description
+    }
+  }
  
   return {
-    title: info?.labId,
+    title: "Лабораторная работа",
   }
 }
  
@@ -62,44 +72,8 @@ export default async function IndexPage({ params }: Props) {
           </p>
           <div className="mt-8 flex w-full flex-col xl:flex-row gap-y-4">
             <div className="flex w-full flex-col gap-y-4 xl:max-w-4xl md:flex-row md:items-stretch md:space-x-4">
-              <Card className="relative flex w-full flex-col md:w-9/12">
-                <CardHeader>
-                  <CardTitle className="text-sm">
-                    Учетная запись GNS3
-                  </CardTitle>
-                  <CardDescription>
-                    Используйте этот логин и пароль для доступа к GNS3 серверу
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex items-center gap-x-4">
-                  <CredentialsInput
-                    label="Логин"
-                    defaultValue="admin"
-                  />
-                  <CredentialsInput
-                    label="Пароль"
-                    defaultValue="admin"
-                  />
-                </CardContent>
-              </Card>
-              <Card className="relative w-full p-6 md:w-7/12">
-                <div className="border-border inline-flex items-center justify-center rounded-md border p-2">
-                  <BookOpenIcon
-                    className="text-foreground size-5"
-                    aria-hidden={true}
-                  />
-                </div>
-                <h3 className="mt-4 text-sm font-medium">
-                  <a href="#" className="focus:outline-none">
-                    {/* Extend link to entire card */}
-                    <span className="absolute inset-0" aria-hidden={true} />
-                    Описание работы
-                  </a>
-                </h3>
-                <p className="text-muted-foreground mt-2 text-sm">
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
-                </p>
-              </Card>
+              <CredentialsCard />
+              <LabCard labId={info.labId} />
             </div>
             <div className="md:ml-auto mt-auto flex items-center gap-x-3">
               <DeleteLabButton className="w-full md:w-fit" projectId={projectId} />

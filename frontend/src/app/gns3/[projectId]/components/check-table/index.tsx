@@ -22,7 +22,7 @@ import {
   TableRow,
 } from "@ui/table"
 import { checksOptions, type UserChecklog } from "@entities/lab"
-import { CheckSteps } from "./check-steps"
+import { Steps } from "./steps"
 import { useSuspenseQuery } from "@tanstack/react-query"
 
 const columns: ColumnDef<UserChecklog>[] = [
@@ -180,7 +180,7 @@ export function ChecksTable({ projectId }: { projectId: string }) {
                   <TableRow className="pointer-events-none">
                     <TableCell colSpan={row.getVisibleCells().length}>
                       <div className="text-primary/80 flex items-start py-2 overflow-hidden">
-                        <CheckSteps logs={row.getValue("checklog")} />
+                        <Steps logs={row.getValue("checklog")} />
                       </div>
                     </TableCell>
                   </TableRow>

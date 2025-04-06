@@ -18,7 +18,7 @@ type Props = {
   defaultValue: string
 }
 
-export default function CredentialsInput({ label, defaultValue }: Props) {
+export function CredentialsInput({ label, defaultValue }: Props) {
   const id = useId()
   const [copied, setCopied] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
