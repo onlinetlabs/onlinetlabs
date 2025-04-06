@@ -50,7 +50,7 @@ class CheckerInterface:
             self,
             token:str,
             project_id:str,
-            ) -> tuple[bool, list[str]]:
+            ) -> None:
         ...
 
 

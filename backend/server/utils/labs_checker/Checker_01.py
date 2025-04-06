@@ -53,18 +53,18 @@ class Checker01(CheckerInterface):
                 project_id,
                 )
         if not project_opened:
-            self.checklog["Open project"] = False
+            self.checklog["Проект открыт"] = False
             return
-        self.checklog["Open project"] = True
+        self.checklog["Проект открыт"] = True
 
 
         # GET PROJECT's NODEs
         nodes:list[dict]|None = \
                 await self.project_nodes_get(token, project_id)
         if nodes is None:
-            self.checklog["Get project nodes"] = False
+            self.checklog["Параметры узлов проекта получены"] = False
             return
-        self.checklog["Get project nodes"] = True
+        self.checklog["Параметры узлов проекта получены"] = True
         
 
         # RETREIVE KEY NODES
@@ -78,23 +78,23 @@ class Checker01(CheckerInterface):
             node:dict|None = await self.project_nodes_get_node_by_name(
                     node_name, nodes)
             if node is None:
-                self.checklog[f"Key nodes found"] = False
+                self.checklog[f"Ключевые узлы обнаружены"] = False
                 return
             key_nodes.append(node)
 
         if len(key_nodes) == 0:
-            self.checklog[f"Key nodes found"] = False
+            self.checklog[f"Ключевые узлы обнаружены"] = False
             return
-        self.checklog[f"Key nodes found"] = True
+        self.checklog[f"Ключевые узлы обнаружены"] = True
 
 
         # START ALL PROJECTS NODES
         nodes_started:bool = await self.project_nodes_start(
                 token, project_id)
         if not nodes_started:
-            self.checklog[f"Project nodes started"] = False
+            self.checklog[f"Узлы проекта запущены"] = False
             return
-        self.checklog[f"Project nodes started"] = True
+        self.checklog[f"Узлы проекта запущены"] = True
 
 
         # GATHER VPCS IPs
@@ -102,10 +102,10 @@ class Checker01(CheckerInterface):
         for node in key_nodes:
             node_ip:str|None = await self.get_vpcs_ip(node)
             if node_ip is None:
-                self.checklog[f"Nodes' ips retreived"] = False
+                self.checklog[f"Найдены IP адреса ключевых узлов"] = False
                 return
             key_nodes_ip.append(node_ip)
-        self.checklog[f"Nodes' ips retreived"] = True
+        self.checklog[f"Найдены IP адреса ключевых узлов"] = True
 
 
         # PERFORM PING BETWEEN KEY NODES
@@ -120,8 +120,8 @@ class Checker01(CheckerInterface):
             dst = ping_pair[1]
             result:bool = await self.project_nodes_ping(src, dst)
             if not result:
-                self.checklog[f"Ping ({src['name']}) -> ({dst})"] = False
+                self.checklog[f"Проверка доступности ({src['name']}) -> ({dst})"] = False
                 return
-            self.checklog[f"Ping ({src['name']}) -> ({dst})"] = True
+            self.checklog[f"Проверка доступности ({src['name']}) -> ({dst})"] = True
 
         return
