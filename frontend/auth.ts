@@ -17,7 +17,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       },
       async authorize(credentials): Promise<User | null> {
         if (!credentials) {
-          return null
+          throw new Error("Invalid credentials")
         }
 
         if (credentials.accessToken && credentials.refreshToken) {
@@ -29,7 +29,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         }
 
         if (!credentials.email || !credentials.password) {
-          return null
+          throw new Error("Invalid credentials")
         }
 
         const email = credentials.email as string
@@ -38,7 +38,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         const { accessToken, refreshToken } = await signin({ email, password })
 
         if (!accessToken || !refreshToken) {
-          return null
+          throw new Error("Invalid credentials")
         }
 
         return {
@@ -53,7 +53,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     async jwt({ token, user }) {
       return { ...token, ...user }
     },
-    authorized({ auth, request }) {
+    authorized({ auth }) {
       // const isLoggedIn = !!auth?.user;
       const isValid = isTokenValid(auth?.token?.accessToken);
 
@@ -80,8 +80,8 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     },
   },
   basePath: BASE_PATH,
-  // TODO: remove
-  secret: process.env.NEXTAUTH_SECRET,
+  // // TODO: remove
+  // secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
   },

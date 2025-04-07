@@ -18,7 +18,6 @@ COPY package.json pnpm-lock.yaml* .npmrc* ./
 # RUN corepack enable pnpm && pnpm i --frozen-lockfile
 RUN corepack enable pnpm && pnpm i
 
-
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
@@ -40,7 +39,7 @@ ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED=1
 # Read more at https://authjs.dev/getting-started/deployment#auth_trust_host
-# ENV AUTH_TRUST_HOST=1
+ENV AUTH_TRUST_HOST=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

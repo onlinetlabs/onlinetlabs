@@ -27,27 +27,31 @@ export async function signup(params: SignUpParams) {
 }
 
 export async function signin(params: SignInParams) {
-  const response = await fetch(`${process.env.API_URL}/api/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: params.email,
-      password: params.password,
-    }),
-  })
+  try {
+    const response = await fetch(`${process.env.API_URL}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: params.email,
+        password: params.password,
+      }),
+    })
 
-
-  const data = (await response.json()) as {
-    access_token: string
-    refresh_token: string
+    const data = (await response.json()) as {
+      access_token: string
+      refresh_token: string
+    }
+    
+    return {
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token,
+    };
+  } catch (error) {
+    console.log(`error`, error)
+    return { error: { message: 'Failed to login', error } }
   }
-  
-  return {
-    accessToken: data.access_token,
-    refreshToken: data.refresh_token,
-  };
 }
 
 export async function refresh(refreshToken: string) {

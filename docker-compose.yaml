@@ -192,7 +192,7 @@ services:
       # Configure the internal NAT network bridge for GNS3
       BRIDGE_ADDRESS: "172.21.1.1/24"
     ports:
-      - '3080:3080'
+      - '3080:80'
     # Always restart if it stops or if Docker itself is restarted.
     restart: always
 
@@ -227,44 +227,41 @@ services:
     #       cpus: "0.5"  # Limit to 50% of a single CPU core
     #       memory: "512M"  # Limit memory to 512MB
     # Strict CPU limit (35% of a core) and moderate memory
-    cpu_period: 100000  # 100ms CPU period
-    cpu_quota: 75000    # 35ms per period → 35% CPU
-    mem_limit: 2g
+    # cpu_period: 100000  # 100ms CPU period
+    # cpu_quota: 75000    # 35ms per period → 35% CPU
+    # mem_limit: 2g
     
-  # netlab_frontend:
-  #   container_name: netlab_frontend
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: ../docker/frontend.dockerfile
-  #   environment:
-  #     - NODE_ENV=production
-  #     - AUTH_TRUST_HOST=1
-  #     - JWT_SECRET=8afdb1798b39721602f544317af81e8e58b55887bba4a0085b00528da0030c7c
-  #   restart: always
-  #   ports:
-  #     - '3000:80'
-  #   depends_on:
-  #     - netlab_server
+  netlab_frontend:
+    container_name: netlab_frontend
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend.dockerfile
+    environment:
+      - NODE_ENV=production
+      - AUTH_TRUST_HOST=1
+      - AUTH_SECRET=2cIv6/W0QiqI7qHM+4Ux3HW4hwf2kyjQJ+JJZt4aWlE=
+      - API_URL=http://netlab_server:8000
+      - GNS3_SUBDOMAIN=http://gns3.localhost
+    restart: always
+    ports:
+      - '3000:80'
+    depends_on:
+      - netlab_server
 
   netlab_nginx:
     image: nginx:alpine
     container_name: netlab_nginx
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/templates:/etc/nginx/templates  # Mount templates directory
+    environment:
+      - MAIN_DOMAIN=localhost            # Domain for main app
+      - GNS3_SUBDOMAIN=gns3.localhost    # Subdomain for GNS3
     depends_on:
-      # - netlab_frontend
       - netlab_server
-      - netlab_lab  # Add this dependency
-    # networks:
-    #   - default  # Ensure shared network
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: "0.5"  # Limit to 50% of a single CPU core
-    #       memory: "256M"  # Limit memory to 256MB
-    # Lower CPU priority and memory allocation
-    cpu_shares: 512   # Lower priority
+      - netlab_lab
+    cpu_shares: 512
     mem_limit: 512m
+    

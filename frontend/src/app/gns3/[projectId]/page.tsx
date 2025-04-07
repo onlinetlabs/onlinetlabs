@@ -78,11 +78,19 @@ export default async function IndexPage({ params }: Props) {
             <div className="md:ml-auto mt-auto flex items-center gap-x-3">
               <DeleteLabButton className="w-full md:w-fit" projectId={projectId} />
               <CheckLabButton className="w-full md:w-fit" projectId={projectId} />
-              <Link className={cn(buttonVariants({ variant: "link" }), "hidden md:flex")} href={`/gns3-server/static/web-ui/controller/1/project/${projectId}`} target="_blank">
+              <Link 
+                className={cn(buttonVariants({ variant: "link" }), "hidden md:flex")} 
+                href={`${process.env.GNS3_SUBDOMAIN}/static/web-ui/controller/1/project/${projectId}`} 
+                target="_blank"
+              >
                 Перейти
                 <SquareArrowOutUpRightIcon size={16} aria-hidden="true" />
               </Link>
-              <Link className={cn(buttonVariants({ variant: "outline", size: "icon" }), "hidden sm:flex md:hidden shrink-0")} href={`/gns3-server/static/web-ui/controller/1/project/${projectId}`} target="_blank">
+              <Link 
+                className={cn(buttonVariants({ variant: "outline", size: "icon" }), "hidden sm:flex md:hidden shrink-0")} 
+                href={`${process.env.GNS3_SUBDOMAIN}/static/web-ui/controller/1/project/${projectId}`} 
+                target="_blank"
+              >
                 <SquareArrowOutUpRightIcon size={16} aria-hidden="true" />
               </Link>
             </div>
