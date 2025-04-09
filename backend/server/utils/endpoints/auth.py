@@ -156,8 +156,8 @@ async def token_refresh(refresh_token: str) -> Token:
                 status_code=403, detail="Invalid or expired token.")
 
     # If refresh token is valid - generate and return new tokens pair.
-    access_token = signJWT(payload['email'], ttl=JWT_ACC_TTL)
-    refresh_token = signJWT(payload['email'], ttl=JWT_REF_TTL)
+    access_token = signJWT(payload.email, ttl=JWT_ACC_TTL)
+    refresh_token = signJWT(payload.email, ttl=JWT_REF_TTL)
     token = Token(
             access_token=access_token,
             refresh_token=refresh_token,
