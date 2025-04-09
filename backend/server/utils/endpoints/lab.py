@@ -31,7 +31,17 @@ from requests.models import HTTPError, Response
 
 from utils.auth.model       import JWTPayloadSchema, PostSchema
 from utils.auth.auth_bearer import JWTBearer
-from utils.datastructures   import database
+from utils.datastructures   import database, logger
+from utils.endpoints.lab_methods    import (
+        lab_check_project_exists,
+        lab_user_get_token,
+        lab_user_project_create,
+        lab_user_project_delete,
+        lab_user_get_token,
+        lab_get_roleid,
+        lab_create_user,
+        lab_user_add_role,
+        )
 
 from utils.labs_checker     import checkers
 
@@ -64,113 +74,6 @@ LAB_HOST = os.getenv('LAB_HOST')
 
 # --------- #
 # FUNCTIONS #
-
-
-def lab_user_get_token(port:int) -> str|None:
-    """
-    """
-
-    # URL and data
-    url = f"http://{LAB_HOST}:{port}/v3/access/users/authenticate"
-    # data = {
-    #     "username": lab_config["Controller"]["default_admin_username"],
-    #     "password": lab_config["Controller"]["default_admin_password"]
-    # }
-    data = {
-        "username": "admin",
-        "password": "admin"
-    }
-    
-    # Set headers
-    headers = {
-        "Content-Type": "application/json"
-    }
-    
-    # Make the POST request
-    response = requests.post(url, data=json.dumps(data), headers=headers)
-    
-    # Check the response
-    if response.status_code == 200:
-        return response.json()["access_token"]
-    else:
-        return None
-
-
-async def lab_user_project_create(
-        token:str, port:int,
-        lab_id:str, user_email:str,
-        ) -> str|None:
-    """
-    """
-
-    project_name = lab_id + "__" + str( uuid4() )
-    url = f"http://{LAB_HOST}:{port}/v3/projects"
-    
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
-    
-    payload = {
-        "name": project_name,
-    }
-    
-    response = requests.post(url, headers=headers, json=payload)
-    
-    if response.ok:
-        project_id = response.json()["project_id"]
-        await database.lab.add_user_project(
-                user_email, lab_id, project_id)
-        return project_id
-    else:
-        return None
-
-
-async def lab_user_project_delete(
-        token:str,
-        port:int,
-        project_id:str,
-        ) -> Response:
-    """
-    """
-
-    url = f"http://{LAB_HOST}:{port}/v3/projects/{project_id}"
-    
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
-    
-    payload = {
-    }
-    
-    response = requests.delete(url, headers=headers, json=payload)
-    return response
-
-
-async def lab_check_project_exists(
-        token:str, port:int,
-        project_id:str,
-        ) -> bool:
-    """
-    """
-
-    url = f"http://{LAB_HOST}:{port}/v3/projects/{project_id}"
-    
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
-    
-    payload = {
-    }
-    
-    response = requests.get(url, headers=headers, json=payload)
-    
-    if response.ok:
-        return True
-    else:
-        return False
 
 
 
@@ -212,14 +115,40 @@ async def lab_start(
     user_email = payload.email
     lab_id = body.lab_id
 
-    # Get access_token for GNS3 API:
+    # 1. GET ACCESS TOKEN FOR GNS3 (LAB) API:
     access_token:str|None = lab_user_get_token(user_port)
     if access_token is None:
         raise HTTPException(
                 status_code=501,
                 detail="Cannot start lab: lab token error.",
                 )
+
+    # 2. CREATE LAB USER
+    creds:RealDictRow|None = await database.lab.get_user_lab_creds(user_email)
+    if creds is None:
+        logger.core.debug(f"Lab user not found. Generating new...")
+        creds:tuple[str,str]|None = await lab_create_user(
+                user_port, access_token, user_email)
+        logger.core.debug(f"Lab_user generated with result: {creds[0]}")
+        if creds is None:
+            #TODO: Implement
+            logger.core.error(f"Could not create lab creds.")
+            # this user may be already created.
+            raise Exception
+        user_id_lab, password = creds
+        # Store into the DB:
+        result:bool = await database.lab.add_user_lab_creds(
+                user_email,
+                user_id_lab,
+                password,
+                )
+        logger.core.debug(f"Newly created lab_user stored: {result}")
+    else:
+        user_id_lab = creds["user_id_lab"]
+        password = creds["password_lab"]
+
     
+    # 3. CREATE PROJECT:
     project_id:str|None = await database.lab.get_user_project(
             user_email=user_email,
             lab_id=lab_id,
@@ -238,19 +167,46 @@ async def lab_start(
                 access_token, user_port,
                 lab_id, user_email,
                 )
+    if project_id is None:
+        raise HTTPException(
+                status_code=501,
+                detail=f"Cannot get project_id.",
+                )
+    logger.core.debug(f"Got project_id: {project_id}")
 
-    # Return project_id for lab
+    # 4. CREATE LAB USER ROLE:
+    # 4.1 Get role_id
+    role_name = "User"
+    role_id:str|None = await lab_get_roleid(
+            access_token, user_port, role_name=role_name)
+    if role_id is None:
+        raise HTTPException(
+                status_code=501,
+                detail=f"Cannot get role_id for '{role_name}'.",
+                )
+    # 4.2 Assign role to the user:
+    result:bool = await lab_user_add_role(
+            user_port,
+            user_id_lab,
+            role_id,
+            access_token,
+            project_id,
+            )
+    if result is False:
+        raise HTTPException(
+                status_code=501,
+                detail=f"Got user lab success, but cant assign the role.",
+                )
+
     lab_link:str = \
             f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/{project_id}"
-    ##TODO: return real labs.
-    #project_id = "4d655bbb-13be-45c7-be74-9486db187e7f"
-    #lab_link:str = \
-    #        f"http://127.0.0.1:{user_port}/static/web-ui/controller/1/project/4d655bbb-13be-45c7-be74-9486db187e7f"
 
     return {
         "lab_link": lab_link,
         "lab_project_id": project_id,
         "lab_port": user_port,
+        "lab_user": user_email.split("@")[0],
+        "lab_passwd": password,
     }
 
 
@@ -380,7 +336,7 @@ async def lab_project_id_to_lab_id(
 
     # CONVERT PROJECT_ID TO LAB_ID
     lab_id:str|None = await database.lab.get_user_labid(
-            user_email, project_id)
+            user_email, str(project_id))
     if lab_id is None:
         raise HTTPException(
                 status_code=400,
@@ -451,3 +407,77 @@ async def get_user_checklogs(
             # parse python datetime.date object into string.
             content=jsonable_encoder(result),
             )
+
+
+#@app.get("/api/lab/get_role_id",
+#         tags=TAGS)
+#async def get_roleid(
+#        role_name:str,
+#        ):
+    
+#    port = 3080
+#    token:str = lab_user_get_token(port)
+#    role_id:str|None = await lab_get_roleid(
+#            token, port, role_name=role_name)
+#    return JSONResponse(
+#            status_code=200,
+#            # 'jsonable_encoder' fixes problem when JSONResponse cant
+#            # parse python datetime.date object into string.
+#            content=jsonable_encoder(role_id),
+#            )
+
+
+#@app.get("/api/lab/create_lab_user",
+#         dependencies=[Depends(JWTBearer())],
+#         tags=TAGS)
+#async def create_lab_user(
+#        payload:JWTPayloadSchema=Depends(JWTBearer()),
+#        ):
+    
+#    user_email:str = payload.email
+#    port = 3080
+#    token:str = lab_user_get_token(port)
+
+#    # Does creds for that user already exis?
+#    creds:RealDictRow|None = await database.lab.get_user_lab_creds(user_email)
+#    logger.core.debug(f"Trying to extract lab_user for user. Results: {creds}")
+#    if creds is None:
+#        logger.core.debug(f"Lab user not found. Generating new...")
+#        creds:tuple[str,str]|None = await lab_create_user(
+#                port, token, user_email)
+#        logger.core.debug(f"Lab_user generated with result: {creds}")
+#        if creds is None:
+#            #TODO: Implement
+#            logger.core.error(f"Could not create lab creds.")
+#            # this user may be already created.
+#            raise Exception
+#        user_id_lab, password = creds
+#        # Store into the DB:
+#        result:bool = await database.lab.add_user_lab_creds(
+#                user_email,
+#                user_id_lab,
+#                password,
+#                )
+#        logger.core.debug(f"Newly created lab_user stored: {result}")
+#    else:
+#        user_id_lab = creds["user_id_lab"]
+#        password = creds["password_lab"]
+
+
+#    # PWD ENCRYPT
+#    # password_hash   = pwd_context.encrypt(password)
+#    # # Check pwd
+#    # if pwd_context.verify(plain_password, hashed_db_password):
+#    #     return True
+
+#    return JSONResponse(
+#            status_code=200,
+#            # 'jsonable_encoder' fixes problem when JSONResponse cant
+#            # parse python datetime.date object into string.
+#            content=jsonable_encoder(
+#                [
+#                    user_email,
+#                    user_id_lab,
+#                    password,
+#                    ]),
+#            )
