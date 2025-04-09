@@ -195,3 +195,62 @@ class APILab(APIInterface):
         # except psycopg2.errors.UniqueViolation:
         except Exception as e:
             return None
+
+
+    async def get_user_lab_creds(
+            self,
+            user_email:str,
+            ) -> RealDictRow|None:
+        """
+        Retreive user's labs checklogs.
+        """
+
+        cmd = f"""
+        SELECT lc.password_lab, lc.user_id_lab
+        FROM user_lab_creds lc
+        JOIN users u ON lc.user_id = u.id
+        WHERE u.email = '{user_email}'
+        """
+
+        try:
+            response = await self.query(cmd)
+            if len(response) == 0 or response is None:
+                return None
+            # In case of success 'response' is None
+            return response[0]
+        # except psycopg2.errors.UniqueViolation:
+        except Exception as e:
+            return None
+
+
+    async def add_user_lab_creds(
+            self,
+            user_email:str,
+            user_id_lab:str,
+            password:str,
+            ) -> bool:
+        """
+        Stores user lab creds.
+        """
+
+        # Get user_id from the DB by user_email:
+        user_db:RealDictRow|None = \
+                await APIAuth().get_user_by_email(user_email)
+        if user_db is None:
+            return False
+        # In USERS DB 'id' is the user_id:
+        user_id = user_db["id"]
+
+        # Insert into progress_labs
+        cmd = f"""
+        INSERT INTO user_lab_creds (user_id, password_lab, user_id_lab)
+        VALUES ('{user_id}', '{password}', '{user_id_lab}')
+        """
+
+        try:
+            response = await self.query(cmd)
+            # In case of success 'response' is None
+            return True
+        # except psycopg2.errors.UniqueViolation:
+        except Exception as e:
+            return False

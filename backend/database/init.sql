@@ -51,6 +51,14 @@ CREATE TABLE progress_labs (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- Stores user additional credentials for accessing lab project.
+CREATE TABLE user_lab_creds (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    password_lab VARCHAR(100),
+    user_id_lab VARCHAR(64)
+);
+
 
 -- CREATE DEMO USER WITH LAB
 
