@@ -2,7 +2,7 @@ import { auth } from "auth";
 
 const authRoutes = ["/login", "/signup"];
 
-export default auth( async (req, ctx) => {
+export default auth( async (req) => {
   const path = req.nextUrl.pathname;
   const isAuthRoute = authRoutes.includes(path);
   const isAuthenticated = req.auth;
