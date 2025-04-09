@@ -21,6 +21,7 @@ import {
 import { Input } from "@ui/input"
 import { Label } from "@ui/label"
 import { cn } from "@lib/utils"
+import { useSearchParams } from "next/navigation"
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -39,15 +40,13 @@ export function LoginForm({
     },
   })
 
+  const redirectTo = useSearchParams().get("redirect") || "/"
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     signIn("credentials", {
       ...values,
-      redirectTo: "/",
+      redirectTo,
     })
-    // .then(({ ok, error }: any) => {
-    //   console.log('ok', ok)
-    //   console.log('error', error)
-    // })
   }
 
   return (

@@ -17,7 +17,7 @@ export async function Actions() {
     <form
       action={async () => {
         "use server"
-        await signOut()
+        await signOut({ redirectTo: "/" })
       }}
     >
       <Button 

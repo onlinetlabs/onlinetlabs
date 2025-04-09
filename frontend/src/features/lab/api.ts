@@ -9,7 +9,7 @@ export async function start(params: LabStartParams) {
   const response = await fetch(`${process.env.API_URL}/api/lab/start`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${session?.token?.accessToken}`,
+      Authorization: `Bearer ${session?.accessToken}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(params),
@@ -30,7 +30,7 @@ export async function check(params: ApiMapping<LabCheckParams>) {
   const response = await fetch(`${process.env.API_URL}/api/lab/check`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${session?.token?.accessToken}`,
+      Authorization: `Bearer ${session?.accessToken}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(params),
@@ -47,7 +47,7 @@ export async function remove(params: ApiMapping<LabDeleteParams>) {
   const response = await fetch(`${process.env.API_URL}/api/lab/delete`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${session?.token?.accessToken}`,
+      Authorization: `Bearer ${session?.accessToken}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(params),

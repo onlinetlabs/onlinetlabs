@@ -10,8 +10,10 @@ declare module "next-auth" {
   }
 
   interface Session {
-    user: DefaultSession["user"]
-    token: JWT | undefined;
+    // user: DefaultSession["user"]
+    // token: JWT | undefined;
+    accessToken: string
+    error?: "RefreshTokenError"
   }
 }
 
@@ -20,5 +22,6 @@ declare module "next-auth/jwt" {
     expiresAt: number;
     accessToken: string
     refreshToken: string
+    error?: "RefreshTokenError"
   }
 }

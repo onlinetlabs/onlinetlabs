@@ -51,33 +51,86 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user }
-    },
-    authorized({ auth }) {
-      // const isLoggedIn = !!auth?.user;
-      const isValid = isTokenValid(auth?.token?.accessToken);
+      // First-time login, save the `access_token`, its expiry and the `refresh_token`
+      if (user) {
+        return {
+          ...token,
+          accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+          expiresAt: getExpiresAt(user.accessToken),
+        }
+      } else if (Date.now() < token.expiresAt * 1000) {
+        return token;
+      } else {
+        if (!token.refreshToken) throw new TypeError("Missing refresh token")
 
-      if (!isValid) {
-        return false;
+          try {
+            const response = await fetch(`${process.env.API_URL}/api/auth/refresh?refresh_token=${token.refreshToken}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+
+            const tokensOrError = (await response.json());
+
+            if (!response.ok) {
+              throw tokensOrError;
+            }
+
+            const newTokens = {
+              accessToken: tokensOrError.access_token,
+              refreshToken: tokensOrError.refresh_token,
+              // expiresIn
+            } as { accessToken: string; refreshToken: string; };
+
+            const expiresAt = getExpiresAt(newTokens.accessToken);
+
+            return {
+              ...token,
+              accessToken: newTokens.accessToken,
+              // Some providers only issue refresh tokens once, so preserve if we did not get a new one
+              refreshToken: newTokens.refreshToken ? newTokens.refreshToken : token.refreshToken,
+              expiresAt
+            }
+          } catch (error) {
+            console.error("Error refreshing access token", error);
+            // If we fail to refresh the token, return an error so we can handle it on the page
+            token.error = "RefreshTokenError"
+            return token
+          }
       }
-
-      return true;
     },
+    // authorized({ auth }) {
+    //   // const isLoggedIn = !!auth?.user;
+    //   const isValid = isTokenValid(auth?.token?.accessToken);
+
+    //   if (!isValid) {
+    //     return false;
+    //   }
+
+    //   return true;
+    // },
     async session({ session, token }) {
-      const isValid = isTokenValid(token.accessToken);
-
-      if(!isValid) {
-        // @ts-expect-error TS2322
-        session.user = null;
-        return session
-      };
-
-      return ({
-        expires: session.expires,
-        user: session.user,
-        token
-      })
+      session.error = token.error
+      session.accessToken = token.accessToken
+      return session
     },
+    // async session({ session, token }) {
+    //   const isValid = isTokenValid(token.accessToken);
+
+    //   if(!isValid) {
+    //     // @ts-expect-error TS2322
+    //     session.user = null;
+    //     return session
+    //   };
+
+    //   return ({
+    //     expires: session.expires,
+    //     user: session.user,
+    //     token
+    //   })
+    // },
   },
   basePath: BASE_PATH,
   // // TODO: remove
@@ -88,6 +141,10 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   session: { strategy: "jwt" },
 })
 
+const getExpiresAt = (token: string) => {
+  const { expires: expiresAt } = decodeJwt(token) as { email: string; expires: number; };
+  return expiresAt;
+}
 
 function isTokenValid(token?: string): boolean {
   if (!token) return false;

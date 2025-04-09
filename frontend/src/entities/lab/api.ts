@@ -10,7 +10,7 @@ export async function getUserProjects() {
   const response = await fetch(`${process.env.API_URL}/api/lab/get_user_projects`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${session?.token?.accessToken}`,
+      Authorization: `Bearer ${session?.accessToken}`,
       "Content-Type": "application/json",
     },
   })
@@ -38,7 +38,7 @@ export async function getUserChecklogs(params: UserChecklogsParams) {
   const response = await fetch(`${process.env.API_URL}/api/lab/get_user_checklogs?${queryParams}`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${session?.token?.accessToken}`,
+      Authorization: `Bearer ${session?.accessToken}`,
       "Content-Type": "application/json",
     },
   });
@@ -67,7 +67,7 @@ export async function getProjectInfo(params: ApiMapping<ProjectInfoParams>) {
   const response = await fetch(`${process.env.API_URL}/api/lab/project_info/${params.project_id}`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${session?.token?.accessToken}`,
+      Authorization: `Bearer ${session?.accessToken}`,
       "Content-Type": "application/json",
     },
   });

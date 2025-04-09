@@ -10,7 +10,12 @@ export async function LabStartWidget({ labId }: { labId: string }) {
     return (
       <Callout className="bg-blue-50 mt-6 flex rounded-none border-blue-600 dark:border-blue-900 dark:bg-blue-950 mb-6 [&_code]:bg-blue-100 dark:[&_code]:bg-blue-900">
         <p className="text-sm text-foreground [&_p]:leading-relaxed">
-          Для запуска лабораторной работы <Link href="/login" className="font-medium underline underline-offset-4">войдите&nbsp;в&nbsp;аккаунт</Link>
+          Для запуска лабораторной работы <Link 
+            href={`/login?redirect=${encodeURIComponent('/labs/' + labId)}`} 
+            className="font-medium underline underline-offset-4"
+          >
+            войдите&nbsp;в&nbsp;аккаунт
+          </Link>
         </p>
       </Callout>
     )
