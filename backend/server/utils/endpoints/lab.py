@@ -343,10 +343,21 @@ async def lab_project_id_to_lab_id(
                 detail="Provided project_id doesnt exist.",
                 )
 
+    # Extract user lab credentials from the DB:
+    creds:RealDictRow|None = await database.lab.get_user_lab_creds(user_email)
+    if creds is None:
+        user_id_lab = None
+        password = None
+    else:
+        user_id_lab = creds["user_id_pal"]
+        password = creds["password"]
+
     # GATHER SOME OTHER INFO
 
     return {
-        "lab_id": lab_id
+        "lab_id": lab_id,
+        "lab_user": user_email.split("@")[0],
+        "lab_passwd": password,
     }
 
 
@@ -407,77 +418,3 @@ async def get_user_checklogs(
             # parse python datetime.date object into string.
             content=jsonable_encoder(result),
             )
-
-
-#@app.get("/api/lab/get_role_id",
-#         tags=TAGS)
-#async def get_roleid(
-#        role_name:str,
-#        ):
-    
-#    port = 3080
-#    token:str = lab_user_get_token(port)
-#    role_id:str|None = await lab_get_roleid(
-#            token, port, role_name=role_name)
-#    return JSONResponse(
-#            status_code=200,
-#            # 'jsonable_encoder' fixes problem when JSONResponse cant
-#            # parse python datetime.date object into string.
-#            content=jsonable_encoder(role_id),
-#            )
-
-
-#@app.get("/api/lab/create_lab_user",
-#         dependencies=[Depends(JWTBearer())],
-#         tags=TAGS)
-#async def create_lab_user(
-#        payload:JWTPayloadSchema=Depends(JWTBearer()),
-#        ):
-    
-#    user_email:str = payload.email
-#    port = 3080
-#    token:str = lab_user_get_token(port)
-
-#    # Does creds for that user already exis?
-#    creds:RealDictRow|None = await database.lab.get_user_lab_creds(user_email)
-#    logger.core.debug(f"Trying to extract lab_user for user. Results: {creds}")
-#    if creds is None:
-#        logger.core.debug(f"Lab user not found. Generating new...")
-#        creds:tuple[str,str]|None = await lab_create_user(
-#                port, token, user_email)
-#        logger.core.debug(f"Lab_user generated with result: {creds}")
-#        if creds is None:
-#            #TODO: Implement
-#            logger.core.error(f"Could not create lab creds.")
-#            # this user may be already created.
-#            raise Exception
-#        user_id_lab, password = creds
-#        # Store into the DB:
-#        result:bool = await database.lab.add_user_lab_creds(
-#                user_email,
-#                user_id_lab,
-#                password,
-#                )
-#        logger.core.debug(f"Newly created lab_user stored: {result}")
-#    else:
-#        user_id_lab = creds["user_id_lab"]
-#        password = creds["password_lab"]
-
-
-#    # PWD ENCRYPT
-#    # password_hash   = pwd_context.encrypt(password)
-#    # # Check pwd
-#    # if pwd_context.verify(plain_password, hashed_db_password):
-#    #     return True
-
-#    return JSONResponse(
-#            status_code=200,
-#            # 'jsonable_encoder' fixes problem when JSONResponse cant
-#            # parse python datetime.date object into string.
-#            content=jsonable_encoder(
-#                [
-#                    user_email,
-#                    user_id_lab,
-#                    password,
-#                    ]),
-#            )
