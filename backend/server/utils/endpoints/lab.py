@@ -349,7 +349,7 @@ async def lab_project_id_to_lab_id(
         user_id_lab = None
         password = None
     else:
-        user_id_lab = creds["user_id_pal"]
+        user_id_lab = creds["user_id_lab"]
         password = creds["password"]
 
     # GATHER SOME OTHER INFO
