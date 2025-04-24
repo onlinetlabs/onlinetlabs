@@ -1,5 +1,7 @@
 'use server'
 
+import { generateQueryParams } from "@lib/utils"
+
 export async function signup(params: SignUpParams) {
   const response = await fetch(`${process.env.API_URL}/api/auth/signup`, {
     method: "POST",
@@ -54,8 +56,10 @@ export async function signin(params: SignInParams) {
   }
 }
 
-export async function refresh(refreshToken: string) {
-  const response = await fetch(`${process.env.API_URL}/api/auth/refresh`, {
+export async function refresh({ refreshToken }: RefreshParams) {
+  const queryParams = generateQueryParams({ refresh_token :refreshToken })
+
+  const response = await fetch(`${process.env.API_URL}/api/auth/refresh?${queryParams}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -64,14 +68,19 @@ export async function refresh(refreshToken: string) {
       refresh_token: refreshToken,
     }),
   })
-  const data = (await response.json()) as {
+
+  const tokensOrError = (await response.json()) as {
     access_token: string
     refresh_token: string
+  };
+
+  if (!response.ok) {
+    throw tokensOrError;
   }
 
   return {
-    accessToken: data.access_token,
-    refreshToken: data.refresh_token,
+    accessToken: tokensOrError.access_token,
+    refreshToken: tokensOrError.refresh_token,
   };
 }
 
@@ -85,4 +94,8 @@ export type SignUpParams = {
 export type SignInParams = {
   email: string
   password: string
+}
+
+export type RefreshParams = {
+  refreshToken: string
 }

@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/card"
 import { CredentialsInput } from "./credentials-input"
 
-export function CredentialsCard() {
+export function CredentialsCard({ username, password }: Props) {
   return (
     <Card className="relative flex w-full flex-col md:w-9/12">
       <CardHeader>
@@ -15,13 +15,20 @@ export function CredentialsCard() {
       <CardContent className="flex items-center gap-x-4">
         <CredentialsInput
           label="Логин"
-          defaultValue="admin"
+          // defaultValue="admin"
+          defaultValue={username}
         />
         <CredentialsInput
           label="Пароль"
-          defaultValue="admin"
+          // defaultValue="admin"
+          defaultValue={password}
         />
       </CardContent>
     </Card>
   )
+}
+
+type Props = {
+  username: string
+  password: string
 }

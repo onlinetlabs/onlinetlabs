@@ -22,6 +22,8 @@ export type UserChecklog = {
 
 export type ProjectInfo = {
   labId: string;
+  labUser: string;
+  labPasswd: string;
 }
 
 export type ProjectInfoParams = {

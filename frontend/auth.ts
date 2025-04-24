@@ -1,8 +1,8 @@
 import NextAuth from "next-auth"
-import { signin } from "@features/auth"
+import { refresh, signin } from "@features/auth"
 import { User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import { decodeJwt } from "jose";
+import { decodeJwt } from "jose/jwt/decode";
 
 const BASE_PATH = "/auth"
 
@@ -51,7 +51,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // First-time login, save the `access_token`, its expiry and the `refresh_token`
+      // Первый вход, значит сохраняем `access_token`, его срок действия и `refresh_token`
       if (user) {
         return {
           ...token,
@@ -65,76 +65,33 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         if (!token.refreshToken) throw new TypeError("Missing refresh token")
 
           try {
-            const response = await fetch(`${process.env.API_URL}/api/auth/refresh?refresh_token=${token.refreshToken}`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-
-            const tokensOrError = (await response.json());
-
-            if (!response.ok) {
-              throw tokensOrError;
-            }
-
-            const newTokens = {
-              accessToken: tokensOrError.access_token,
-              refreshToken: tokensOrError.refresh_token,
-              // expiresIn
-            } as { accessToken: string; refreshToken: string; };
+            const newTokens = await refresh({ refreshToken: token.refreshToken })
 
             const expiresAt = getExpiresAt(newTokens.accessToken);
 
             return {
               ...token,
               accessToken: newTokens.accessToken,
-              // Some providers only issue refresh tokens once, so preserve if we did not get a new one
+              // Некоторые провайдеры выдают токены обновления только один раз, поэтому сохраняем, если мы не получили новый
               refreshToken: newTokens.refreshToken ? newTokens.refreshToken : token.refreshToken,
               expiresAt
             }
           } catch (error) {
             console.error("Error refreshing access token", error);
-            // If we fail to refresh the token, return an error so we can handle it on the page
+            // Если токен обновления недействителен, мы не можем получить новый токен доступа
             token.error = "RefreshTokenError"
             return token
           }
       }
     },
-    // authorized({ auth }) {
-    //   // const isLoggedIn = !!auth?.user;
-    //   const isValid = isTokenValid(auth?.token?.accessToken);
-
-    //   if (!isValid) {
-    //     return false;
-    //   }
-
-    //   return true;
-    // },
     async session({ session, token }) {
       session.error = token.error
       session.accessToken = token.accessToken
+      console.log('session', session)
       return session
     },
-    // async session({ session, token }) {
-    //   const isValid = isTokenValid(token.accessToken);
-
-    //   if(!isValid) {
-    //     // @ts-expect-error TS2322
-    //     session.user = null;
-    //     return session
-    //   };
-
-    //   return ({
-    //     expires: session.expires,
-    //     user: session.user,
-    //     token
-    //   })
-    // },
   },
   basePath: BASE_PATH,
-  // // TODO: remove
-  // secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
   },

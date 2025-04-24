@@ -38,7 +38,7 @@ export const About = () => {
               </div>
             </li>
             <li className="bg-muted/75 relative min-h-[206px] overflow-hidden rounded-[20px] p-5 md:min-h-[206px] lg:min-h-[auto] lg:rounded-[32px] lg:p-8">
-              текст
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
             </li>
           </ul>
         </div>

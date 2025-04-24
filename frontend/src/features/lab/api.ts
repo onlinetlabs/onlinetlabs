@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from "auth";
-import { LabCheck, LabCheckParams, LabDeleteParams, LabStart, LabStartParams } from "./types";
+import type { LabCheck, LabCheckParams, LabDeleteParams, LabStart, LabStartParams } from "./types";
 
 export async function start(params: LabStartParams) {
   const session = await auth();

@@ -2,7 +2,7 @@
 
 import { auth } from "auth";
 import { generateQueryParams } from "@lib/utils";
-import { ProjectInfo, ProjectInfoParams, UserChecklog, UserChecklogsParams, UserProject } from "./types";
+import type { ProjectInfo, ProjectInfoParams, UserChecklog, UserChecklogsParams, UserProject } from "./types";
 
 export async function getUserProjects() {
   const session = await auth();
@@ -26,7 +26,6 @@ export async function getUserProjects() {
     projectId: item.project_id,
     createdAt: item.created_at,
   }));
-
 
   return result;
 }
@@ -80,6 +79,8 @@ export async function getProjectInfo(params: ApiMapping<ProjectInfoParams>) {
 
   const result: ProjectInfo = {
     labId: data.lab_id,
+    labUser: data.lab_user,
+    labPasswd: data.lab_passwd,
   };
 
   return result;

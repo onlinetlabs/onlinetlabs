@@ -9,7 +9,7 @@ import { CheckLabButton } from "@features/lab"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { checksOptions, projectInfoOptions } from "@entities/lab"
 import { getQueryClient } from "@lib/get-query-client"
-import { DeleteLabButton } from "@features/lab/delete"
+import { DeleteLabButton } from "@features/lab"
 import { Metadata } from "next"
 import { CredentialsCard } from "./components/credentials-card"
 import { LabCard } from "./components/lab-card"
@@ -72,7 +72,7 @@ export default async function IndexPage({ params }: Props) {
           </p>
           <div className="mt-8 flex w-full flex-col xl:flex-row gap-y-4">
             <div className="flex w-full flex-col gap-y-4 xl:max-w-4xl md:flex-row md:items-stretch md:space-x-4">
-              <CredentialsCard />
+              <CredentialsCard username={info.labUser} password={info.labPasswd} />
               <LabCard labId={info.labId} />
             </div>
             <div className="md:ml-auto mt-auto flex items-center gap-x-3">
