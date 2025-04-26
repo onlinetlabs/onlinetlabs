@@ -254,3 +254,110 @@ class APILab(APIInterface):
         # except psycopg2.errors.UniqueViolation:
         except Exception as e:
             return False
+
+
+    async def get_user_lab_in_progress(
+            self,
+            user_email:str,
+            lab_id:str,
+            ) -> bool:
+        """
+        Set status for user lab_id 'in_progress' == True.
+        """
+
+        # Get user_id from the DB by user_email:
+        user_db:RealDictRow|None = \
+                await APIAuth().get_user_by_email(user_email)
+        if user_db is None:
+            return False
+        # In USERS DB 'id' is the user_id:
+        user_id = user_db["id"]
+
+        # Insert into progress_labs
+        cmd = f"""
+        SELECT in_progress 
+        FROM lab_check_in_progress 
+        WHERE user_id = '{user_id}' AND lab_id = '{lab_id}';
+        """
+
+        in_progress = False
+
+        try:
+            response = await self.query(cmd)
+            if response is None or len(response) == 0:
+                return in_progress
+            print(f"[DEBUG] Lab in_progress status: {response}")
+            # if response[0] == True:
+            # if response["in_progress"] == True:
+            return True
+        # except psycopg2.errors.UniqueViolation:
+        except Exception as e:
+            return False
+
+
+    async def add_user_lab_in_progress(
+            self,
+            user_email:str,
+            lab_id:str,
+            ) -> bool:
+        """
+        Set status for user lab_id 'in_progress' == True.
+        """
+
+        # Get user_id from the DB by user_email:
+        user_db:RealDictRow|None = \
+                await APIAuth().get_user_by_email(user_email)
+        if user_db is None:
+            return False
+        # In USERS DB 'id' is the user_id:
+        user_id = user_db["id"]
+        in_progress:bool = True
+
+        # Insert into progress_labs
+        cmd = f"""
+        INSERT INTO lab_check_in_progress (user_id, lab_id, in_progress)
+        VALUES ('{user_id}', '{lab_id}', '{in_progress}')
+        """
+
+
+        try:
+            response = await self.query(cmd)
+            # In case of success 'response' is None
+            return True
+        # except psycopg2.errors.UniqueViolation:
+        except Exception as e:
+            return False
+
+
+    async def del_user_lab_in_progress(
+            self,
+            user_email:str,
+            lab_id:str,
+            ) -> bool:
+        """
+        Del status for user lab_id 'in_progress'. The whole entry.
+        """
+
+        # Get user_id from the DB by user_email:
+        user_db:RealDictRow|None = \
+                await APIAuth().get_user_by_email(user_email)
+        if user_db is None:
+            return False
+        # In USERS DB 'id' is the user_id:
+        user_id = user_db["id"]
+        in_progress:bool = True
+
+        # Insert into progress_labs
+        cmd = f"""
+        DELETE FROM lab_check_in_progress
+        WHERE user_id = '{user_id}' AND lab_id = '{lab_id}';
+        """
+
+
+        try:
+            response = await self.query(cmd)
+            # In case of success 'response' is None
+            return True
+        # except psycopg2.errors.UniqueViolation:
+        except Exception as e:
+            return False

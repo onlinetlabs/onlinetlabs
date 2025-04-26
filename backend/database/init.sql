@@ -51,6 +51,14 @@ CREATE TABLE progress_labs (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE lab_check_in_progress (
+    id BIGSERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    --lab_id SMALLINT REFERENCES labs(id),
+    lab_id VARCHAR(64),
+    in_progress BOOLEAN
+);
+
 -- Stores user additional credentials for accessing lab project.
 CREATE TABLE user_lab_creds (
     id SERIAL PRIMARY KEY,

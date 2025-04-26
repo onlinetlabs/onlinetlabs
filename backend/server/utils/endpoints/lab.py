@@ -228,7 +228,9 @@ async def lab_check(
     user_email:str = payload.email
     project_id = body.project_id
 
-    # Duplicate target lab
+    
+    # 1. GATHER METADATA (lab server access_token, lab_id)
+
     access_token = lab_user_get_token(user_port)
     if access_token is None:
         # For some reasons GNS3 server credentials were incorrect
@@ -245,15 +247,57 @@ async def lab_check(
                 detail="Provided project_id doesnt exist.",
                 )
 
-    if not lab_id in checkers:
-        logs = {f"Project_id valid": False}
 
-    else:
-        checker = checkers[lab_id](lab_host, user_port)
-        await checker.lab_perform_check(
-                access_token, project_id,
+    # 2. GET LAB CHECK IN PROGRESS STATUS
+
+    lab_check_in_progress:bool = \
+            await database.lab.get_user_lab_in_progress(
+                user_email,
+                lab_id,
                 )
-        logs = checker.checklog
+    if lab_check_in_progress:
+        raise HTTPException(
+                status_code=500,
+                detail="Lab check already in progress.",
+                )
+    else:
+        # The lab checker is not started yet,
+        # Lets add db entry that it's started now:
+        result:bool = await database.lab.add_user_lab_in_progress(
+                user_email, lab_id)
+        if not result:
+            logger.core.error(f"Could not set lab_in_progress True for user: {user_email}.")
+            raise HTTPException(
+                    status_code=500,
+                    detail="Could not set lab_in_progress True.",
+                    )
+
+
+    # 3. PERFORM THE CHECK
+
+    try:
+        if not lab_id in checkers:
+            logs = {f"Project_id valid": False}
+
+        else:
+            checker = checkers[lab_id](lab_host, user_port)
+            await checker.lab_perform_check(
+                    access_token, project_id,
+                    )
+            logs = checker.checklog
+    finally:
+        # Mark lab that it's not on check anymore
+        result:bool = await database.lab.del_user_lab_in_progress(
+                user_email, lab_id)
+        if not result:
+            logger.core.error(f"Could not set lab_in_progress back False for user: {user_email}.")
+            raise HTTPException(
+                    status_code=500,
+                    detail="Could not set lab_in_progress back False.",
+                    )
+    
+
+    # 4. RETURN THE RESULTS
 
     passed = all(check for check in logs.values())
 
@@ -325,7 +369,10 @@ async def lab_project_id_to_lab_id(
 
     user_email:str = payload.email
 
-    # Duplicate target lab
+
+    # 1. GATHER METADATA (lab server access_token,
+    # lab_id, user_lab_creds, lab_check_in_progress)
+
     access_token = lab_user_get_token(user_port)
     if access_token is None:
         # For some reasons GNS3 server credentials were incorrect
@@ -334,7 +381,6 @@ async def lab_project_id_to_lab_id(
                 detail="Cannot access lab server. Address admin.",
                 )
 
-    # CONVERT PROJECT_ID TO LAB_ID
     lab_id:str|None = await database.lab.get_user_labid(
             user_email, str(project_id))
     if lab_id is None:
@@ -352,10 +398,19 @@ async def lab_project_id_to_lab_id(
         user_id_lab = creds["user_id_lab"]
         password = creds["password_lab"]
 
-    # GATHER SOME OTHER INFO
+
+    lab_check_in_progress:bool = \
+            await database.lab.get_user_lab_in_progress(
+                user_email,
+                lab_id,
+                )
+
+
+    # 4. RETURN THE RESULTS
 
     return {
         "lab_id": lab_id,
+        "check_in_progress": lab_check_in_progress,
         "lab_user": user_email.split("@")[0],
         "lab_passwd": password,
     }
