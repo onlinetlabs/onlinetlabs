@@ -96,6 +96,28 @@ VALUES (
 );
 
 
+-- CREATE DUMMY USER WITH LAB
+
+INSERT INTO users (name, surname, email, password_hash, role, last_seen)
+VALUES (
+    'Dummy',
+    'Dummy2',
+    'dummy@mail.ru',
+    -- Hash 1234
+    '$2b$12$S.g/Zn9BdKFyf59a1KGqEe73nA1yGr0cUmqvXerSYYW5aoUh1GizK',
+    'user',
+    CURRENT_DATE
+);
+
+-- Insert a project for the demo user
+INSERT INTO user_projects (user_id, lab_id, project_id)
+VALUES (
+    2,                          -- DEMO user ID
+    'routing-in-ip-networks',   -- Example lab ID (up to 64 chars)
+    '4d655bbb-13be-45c7-be74-9486db187e7f'  -- Project_id
+);
+
+
 -- Fill in roles table
 INSERT INTO roles (role)
 VALUES ('user');
