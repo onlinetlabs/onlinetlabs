@@ -75,8 +75,8 @@ VALUES (
     'Ivan',
     'Ivanov',
     'example@mail.ru',
-    -- Always hash passwords in real applications! (That's the hash)
-    '$2b$12$vA3VQA8H.UcpFJ882cSgpephTF8rUg0RpxhuLrdOR3px92I6yNEsK',
+    -- Hash 1234
+    '$2b$12$S.g/Zn9BdKFyf59a1KGqEe73nA1yGr0cUmqvXerSYYW5aoUh1GizK',
     'user',
     CURRENT_DATE
 );
