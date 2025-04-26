@@ -286,9 +286,6 @@ class APILab(APIInterface):
             response = await self.query(cmd)
             if response is None or len(response) == 0:
                 return in_progress
-            print(f"[DEBUG] Lab in_progress status: {response}")
-            # if response[0] == True:
-            # if response["in_progress"] == True:
             return True
         # except psycopg2.errors.UniqueViolation:
         except Exception as e:
@@ -352,7 +349,6 @@ class APILab(APIInterface):
         DELETE FROM lab_check_in_progress
         WHERE user_id = '{user_id}' AND lab_id = '{lab_id}';
         """
-
 
         try:
             response = await self.query(cmd)
