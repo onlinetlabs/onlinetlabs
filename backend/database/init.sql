@@ -88,3 +88,16 @@ VALUES (
     'routing-in-ip-networks',   -- Example lab ID (up to 64 chars)
     '4d655bbb-13be-45c7-be74-9486db187e7f'  -- Project_id
 );
+
+-- CREATE ADMIN USER
+
+INSERT INTO users (name, surname, email, password_hash, role, last_seen)
+VALUES (
+    'Name',
+    'Surname',
+    'admin8782@mail.ru',
+    -- Hash yaWCbmzf
+    '$2b$12$NN2UNbcZfskJDXkpzZx69e2T/hiM7UIxGTDPieX5rzfXUiQXXLpRa',
+    'admin',
+    CURRENT_DATE
+);
