@@ -11,7 +11,7 @@ CREATE TABLE users (
 -- New projects table
 CREATE TABLE user_projects (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     lab_id VARCHAR(64),                     -- Stores lab name basicaly.
     project_id VARCHAR(64),                 -- Stores python uuid.UUID strings like.
     created_at TIMESTAMP DEFAULT NOW()
@@ -25,16 +25,16 @@ CREATE TABLE courses (
 
 CREATE TABLE users_courses (
     id BIGSERIAL PRIMARY KEY,
-    user_id SERIAL REFERENCES users(id),
-    course_id SMALLINT REFERENCES courses(id),
+    user_id SERIAL REFERENCES users(id) ON DELETE CASCADE,
+    course_id SMALLINT REFERENCES courses(id) ON DELETE CASCADE,
     max_score SMALLINT,
     user_score SMALLINT
 );
 
 CREATE TABLE progress_tasks (
     id BIGSERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    course_id SMALLINT REFERENCES courses(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    course_id SMALLINT REFERENCES courses(id) ON DELETE CASCADE,
     --task_id SMALLINT REFERENCES tasks(id),
     task_id VARCHAR(64),
     user_attempts SMALLINT,
@@ -43,7 +43,7 @@ CREATE TABLE progress_tasks (
 
 CREATE TABLE progress_labs (
     id BIGSERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     --lab_id SMALLINT REFERENCES labs(id),
     lab_id VARCHAR(64),
     passed BOOLEAN,         -- Stores True/False
@@ -53,7 +53,7 @@ CREATE TABLE progress_labs (
 
 CREATE TABLE lab_check_in_progress (
     id BIGSERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     --lab_id SMALLINT REFERENCES labs(id),
     lab_id VARCHAR(64),
     in_progress BOOLEAN
@@ -62,7 +62,7 @@ CREATE TABLE lab_check_in_progress (
 -- Stores user additional credentials for accessing lab project.
 CREATE TABLE user_lab_creds (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     password_lab VARCHAR(100),
     user_id_lab VARCHAR(64)
 );
