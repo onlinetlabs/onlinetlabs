@@ -67,6 +67,12 @@ CREATE TABLE user_lab_creds (
     user_id_lab VARCHAR(64)
 );
 
+-- Available roles
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    role VARCHAR(64)
+);
+
 
 -- CREATE DEMO USER WITH LAB
 
@@ -88,6 +94,14 @@ VALUES (
     'routing-in-ip-networks',   -- Example lab ID (up to 64 chars)
     '4d655bbb-13be-45c7-be74-9486db187e7f'  -- Project_id
 );
+
+
+-- Fill in roles table
+INSERT INTO roles (role)
+VALUES (1,'user');
+INSERT INTO roles (role)
+VALUES (2,'admin');
+
 
 -- CREATE ADMIN USER
 
