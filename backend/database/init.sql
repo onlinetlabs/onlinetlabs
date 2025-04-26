@@ -98,9 +98,9 @@ VALUES (
 
 -- Fill in roles table
 INSERT INTO roles (role)
-VALUES (1,'user');
+VALUES ('user');
 INSERT INTO roles (role)
-VALUES (2,'admin');
+VALUES ('admin');
 
 
 -- CREATE ADMIN USER
