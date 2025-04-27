@@ -37,7 +37,7 @@ class APIAuth(APIInterface):
         name            = user.firstname
         surname         = user.secondname
         email           = user.email
-        password_hash   = pwd_context.encrypt(user.password)
+        password_hash   = pwd_context.hash(user.password)
         role            = "student"
         # created_at       = '2024-06-17' # TIMESTAMP
         # created_at       = datetime.datetime.now()
