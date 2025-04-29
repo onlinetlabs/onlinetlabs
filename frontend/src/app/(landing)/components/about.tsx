@@ -37,8 +37,11 @@ export const About = () => {
                 </p>
               </div>
             </li>
-            <li className="bg-muted/75 relative min-h-[206px] overflow-hidden rounded-[20px] p-5 md:min-h-[206px] lg:min-h-[auto] lg:rounded-[32px] lg:p-8">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            <li className="bg-muted/75 relative min-h-[206px] overflow-hidden rounded-[20px] md:min-h-[206px] lg:min-h-[auto] lg:rounded-[32px]">
+              <video preload="none" autoPlay loop muted className="size-full">
+                <source src="/gns3/demo.mp4" type="video/mp4" />
+                <source src="/gns3/demo.webm" type="video/webm" />
+              </video>
             </li>
           </ul>
         </div>

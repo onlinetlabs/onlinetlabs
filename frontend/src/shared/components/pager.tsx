@@ -2,7 +2,7 @@ import Link from "next/link"
 import { allCourses, Course } from "contentlayer/generated"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-import { NavItem, NavItemWithChildren } from "@shared/types/nav"
+import { NavItem } from "@shared/config/nav"
 import { Button } from "@ui/button"
 
 interface ChaptersPagerProps {
@@ -59,4 +59,9 @@ export function flatten(links: NavItemWithChildren[]): NavItem[] {
       return flat.concat(link.items?.length ? link.items : link)
     }, [])
     .filter((link) => !link?.disabled)
+}
+
+
+type NavItemWithChildren = NavItem & {
+  items: NavItem[]
 }

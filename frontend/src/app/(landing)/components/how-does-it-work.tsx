@@ -8,6 +8,7 @@ import {
 } from "lucide-react"
 
 import { Circle } from "@ui/circle"
+import Image from "next/image"
 
 export const HowDoesItWork = () => {
   return (
@@ -133,7 +134,7 @@ export const HowDoesItWork = () => {
         </div>
         <div className="inset-0 flex flex-col items-center justify-center lg:absolute lg:flex-row">
           <div className="flex w-full items-center justify-center lg:ml-2 lg:w-[53%]">
-            {/* <img alt="Course explainer" loading="lazy" width="689" height="408" decoding="async" data-nimg="1" className="hidden md:block" style="color:transparent" srcset="/_next/image?url=%2Flearn%2Fcourse-explainer.png&amp;w=750&amp;q=75 1x, /_next/image?url=%2Flearn%2Fcourse-explainer.png&amp;w=1920&amp;q=75 2x" src="/_next/image?url=%2Flearn%2Fcourse-explainer.png&amp;w=1920&amp;q=75"> */}
+            <Image alt="Course explainer" loading="lazy" width="689" height="408" decoding="async" data-nimg="1" className="hidden md:block" src="/course-explainer.png" />
             {/* <img alt="Course explainer" loading="lazy" width="689" height="408" decoding="async" data-nimg="1" className="block md:hidden" style="color:transparent" srcset="/_next/image?url=%2Flearn%2Fcourse-explainer-small.png&amp;w=750&amp;q=75 1x, /_next/image?url=%2Flearn%2Fcourse-explainer-small.png&amp;w=1920&amp;q=75 2x" src="/_next/image?url=%2Flearn%2Fcourse-explainer-small.png&amp;w=1920&amp;q=75"> */}
           </div>
           <div className="flex w-full items-center justify-center lg:w-[38%]">
@@ -147,7 +148,7 @@ export const HowDoesItWork = () => {
                 </Circle>
                 <div className="text-center lg:text-left">
                   <p className="text-primary text-base">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                    Выберите курс, который хотите пройти
                   </p>
                 </div>
               </div>
@@ -160,8 +161,7 @@ export const HowDoesItWork = () => {
                 </Circle>
                 <div className="text-center lg:text-left">
                   <p className="text-primary text-base">
-                    Minus fugit neque quo quas ab quia natus a animi, minima
-                    quisquam similique dolorem quasi?
+                    Просматривайте материалы с любого устройства
                   </p>
                 </div>
               </div>
@@ -174,7 +174,7 @@ export const HowDoesItWork = () => {
                 </Circle>
                 <div className="text-center lg:text-left">
                   <p className="text-primary text-base">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                    Возвращайтесь к пройденным главам, если что-то забыли
                   </p>
                 </div>
               </div>
@@ -187,8 +187,7 @@ export const HowDoesItWork = () => {
                 </Circle>
                 <div className="text-center lg:text-left">
                   <p className="text-primary text-base">
-                    Minus fugit neque quo quas ab quia natus a animi, minima
-                    quisquam similique dolorem quasi?
+                    В конце закрепите свои знания на практике, выполнив лабораторную работу
                   </p>
                 </div>
               </div>

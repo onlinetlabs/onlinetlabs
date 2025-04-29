@@ -85,9 +85,10 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       }
     },
     async session({ session, token }) {
-      session.error = token.error
+      if (token.error) {
+        throw new Error(token.error)
+      }
       session.accessToken = token.accessToken
-      console.log('session', session)
       return session
     },
   },
@@ -101,28 +102,4 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 const getExpiresAt = (token: string) => {
   const { expires: expiresAt } = decodeJwt(token) as { email: string; expires: number; };
   return expiresAt;
-}
-
-function isTokenValid(token?: string): boolean {
-  if (!token) return false;
-
-  try {
-    // Decode the JWT to extract the expiration timestamp
-    const { expires } = decodeJwt(token) as { email: string; expires: number; };
-
-    if (!expires) {
-      return false;
-    }
-
-    // Convert the expiration time (in seconds) to milliseconds and compare with the current time
-    const jwtExpireDateTime = new Date(expires * 1000);
-
-    if (jwtExpireDateTime < new Date()) {
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    return false;
-  }
 }
