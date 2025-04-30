@@ -5,7 +5,6 @@ import { join } from "path"
 import type { Element, Root } from "hast"
 import type { Plugin } from "unified"
 import { visit } from "unist-util-visit"
-
 // By default, we will set transparent background.
 // className allows you to add a class to the wrapper of both light and dark images.
 // This can be useful if you need to do anything with them downstream, i.e. in mdxComponents.
@@ -62,7 +61,7 @@ const rehypeMermaid: Plugin<[MermaidOptions?], Root> = (options = {}) => {
           const configArg =
             process.env.NODE_ENV === "development"
               ? ""
-              : "-p puppeteer-vercel.config.json"
+              : "-p puppeteer.config.json"
           execSync(
             `npx -p @mermaid-js/mermaid-cli mmdc -i "${inputFile}" -o "${outputLightFile}" ${backgroundArg} ${configArg}`,
             { stdio: "pipe" }

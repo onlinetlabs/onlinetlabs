@@ -44,7 +44,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.0",
-    "@mermaid-js/mermaid-cli": "^11.4.2",
     "@puppeteer/browsers": "^2.7.0",
     "@shikijs/compat": "^1.26.1",
     "@tailwindcss/postcss": "^4.0.0",

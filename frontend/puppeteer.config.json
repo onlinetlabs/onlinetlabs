@@ -1,0 +1,9 @@
+{
+  "cacheDirectory": "/Users/nevsk/Documents/onlinetlabs/frontend/.browser/cache",
+  "executablePath": "/Users/nevsk/Documents/onlinetlabs/frontend/.browser/chrome/mac_arm-138.0.7152.0/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+  "args": [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage"
+  ]
+} 
