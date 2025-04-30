@@ -51,8 +51,6 @@ services:
       - ./volumes/lab:/data
     env_file: ./backend/.env
     privileged: true
-    cpu_shares: 512
-    mem_limit: 1gb
 
   netlab_frontend:
     container_name: netlab_frontend
