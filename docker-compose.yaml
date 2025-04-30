@@ -218,22 +218,22 @@ services:
     #       cpus: "12.0"  # 1000% CPU
     #       memory: "16G"  # 8GB memory
     
-  # netlab_frontend:
-  #   container_name: netlab_frontend
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: ../docker/frontend.dockerfile
-  #   environment:
-  #     - NODE_ENV=production
-  #     - AUTH_TRUST_HOST=1
-  #     - AUTH_SECRET=2cIv6/W0QiqI7qHM+4Ux3HW4hwf2kyjQJ+JJZt4aWlE=
-  #     - API_URL=http://netlab_server:8000
-  #     - GNS3_SUBDOMAIN=http://gns3.localhost
-  #   restart: always
-  #   ports:
-  #     - '3000:80'
-  #   depends_on:
-  #     - netlab_server
+  netlab_frontend:
+    container_name: netlab_frontend
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend.dockerfile
+    environment:
+      - NODE_ENV=production
+      - AUTH_TRUST_HOST=1
+      - AUTH_SECRET=2cIv6/W0QiqI7qHM+4Ux3HW4hwf2kyjQJ+JJZt4aWlE=
+      - API_URL=http://netlab_server:8000
+      - GNS3_SUBDOMAIN=http://gns3.localhost
+    restart: always
+    ports:
+      - '3000:80'
+    depends_on:
+      - netlab_server
 
 
   netlab_nginx:
