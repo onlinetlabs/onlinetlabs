@@ -1,5 +1,5 @@
 # Use a multi-stage build to keep the final image clean
-FROM alpine:3.21.0 as builder
+FROM alpine:latest AS builder
 
 # Copy all necessary files
 COPY start.sh /start.sh
@@ -12,7 +12,7 @@ COPY devices /devices
 COPY projects /projects
 
 # Install build dependencies including dos2unix for line ending conversion
-RUN apk add --no-cache --virtual=build-dependencies \
+RUN apk add --virtual=build-dependencies \
     jq \
     gcc \
     python3-dev \
@@ -35,7 +35,7 @@ RUN apk del --purge build-dependencies
 
 
 # Final stage
-FROM alpine:3.21.0
+FROM alpine:latest
 
 # Copy installed dependencies from builder
 COPY --from=builder / /

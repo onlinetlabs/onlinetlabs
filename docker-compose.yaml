@@ -19,7 +19,6 @@ services:
       # located in the "context" directory to build the image.
       dockerfile: Dockerfile
 
-
     # This instructs Docker Compose to load environment variables
     # from the .env file located in the same directory as the
     # docker-compose.yaml.
@@ -180,7 +179,6 @@ services:
     build:
       context: ./backend/lab
       dockerfile: ../../docker/lab.dockerfile
-       
     environment:
       # Configure the internal NAT network bridge for GNS3
       BRIDGE_ADDRESS: "172.21.1.1/24"
