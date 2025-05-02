@@ -1,8 +1,8 @@
 export const GrainyBackground = ({ opacity = 0.06 }: Props) => {
   return (
-    <div className="flex-none inset-0 pointer-events-none absolute z-10">
+    <div className="pointer-events-none absolute inset-0 z-10 flex-none">
       <div
-        className="w-full h-full bg-repeat"
+        className="h-full w-full bg-repeat"
         style={{ backgroundImage: `url('/mesh.png')`, opacity }}
       />
     </div>

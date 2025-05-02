@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@ui/card"
 
-import { NextButton } from "./next-button"
+import { NextButton } from "./components/next-button"
 
 export const ChapterNextUp = ({
   title,
@@ -22,22 +22,22 @@ export const ChapterNextUp = ({
   sortOrder,
 }: Props) => {
   return (
-    <Card className="mt-8 flex w-full mx-auto max-w-[640px] flex-col items-center justify-center gap-1 rounded-lg px-4 py-8 md:mt-12">
+    <Card className="mx-auto mt-8 flex w-full max-w-[640px] flex-col items-center justify-center gap-1 rounded-lg px-4 py-8 md:mt-12">
       <CardHeader className="p-0">
-        <CardDescription className="text-sm text-center text-muted-foreground">
+        <CardDescription className="text-muted-foreground text-center text-sm">
           {description}
         </CardDescription>
         <CardTitle className="text-xl">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="max-w-[540px] pb-4 pt-3 md:pb-6">
-        <p className="text-base text-muted-foreground text-center">{content}</p>
+      <CardContent className="max-w-[540px] pt-3 pb-4 md:pb-6">
+        <p className="text-muted-foreground text-center text-base">{content}</p>
       </CardContent>
-      <CardFooter className="p-0 w-full justify-center">
+      <CardFooter className="w-full justify-center p-0">
         {/* TODO: Make sortOrder required */}
         <NextButton
           namespace={namespace}
           sortOrder={sortOrder || 0}
-          className="w-full md:w-fit gap-2"
+          className="w-full gap-2 md:w-fit"
           asChild
         >
           <Link href={href}>

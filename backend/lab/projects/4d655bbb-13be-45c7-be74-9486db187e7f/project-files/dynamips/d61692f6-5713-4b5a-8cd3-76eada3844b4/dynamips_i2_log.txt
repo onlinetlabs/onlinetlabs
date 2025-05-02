@@ -1,0 +1,23 @@
+Mar 19 14:33:18.963 HYPERVISOR: Release 0.2.23-amd64/Linux (tag 2023010200)
+Mar 19 14:33:18.963 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 56773.
+Mar 19 14:33:18.972 HYPERVISOR: exec_cmd: hypervisor version 
+Mar 19 14:33:18.972 HYPERVISOR: exec_cmd: hypervisor working_dir /data/projects/00000000-0000-0000-0000-000000000000/project-files/dynamips 
+Mar 19 14:33:18.972 GENERAL: working_dir=/data/projects/00000000-0000-0000-0000-000000000000/project-files/dynamips
+Mar 19 14:33:18.973 HYPERVISOR: exec_cmd: hypervisor working_dir /data/projects/00000000-0000-0000-0000-000000000000/project-files/dynamips/3a71250a-7256-4073-a152-2a88bf246c1c 
+Mar 19 14:33:18.973 GENERAL: working_dir=/data/projects/00000000-0000-0000-0000-000000000000/project-files/dynamips/3a71250a-7256-4073-a152-2a88bf246c1c
+Mar 19 14:33:18.973 HYPERVISOR: exec_cmd: vm create R2 2 c7200 
+Mar 19 14:33:18.973 VM: VM R2 created.
+Mar 19 14:33:18.973 HYPERVISOR: exec_cmd: vm set_con_tcp_port R2 2006 
+Mar 19 14:33:18.973 HYPERVISOR: exec_cmd: c7200 get_mac_addr R2 
+Mar 19 14:33:18.974 HYPERVISOR: exec_cmd: vm get_status R2 
+Mar 19 14:33:18.974 HYPERVISOR: exec_cmd: vm slot_add_binding R2 0 0 C7200-IO-FE 
+Mar 19 14:33:18.974 HYPERVISOR: exec_cmd: vm set_nvram R2 512 
+Mar 19 14:33:18.975 HYPERVISOR: exec_cmd: vm set_ios R2 /data/images/IOS/c7200-adventerprisek9-mz.153-3.XB12.image 
+Mar 19 14:33:18.975 HYPERVISOR: exec_cmd: vm set_disk0 R2 0 
+Mar 19 14:48:46.134 HYPERVISOR: exec_cmd: vm get_status R2 
+Mar 19 14:48:46.134 HYPERVISOR: exec_cmd: vm extract_config R2 
+Mar 19 14:48:46.134 HYPERVISOR: exec_cmd: vm delete R2 
+Mar 19 14:48:46.134 VM: VM R2 destroyed.
+Mar 19 14:48:46.135 HYPERVISOR: exec_cmd: hypervisor stop 
+Mar 19 14:48:46.249 HYPERVISOR: Stopped.
+Mar 19 14:48:46.249 GENERAL: reset done.

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { signIn } from "@auth/helpers"
+import { signIn } from "@features/auth/helpers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -21,6 +21,7 @@ import {
 import { Input } from "@ui/input"
 import { Label } from "@ui/label"
 import { cn } from "@lib/utils"
+import { useSearchParams } from "next/navigation"
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -34,20 +35,18 @@ export function LoginForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "example@mail.ru",
+      password: "1234",
     },
   })
+
+  const redirectTo = useSearchParams().get("redirect") || "/"
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     signIn("credentials", {
       ...values,
-      redirectTo: "/",
+      redirectTo,
     })
-    // .then(({ ok, error }: any) => {
-    //   console.log('ok', ok)
-    //   console.log('error', error)
-    // })
   }
 
   return (
@@ -101,8 +100,8 @@ export function LoginForm({
           <Button type="submit" className="w-full">
             Войти
           </Button>
-          <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-            <span className="relative z-10 bg-background px-2 text-muted-foreground">
+          <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+            <span className="bg-background-100 text-muted-foreground relative z-10 px-2">
               или
             </span>
           </div>

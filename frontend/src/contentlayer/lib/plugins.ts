@@ -1,9 +1,17 @@
+import { getHighlighter } from "@shikijs/compat"
+import rehypeAutolinkHeadings, {
+  Options as RehypeAutolinkHeadingsOptions,
+} from "rehype-autolink-headings"
 import rehypePrettyCode, {
   Options as RehypePrettyCodeOptions,
 } from "rehype-pretty-code"
-import { getHighlighter } from "@shikijs/compat"
+import rehypeSlug from "rehype-slug"
+import { codeImport } from "remark-code-import"
+import remarkGfm from "remark-gfm"
+import { Pluggable } from "unified"
+import { visit } from "unist-util-visit"
 
-import rehypeMermaid from './rehype-mermaid'
+// import rehypeMermaid from "./rehype-mermaid"
 
 const prettyCodeOptions: RehypePrettyCodeOptions = {
   theme: "github-dark",
@@ -20,12 +28,8 @@ const prettyCodeOptions: RehypePrettyCodeOptions = {
   },
 }
 
-import rehypeSlug from "rehype-slug"
-import rehypeAutolinkHeadings, {
-  Options as RehypeAutolinkHeadingsOptions,
-} from "rehype-autolink-headings"
-
 const autolinkHeadingsOptions: RehypeAutolinkHeadingsOptions = {
+  behavior: "wrap",
   properties: {
     className: ["subheading-anchor"],
     ariaLabel: "Link to section",
@@ -33,19 +37,16 @@ const autolinkHeadingsOptions: RehypeAutolinkHeadingsOptions = {
   },
 }
 
-
-import remarkGfm from "remark-gfm"
-import { codeImport } from "remark-code-import"
-import { visit } from "unist-util-visit"
-import { Pluggable } from "unified"
-
-export const remarkPlugins = [remarkGfm, codeImport];
+export const remarkPlugins = [remarkGfm, codeImport]
 
 export const rehypePlugins: Pluggable[] = [
-  [rehypeMermaid, { 
-    background: "transparent", 
-    className: "mermaid-diagram",
-  }],
+  // [
+  //   rehypeMermaid,
+  //   {
+  //     background: "transparent",
+  //     className: "mermaid-diagram",
+  //   },
+  // ],
   rehypeSlug,
   () => (tree) => {
     visit(tree, (node) => {
@@ -54,7 +55,7 @@ export const rehypePlugins: Pluggable[] = [
         if (codeEl.tagName !== "code") {
           return
         }
-  
+
         node.__rawString__ = codeEl.children?.[0].value
         node.__src__ = node.properties?.__src__
         node.__style__ = node.properties?.__style__
@@ -83,4 +84,4 @@ export const rehypePlugins: Pluggable[] = [
     })
   },
   [rehypeAutolinkHeadings, autolinkHeadingsOptions],
-];
+]

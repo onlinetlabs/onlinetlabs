@@ -1,5 +1,5 @@
-import { computedFields } from "@contentlayer/computed";
-import { defineDocumentType } from "contentlayer2/source-files";
+import { computedFields } from "@contentlayer/computed"
+import { defineDocumentType } from "contentlayer2/source-files"
 
 export const Course = defineDocumentType(() => ({
   name: "Course",
@@ -25,7 +25,7 @@ export const Course = defineDocumentType(() => ({
     },
     sortOrder: {
       type: "number",
-      required: true,
+      default: 0,
     },
   },
   computedFields,

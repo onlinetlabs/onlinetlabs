@@ -1,2 +1,2 @@
-export { Course } from './document/course';
-export { Lab } from './document/lab';
+export { Course } from "./document/course"
+export { Lab } from "./document/lab"

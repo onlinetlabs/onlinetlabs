@@ -1,35 +1,53 @@
 # 1. The container uses the alpine Linux distribution version 3.20.3
 # as a base image. Alpine is a minimal and lightweight image
 # primarily used for small and efficient containers.
-FROM alpine:3.20.3
+FROM alpine:3.21.0
 
 # 2. Add start.sh, config.ini, requirements.txt and dependencies.json files
 # to specific locations inside the container filesystem.
 # (Install the magic wrapper)
 ADD ./start.sh /start.sh
+ADD ./unzip_devices.sh /unzip_devices.sh
 ADD ./config.ini /config.ini
 ADD ./requirements.txt /requirements.txt
 ADD ./dependencies.json /tmp/dependencies.json
+ADD ./install_devices.py /install_devices.py
+
+# Copy cisco images
+# RUN mkdir -p /data/images/IOS
+# RUN mkdir -p /data/appliances
+# COPY ./c1700-adventerprisek9-mz.124-25d.image /data/images/IOS/c1700-adventerprisek9-mz.124-25d.image
+# COPY ./c1700-adventerprisek9-mz.124-25d.image /data/images/c1700-adventerprisek9-mz.124-25d.image
+#RUN chmod 755 /data/images/IOS/c1700-adventerprisek9-mz.124-25d.imag
+# COPY ./cisco_1700.gns3a /data/appliances/cisco_1700.gns3a
+
+ADD ./devices /devices
+
 
 # 3. Install dependencies
 # Creates a directory /data to hold persistent data for the container:
-RUN mkdir /data
+# RUN mkdir /data
+
 # Install necessary build dependencies (e.g., jq, gcc, python3-dev, etc.)
 # using apk add:
 RUN apk add --no-cache --virtual=build-dependencies jq gcc python3-dev musl-dev linux-headers
 # Parse dependencies.json with jq to extract key-value pairs (packages)
 # and installs these additional dependencies:
-RUN jq -r 'to_entries | .[] | .key + "=" + .value' /tmp/dependencies.json | xargs apk add --no-cache
+# Docker is optional, some nodes are based on Docker.
+RUN set -e && jq -r 'to_entries | .[] | .key + "=" + .value' /tmp/dependencies.json | xargs apk add --no-cache
+# RUN jq -r 'to_entries[] | .key + (if .value != "" then "~" + .value else "" end)' dependencies.json | xargs apk add --no-cache
+
 # Install Python packages listed in requirements.txt using pip:
 RUN pip install -r /requirements.txt --break-system-packages
 # Clean up by removing build dependencies to keep the image lightweight:
 RUN apk del --purge build-dependencies
+# Install bash command
+RUN apk add --no-cache bash
 
-# RUN mkdir /data && \
-#     apk add --no-cache --virtual=build-dependencies jq gcc python3-dev musl-dev linux-headers \
-#     && jq -r 'to_entries | .[] | .key + "=" + .value' /tmp/dependencies.json | xargs apk add --no-cache \
-#     && pip install -r /requirements.txt --break-system-packages \
-#     && apk del --purge build-dependencies
+# Add labs to GNS3 server
+COPY projects /projects
+# Then move /projects folder into /data/ inside 'start.sh'
+# so GNS3 could see that.
 
 # Define the default command to run when the container starts: start.sh:
 CMD [ "/start.sh" ]

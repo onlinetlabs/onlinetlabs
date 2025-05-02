@@ -1,5 +1,5 @@
-import { computedFields } from "@contentlayer/computed";
-import { defineDocumentType } from "contentlayer2/source-files";
+import { computedFields } from "@contentlayer/computed"
+import { defineDocumentType } from "contentlayer2/source-files"
 
 export const Lab = defineDocumentType(() => ({
   name: "Lab",
@@ -28,9 +28,9 @@ export const Lab = defineDocumentType(() => ({
       required: false,
     },
     categories: {
-      type: 'list',
-      of: { type: 'string' },
-    }
+      type: "list",
+      of: { type: "string" },
+    },
   },
-  computedFields
+  computedFields,
 }))

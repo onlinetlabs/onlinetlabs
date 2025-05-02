@@ -1,19 +1,19 @@
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva, type VariantProps } from "cva"
 
 import { cn } from "@shared/lib/utils"
 
 const circleVariants = cva(
-  "flex shrink-0 justify-center items-center min-h-7 min-w-7 text-sm rounded-full",
+  "flex shrink-0 justify-center items-center size-7 text-sm rounded-full",
   {
     variants: {
       variant: {
         default: "text-muted-foreground bg-muted",
-        amber: "text-amber-900 bg-amber-300",
-        red: "text-red-900 bg-red-300",
-        green: "text-green-900 bg-green-300",
-        blue: "text-background bg-blue-700",
-        "subtle-blue": "text-blue-900 bg-blue-300",
+        amber: "text-ds-amber-900 bg-ds-amber-300",
+        red: "text-ds-red-900 bg-ds-red-300",
+        green: "text-ds-green-900 bg-gds-reen-300",
+        blue: "text-background-100 bg-ds-blue-700",
+        "subtle-blue": "text-ds-blue-900 bg-ds-blue-300",
         white: "bg-primary text-primary-foreground",
       },
     },

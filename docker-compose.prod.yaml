@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  netlab_server:
+    container_name: netlab_server
+    build:
+      context: ./backend/server/
+      dockerfile: Dockerfile
+    env_file: ./backend/.env
+    environment:
+      - PYTHONUNBUFFERED=0
+      - PYTHONPATH=/app
+      - DEBUG=False
+      - POSTGRES_HOST=netlab_database
+      - LAB_HOST=netlab_lab
+    restart: always
+    command: uvicorn main:app --host 0.0.0.0 --port ${SERVER_PORT:-8000}
+    ports:
+      - 8000:80
+    depends_on:
+      - netlab_database
+      - netlab_lab
+    cpu_shares: 512
+    mem_limit: 512m
+
+  netlab_database:
+    container_name: netlab_database
+    build:
+      context: ./backend/database/
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '5432:${POSTGRES_PORT:-5432}'
+    volumes:
+      - ./volumes/database/data:/var/lib/postgresql/data
+    env_file: ./backend/.env
+    cpu_shares: 512
+    mem_limit: 512m
+
+  netlab_lab:
+    container_name: netlab_lab
+    build:
+      context: ./backend/lab
+      dockerfile: ../../docker/lab.dockerfile
+    environment:
+      BRIDGE_ADDRESS: "172.21.1.1/24"
+    ports:
+      - '3080:80'
+    restart: always
+    volumes:
+      - ./volumes/lab:/data
+    env_file: ./backend/.env
+    privileged: true
+
+  netlab_frontend:
+    container_name: netlab_frontend
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend/frontend.prod.dockerfile
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - AUTH_TRUST_HOST=1
+      - AUTH_SECRET=2cIv6/W0QiqI7qHM+4Ux3HW4hwf2kyjQJ+JJZt4aWlE=
+      - API_URL=http://netlab_server:8000
+      - GNS3_SUBDOMAIN=http://gns3.${DOMAIN}
+    restart: always
+    ports:
+      - '3000:≈'
+    depends_on:
+      - netlab_server
+    cpu_shares: 256
+    mem_limit: 256m
+
+  netlab_nginx:
+    image: nginx:alpine
+    container_name: netlab_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx:/etc/nginx/templates
+    environment:
+      - MAIN_DOMAIN=${DOMAIN}
+      - GNS3_SUBDOMAIN=gns3.${DOMAIN}
+    depends_on:
+      - netlab_server
+      - netlab_lab
+    cpu_shares: 256
+    mem_limit: 256m

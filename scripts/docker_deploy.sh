@@ -1,23 +1,32 @@
 #!/bin/bash
 
-# Deploys and starts containers defined in the docker-compose.yaml.
+# Removes old images (if any), build new images for the service and
+# starts containers defined in the docker-compose.yaml.
 # Should be run from the root of the project.
 
+./scripts/docker_delete.sh
 
-echo "[*] Deploying docker containers..."
-docker compose up --build -d
-# up:       This command starts the services defined in docker-compose.yml
-#           file. It creates and starts containers, networks,
-#           and volumes as needed.
-# --build:  This option forces the rebuilding of images for the services
-#           defined in docker-compose.yml file. If there have been changes
-#           to the Dockerfile or the files in the build context, this
-#           ensures that you are using the latest version of your images.
-# -d:       Detached mode: Run containers in the background.
 
-# Check that deploy was successful:
-if [ $? -eq 0 ]; then
-    echo "[✔] Deploying docker containers: Success."
-else
-    echo "[✘] Deploying docker containers: Error. Try start."
+echo "[*] Building new service(s) image(s)..."
+docker compose build
+if [ $? -ne 0 ]; then
+    echo "[✘] ERROR: Building new service(s) image(s). Exiting."
+    exit
 fi
+
+
+echo "[*] Starting services' container(s)..."
+docker compose up -d
+if [ $? -ne 0 ]; then
+    echo "[✘] ERROR: Starting services' container(s). Exiting."
+    exit
+fi
+
+echo "[*] Remove all unused data..."
+docker system prune -af
+if [ $? -ne 0 ]; then
+    echo "[✘] ERROR: Remove all unused data. Exiting."
+    exit
+fi
+
+echo "[✔] Deploying services' containers: Success."

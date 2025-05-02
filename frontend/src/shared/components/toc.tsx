@@ -2,15 +2,19 @@
 
 import * as React from "react"
 
+// import { CircleArrowUpIcon } from "lucide-react"
+
 import { TableOfContents } from "@lib/toc"
 import { cn } from "@lib/utils"
-import { CircleArrowUpIcon } from "lucide-react"
 
 interface TocProps {
   toc: TableOfContents
 }
 
-export function DashboardTableOfContents({ toc }: TocProps) {
+export function DashboardTableOfContents({
+  toc,
+  children,
+}: React.PropsWithChildren<TocProps>) {
   const itemIds = React.useMemo(
     () =>
       toc.items
@@ -30,47 +34,50 @@ export function DashboardTableOfContents({ toc }: TocProps) {
 
   return (
     <div className="space-y-2">
-      <h3 className="font-mono text-sm/6 font-medium tracking-widest text-primary uppercase">Содержание</h3>
+      <h3 className="text-primary font-mono text-sm/6 font-medium tracking-widest uppercase">
+        Содержание
+      </h3>
       <Tree tree={toc} activeItem={activeHeading} />
-      <ScrollToTopButton />
+      {children}
+      {/* <ScrollToTopButton /> */}
     </div>
   )
 }
 
-function ScrollToTopButton() {
-  const [isVisible, setIsVisible] = React.useState(false)
+// function ScrollToTopButton() {
+//   const [isVisible, setIsVisible] = React.useState(false)
 
-  React.useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 200) {
-        setIsVisible(true)
-      } else {
-        setIsVisible(false)
-      }
-    }
+//   React.useEffect(() => {
+//     const handleScroll = () => {
+//       if (window.scrollY > 200) {
+//         setIsVisible(true)
+//       } else {
+//         setIsVisible(false)
+//       }
+//     }
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+//     window.addEventListener("scroll", handleScroll)
+//     return () => window.removeEventListener("scroll", handleScroll)
+//   }, [])
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+//   const scrollToTop = () => {
+//     window.scrollTo({ top: 0, behavior: "smooth" })
+//   }
 
-  return (
-    <button
-      onClick={scrollToTop}
-      className={cn(
-        "pl-5 sm:pl-4 border-l mt-8 flex items-center gap-x-1.5 text-muted-foreground hover:text-primary cursor-pointer transition-opacity opacity-100",
-        {
-          "opacity-0": !isVisible,
-        }
-      )}
-    >
-      Наверх <CircleArrowUpIcon className="size-4" />
-    </button>
-  )
-}
+//   return (
+//     <button
+//       onClick={scrollToTop}
+//       className={cn(
+//         "text-muted-foreground hover:text-primary mt-8 flex cursor-pointer items-center gap-x-1.5 border-l pl-5 opacity-100 transition-opacity sm:pl-4",
+//         {
+//           "opacity-0": !isVisible,
+//         }
+//       )}
+//     >
+//       Наверх <CircleArrowUpIcon className="size-4" />
+//     </button>
+//   )
+// }
 
 function useActiveItem(itemIds: string[]) {
   const [activeId, setActiveId] = React.useState<string | undefined>()
@@ -118,18 +125,23 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
     <ul className={cn("flex flex-col gap-2 border-l")}>
       {tree.items.map((item, index) => {
         return (
-          <li key={index} className={cn("-ml-px flex flex-col items-start gap-2")}>
+          <li
+            key={index}
+            className={cn("-ml-px flex flex-col items-start gap-2")}
+          >
             <a
               className={cn(
-                "inline-block border-l border-transparent text-sm/6 text-muted-foreground hover:border-primary/25 hover:text-primary aria-[current]:border-primary aria-[current]:font-semibold aria-[current]:text-primary",
+                "text-muted-foreground hover:border-primary/25 hover:text-primary aria-[current]:border-primary aria-[current]:text-primary inline-block border-l border-transparent text-sm/6 aria-[current]:font-semibold",
                 {
                   "pl-5 sm:pl-4": level === 1,
-                  "pl-8 sm:pl-7.5": level === 2
+                  "pl-8 sm:pl-7.5": level === 2,
                 }
-              )} 
-              type="button" 
+              )}
+              type="button"
               href={item.url}
-              aria-current={item.url === `#${activeItem}` ? "location" : undefined}
+              aria-current={
+                item.url === `#${activeItem}` ? "location" : undefined
+              }
             >
               {item.title}
             </a>

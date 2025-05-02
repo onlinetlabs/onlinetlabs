@@ -11,11 +11,10 @@ export async function getNextChapter(chapter: Course) {
   return next
 }
 
-
 export async function getCourseBySlug(slug: string[]) {
   const slugAsParams = slug.join("/")
 
-  const course = allCourses.find((c) => c.slugAsParams === slugAsParams);
+  const course = allCourses.find((c) => c.slugAsParams === slugAsParams)
 
   if (!course) {
     return null

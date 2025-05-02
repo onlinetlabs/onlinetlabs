@@ -1,5 +1,5 @@
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva, type VariantProps } from "cva"
 
 import { cn } from "@lib/utils"
 
@@ -12,7 +12,7 @@ const Quiz = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "bg-secondary/80 dark:bg-background mt-12 flex flex-col justify-center rounded-[16px] px-4 py-4 md:px-0 md:py-14",
+      "bg-secondary/80 dark:bg-background-100 mt-12 flex flex-col justify-center rounded-[16px] px-4 py-4 md:px-0 md:py-14",
       className
     )}
     {...props}
@@ -42,7 +42,7 @@ const QuizDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("text-muted-foreground text-sm", className)}
     {...props}
   />
 ))
@@ -55,7 +55,7 @@ const QuizContent = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "bg-background dark:bg-muted/25 border mx-auto mt-8 flex w-full max-w-[640px] flex-col items-center rounded-lg p-4 shadow-md md:p-8",
+      "bg-background-100 dark:bg-muted/25 mx-auto mt-8 flex w-full max-w-[640px] flex-col items-center rounded-lg border p-4 shadow-md md:p-8",
       className
     )}
     {...props}
@@ -69,7 +69,7 @@ const QuizOptions = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("border group mt-4 w-full rounded-lg md:mt-6", className)}
+    className={cn("group mt-4 w-full rounded-lg border md:mt-6", className)}
     {...props}
   />
 ))
@@ -80,9 +80,9 @@ const quizOptionVariants = cva(
   {
     variants: {
       selected: {
-        true: "bg-background text-foreground dark:bg-muted/25 [&_[quiz-icon]]:bg-blue-900 [&_[quiz-icon]]:text-blue-100",
+        true: "bg-background-100 text-foreground dark:bg-muted/25 [&_[quiz-icon]]:bg-ds-blue-900 [&_[quiz-icon]]:text-ds-blue-100",
         false:
-          "bg-secondary/80 dark:bg-background text-muted-foreground hover:bg-background dark:hover:bg-muted/25 [&_[quiz-icon]]:bg-blue-300 [&_[quiz-icon]]:text-blue-900",
+          "bg-secondary/80 dark:bg-background-100 text-muted-foreground hover:bg-background-100 dark:hover:bg-muted/25 [&_[quiz-icon]]:bg-ds-blue-300 [&_[quiz-icon]]:text-ds-blue-900",
       },
     },
     defaultVariants: {

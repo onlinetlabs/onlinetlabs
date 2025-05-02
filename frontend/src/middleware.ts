@@ -1,11 +1,14 @@
-import { auth } from "@auth"
+import { auth } from "auth";
 
-const AUTH_PATHS = ["/login", "/signup"]
+const authRoutes = ["/login", "/signup"];
 
-export default auth((req) => {
-  if (req.auth && AUTH_PATHS.includes(req.nextUrl.pathname)) {
-    const newUrl = new URL("/", req.nextUrl.origin)
-    return Response.redirect(newUrl)
+export default auth( async (req) => {
+  const path = req.nextUrl.pathname;
+  const isAuthRoute = authRoutes.includes(path);
+  const isAuthenticated = req.auth;
+
+  if (isAuthenticated && isAuthRoute) {
+    return Response.redirect(new URL("/", req.nextUrl.origin))
   }
 })
 

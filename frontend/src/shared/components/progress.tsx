@@ -42,7 +42,7 @@ export function Progress({ className }: Props) {
           gridType="circle"
           radialLines={false}
           stroke="none"
-          className="first:fill-muted last:fill-background"
+          className="first:fill-muted last:fill-background-100"
           polarRadius={[32, 28]}
         />
         <RadialBar dataKey="visitors" background cornerRadius={10} />

@@ -69,7 +69,7 @@
 }
 
 
-[data-rehype-autolink-heading] {
+/* [data-rehype-autolink-heading] {
   @apply absolute invisible no-underline group-hover:visible;
 
   margin-left: -1em;
@@ -81,6 +81,10 @@
 [data-rehype-autolink-heading]:after {
   @apply text-muted-foreground/50;
   content: '#';
+} */
+
+[data-rehype-autolink-heading] {
+  @apply no-underline;
 }
 
 
@@ -106,3 +110,7 @@
       display: block;
   }
 }
+
+/* .mdx {
+  @apply text-muted-foreground
+} */

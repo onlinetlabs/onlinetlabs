@@ -39,10 +39,6 @@ database = Database()
 # ------- #
 # CLASSES #
 
-class Token(BaseModel):
-    access_token:str
-    refresh_token:str
-
 
 # ---- #
 # MAIN #

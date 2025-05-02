@@ -16,9 +16,8 @@ from passlib.context    import CryptContext
 # ------------- #
 # Local imports #
 
-from utils.auth.model      import UserSignupSchema, UserLoginSchema
-
-from .base       import APIInterface
+from utils.auth.model       import UserSignupSchema, UserLoginSchema
+from .APIInterface          import APIInterface
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -33,12 +32,12 @@ class APIAuth(APIInterface):
     """
     """
 
-    async def auth_signup(self,
+    async def signup(self,
             user:UserSignupSchema) -> bool:
         name            = user.firstname
         surname         = user.secondname
         email           = user.email
-        password_hash   = pwd_context.encrypt(user.password)
+        password_hash   = pwd_context.hash(user.password)
         role            = "student"
         # created_at       = '2024-06-17' # TIMESTAMP
         # created_at       = datetime.datetime.now()
@@ -58,7 +57,7 @@ class APIAuth(APIInterface):
             return False
 
 
-    async def auth_get_user_by_email(self,
+    async def get_user_by_email(self,
             user:UserSignupSchema|UserLoginSchema|str) -> None|RealDictRow:
         """
             Just retreives user from db by email,
@@ -80,8 +79,8 @@ class APIAuth(APIInterface):
         return None
 
 
-    #TODO: Should be firstname and secondname
-    # async def auth_get_user_by_username(self,
+    #TODO: there is no username, only email.
+    # async def get_user_by_username(self,
     #         user:UserSignupSchema) -> None|RealDictRow:
     #     """
     #         Just retreives user from db by username,
@@ -110,7 +109,7 @@ async def main():
         )
 
     db = APIAuth()
-    response = await db.auth_signup(user)
+    response = await db.signup(user)
     print(response)
 
     pass

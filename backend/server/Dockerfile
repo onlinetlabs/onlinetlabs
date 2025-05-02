@@ -15,6 +15,9 @@ WORKDIR /app
 # We want to exclude several files to be copied - Check .dockerignore.
 COPY . /app/
 
+# Install text redactor
+RUN apt-get update && apt-get -y install vim
+
 # Install Dependencies: This command runs inside the container, using pip
 # to install the packages specified in the requirements.txt file. 
 # --no-cache-dir: This option tells pip not to cache the downloaded
@@ -23,3 +26,5 @@ COPY . /app/
 # latest versions (lets not use it a while - to be shure it works).
 # RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8000
