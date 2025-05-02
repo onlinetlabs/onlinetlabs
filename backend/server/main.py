@@ -18,7 +18,7 @@ from utils.endpoints.core   import app
 # to add endpoints to the 'app'
 
 import utils.endpoints.auth
-# import utils.endpoints.user
+import utils.endpoints.user
 import utils.endpoints.lab
 import utils.endpoints.control
 
