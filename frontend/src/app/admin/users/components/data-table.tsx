@@ -107,7 +107,7 @@ const columns: ColumnDef<User>[] = [
     accessorKey: "role",
     header: "Роль",
     cell: ({ row }) => {
-      const isAssigned = row.original.role !== "Выбрать роль"
+      const isAssigned = !!row.original.role
 
       if (isAssigned) {
         return row.original.role
@@ -116,7 +116,7 @@ const columns: ColumnDef<User>[] = [
       return (
         <>
           <Label htmlFor={`${row.original.id}-role`} className="sr-only">
-            Role
+            Роль
           </Label>
           <Select>
             <SelectTrigger

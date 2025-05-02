@@ -15,10 +15,13 @@ import {
 } from "@ui/alert-dialog"
 import { Button, buttonVariants } from "@ui/button"
 import { toast } from "sonner"
-import { useMutateStart } from "../query"
+import { useMutation } from "@tanstack/react-query"
+import * as API from "./api"
 
 export function StartLabButton({ labId }: { labId: string }) {
-  const { mutateAsync, isPending } = useMutateStart()
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: API.start,
+  })
 
   const onClick = () => {
     toast.promise(mutateAsync({ lab_id: labId }), {

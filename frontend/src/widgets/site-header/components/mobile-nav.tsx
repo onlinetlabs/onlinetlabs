@@ -5,7 +5,7 @@ import Link, { LinkProps } from "next/link"
 import { useRouter } from "next/navigation"
 import { allCourses } from "contentlayer/generated"
 
-import { navConfig } from "@shared/config/nav"
+import { MainNavItem } from "@shared/config/nav"
 import { Button } from "@ui/button"
 import {
   Drawer,
@@ -17,7 +17,7 @@ import {
 import { VisuallyHidden } from "@ui/visually-hidden"
 import { cn } from "@lib/utils"
 
-export function MobileNav() {
+export function MobileNav({ items }: { items: MainNavItem[] }) {
   const [open, setOpen] = React.useState(false)
 
   const onOpenChange = (open: boolean) => {
@@ -56,7 +56,7 @@ export function MobileNav() {
         </VisuallyHidden>
         <div className="overflow-auto p-6">
           <div className="flex flex-col space-y-3">
-            {navConfig.main?.map(
+            {items.map(
               (item, idx) =>
                 item.href && (
                   <MobileLink key={idx} href={item.href} onOpenChange={setOpen}>

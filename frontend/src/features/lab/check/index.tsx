@@ -2,11 +2,19 @@
 
 import { Button } from "@ui/button"
 import { toast } from "sonner"
-import { useMutateCheck } from "../query"
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import * as API from "./api"
+import { labKeys } from "@entities/lab";
 
 export function CheckLabButton({ projectId, ...props }: Props) {
-  const { mutateAsync, isPending } = useMutateCheck()
+  const queryClient = useQueryClient();
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: API.check,
+    onSuccess: (_, { project_id }) => {
+      queryClient.invalidateQueries({ queryKey: [...labKeys.logs(), project_id] });
+    }
+  })
+
   const onClickStart = async () => {
     const toastId = toast.loading("Проверяем работу...")
     

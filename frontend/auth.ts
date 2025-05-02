@@ -3,8 +3,9 @@ import { refresh, signin } from "@features/auth"
 import { User } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { decodeJwt } from "jose/jwt/decode";
+import { User as ApiUser } from "@entities/user";
 
-const BASE_PATH = "/auth"
+const BASE_PATH = "/auth";
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   providers: [
@@ -21,8 +22,11 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         }
 
         if (credentials.accessToken && credentials.refreshToken) {
+          const user = await getUser(credentials.accessToken as string)
+
           return {
             email: credentials.email as string,
+            role: user.role,
             accessToken: credentials.accessToken as string,
             refreshToken: credentials.refreshToken as string,
           }
@@ -40,9 +44,11 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         if (!accessToken || !refreshToken) {
           throw new Error("Invalid credentials")
         }
+        const user = await getUser(accessToken as string)
 
         return {
           email,
+          role: user.role,
           accessToken,
           refreshToken,
         }
@@ -57,6 +63,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
           ...token,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
+          role: user.role,
           expiresAt: getExpiresAt(user.accessToken),
         }
       } else if (Date.now() < token.expiresAt * 1000) {
@@ -88,7 +95,9 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       if (token.error) {
         throw new Error(token.error)
       }
+
       session.accessToken = token.accessToken
+      session.user.role = token.role
       return session
     },
   },
@@ -102,4 +111,15 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 const getExpiresAt = (token: string) => {
   const { expires: expiresAt } = decodeJwt(token) as { email: string; expires: number; };
   return expiresAt;
+}
+
+async function getUser(accessToken: string) {
+  return await fetch(process.env.API_URL + "/api/user", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  })
+  .then((res) => res.json()) as ApiUser
 }

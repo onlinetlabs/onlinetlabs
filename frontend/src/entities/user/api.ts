@@ -1,35 +1,19 @@
 'use server';
-// import { auth } from "auth";
+
+import { api } from '@lib/api';
 
 export async function getUser() {
+  const response = await api.get<ApiMapping<User>>('/api/user');
+  const data = response.data;
+
   return {
-    id: 3,
-    name: "Name",
-    surname: "Surname",
-    email: "admin8782@mail.ru",
-    role: "admin",
-    lastSeen: "2025-04-27",
-  }
-  // const session = await auth();
-
-  // const response = await fetch(`${process.env.API_URL}/api/user`, {
-  //   method: "GET",
-  //   headers: {
-  //     Authorization: `Bearer ${session?.accessToken}`,
-  //     "Content-Type": "application/json",
-  //   },
-  // });
-
-  // const data = (await response.json()) as ApiMapping<User>;
-
-  // return {
-  //   id: data.id,
-  //   name: data.name,
-  //   surname: data.surname,
-  //   email: data.email,
-  //   role: data.role,
-  //   lastSeen: data.last_seen,    
-  // };
+    id: data.id,
+    name: data.name,
+    surname: data.surname,
+    email: data.email,
+    role: data.role,
+    lastSeen: data.last_seen,
+  };
 }
 
 export type User = {
@@ -37,6 +21,6 @@ export type User = {
   name: string;
   surname: string;
   email: string;
-  role: string;
+  role: Role;
   lastSeen: string;
-}
+};

@@ -4,6 +4,7 @@ export interface NavConfig {
   admin: {
     users: AdminNavItem[];
     projects: AdminNavItem[];
+    main: AdminNavItem[];
   };
 }
 
@@ -35,6 +36,18 @@ export const navConfig: NavConfig = {
     }
   ],
   admin: {
+    main: [
+      {
+        title: "Главная",
+        url: "#",
+        items: [
+          {
+            title: "Статистика",
+            url: "/admin",
+          },    
+        ]
+      }
+    ],
     users: [
       {
         title: "Управление пользователями",
@@ -47,7 +60,6 @@ export const navConfig: NavConfig = {
           {
             title: "Список ролей",
             url: "/admin/roles",
-            isActive: true,
           },
         ],
       },
@@ -60,7 +72,6 @@ export const navConfig: NavConfig = {
           {
             title: "Проверки",
             url: "/admin/logs",
-            isActive: true,
           },
         ],
       },
@@ -69,23 +80,21 @@ export const navConfig: NavConfig = {
 }
 
 
-type MainNavItem = NavItem & {
+export type MainNavItem = NavItem & {
   href: string
   exact?: boolean
   protected?: boolean;
   roles?: Role[];
 }
 
-type AdminNavItem = {
+export type AdminNavItem = {
   title: string;
   url: string;
   items: {
     title: string;
     url: string;
-    isActive?: boolean;
   }[];
 }
-
 
 export type NavItem = {
   title: string

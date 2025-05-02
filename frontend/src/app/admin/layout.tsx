@@ -5,6 +5,8 @@ import { AdminSidebar } from "./components/admin-sidebar"
 import { Separator } from "@ui/separator"
 import { AdminBreadcrumbs } from "./components/admin-breadcrumbs"
 import { Metadata } from "next"
+import { auth } from "auth"
+import { forbidden } from "next/navigation"
 
 export const metadata: Metadata = {
   title: {
@@ -18,6 +20,12 @@ export default async function Layout({
 }: {
   children: React.ReactNode
 }) {
+  const session = await auth();
+   
+  if (session?.user?.role !== "admin") {
+    return forbidden();
+  }
+
   return (
     <div data-wrapper="" className="border-border flex flex-1 flex-col">
       <div className="border-border mx-auto flex w-full flex-1 flex-col min-[1800px]:max-w-[1536px] min-[1800px]:border-x">

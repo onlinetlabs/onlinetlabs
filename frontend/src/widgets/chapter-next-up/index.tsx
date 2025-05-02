@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@ui/card"
 
-import { NextButton } from "./next-button"
+import { NextButton } from "./components/next-button"
 
 export const ChapterNextUp = ({
   title,

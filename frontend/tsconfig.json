@@ -27,7 +27,6 @@
       "@providers/*": ["./src/shared/providers/*"],
       "@api/*": ["./src/shared/api/*"],
       "@styles/*": ["./src/styles/*"],
-      "@stores/*": ["./src/stores/*"],
       "@content/*": ["./src/content/*"],
       "@shared/*": ["./src/shared/*"],
       "@entities/*": ["./src/entities/*"],

@@ -11,13 +11,14 @@ export function AdminBreadcrumbs() {
   const breadcrumbs = useMemo(() => {
     // Объединяем группы админ-навигации в один массив.
     const adminGroups = [
+      ...navConfig.admin.main,
       ...navConfig.admin.users,
       ...navConfig.admin.projects,
     ]
 
     // Ищем группу и активный пункт, соответствующие текущему пути.
     for (const group of adminGroups) {
-      const activeItem = group.items.find(item => pathname.startsWith(item.url))
+      const activeItem = group.items.find(item => pathname === item.url)
       if (activeItem) {
         return {
           parentTitle: group.title,

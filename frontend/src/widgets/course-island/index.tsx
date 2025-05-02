@@ -3,11 +3,11 @@ import { Separator } from "@ui/separator"
 import { getCourseBySlug, getCourseChaptersBySlug } from "@lib/course"
 import { cn } from "@lib/utils"
 
-import { ChapterCount } from "./chapter-count"
-import { RingProgress } from "./ring-progress"
-import { ScrollToTop } from "./scroll-to-top"
-import { TableOfContentsDrawer } from "./toc-drawer.client"
-import { TableOfContentsPopover } from "./toc-popover.client"
+import { ChapterCount } from "./components/chapter-count"
+import { RingProgress } from "./components/ring-progress"
+import { ScrollToTop } from "./components/scroll-to-top"
+import { TableOfContentsDrawer } from "./components/toc-drawer.client"
+import { TableOfContentsPopover } from "./components/toc-popover.client"
 
 export const CourseIsland = async ({
   slug,

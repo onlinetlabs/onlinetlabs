@@ -6,7 +6,7 @@ export const userKeys = {
   info: () => [...userKeys.all, 'info'] as const,
 }
 
-export function useGetUser() {
+export function useUser() {
   const queryInfo = useQuery({
     queryKey: userKeys.info(),
     queryFn: async () => getUser(),

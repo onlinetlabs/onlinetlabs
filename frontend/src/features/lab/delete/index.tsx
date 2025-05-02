@@ -13,10 +13,23 @@ import {
 } from "@ui/alert-dialog"
 import { Button, buttonVariants } from "@ui/button"
 import { toast } from "sonner"
-import { useMutateDelete } from "../query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import * as API from "./api"
+import { useRouter } from "next/navigation"
+import { labKeys } from "@entities/lab"
 
 export function DeleteLabButton({ projectId, ...props }: { projectId: string; className?: string }) {
-  const { mutateAsync, isPending } = useMutateDelete()
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: API.remove,
+    onSuccess: ({ success }) => {
+      if (success) {
+        queryClient.invalidateQueries({ queryKey: labKeys.projects() });
+        router.push("/gns3")
+      }
+    }
+  })
 
   const onClick = () => {
     toast.promise(mutateAsync({ project_id: projectId }), {

@@ -37,6 +37,22 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        {navConfig.admin.main.map((item) => (
+          <SidebarGroup key={item.title}>
+            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {item.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={item.url === pathname}>
+                      <a href={item.url}>{item.title}</a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
         {navConfig.admin.users.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>

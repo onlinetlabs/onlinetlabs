@@ -1,19 +1,11 @@
 'use server';
 
-import { auth } from "auth";
+import { api } from '@lib/api';
 
 export async function getAllUsers() {
-  const session = await auth();
+  const response = await api.get<ApiMapping<User>[]>('/api/database/get_all_users');
 
-  const response = await fetch(`${process.env.API_URL}/api/database/get_all_users`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${session?.accessToken}`,
-      "Content-Type": "application/json",
-    },
-  });
-
-  const data = (await response.json()) as ApiMapping<User>[] | null;
+  const data = response.data;
 
   if (!data) {
     return [];
@@ -36,6 +28,6 @@ export type User = {
   name: string;
   surname: string;
   email: string;
-  role: string;
+  role: Role;
   lastSeen: string;
-}
+};
