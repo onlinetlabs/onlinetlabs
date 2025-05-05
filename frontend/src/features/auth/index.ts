@@ -7,9 +7,8 @@ export async function signup(params: SignUpParams) {
   const response = await api.post('/api/auth/signup', {
     email: params.email,
     password: params.password,
-    // TODO: remove this when backend is ready
-    firstname: '',
-    secondname: '',
+    firstname: params.firstname,
+    secondname: params.lastname,
   });
 
   return {
@@ -57,8 +56,8 @@ export async function refresh({ refreshToken }: RefreshParams) {
 
 export type SignUpParams = {
   email: string
-  firstname?: string
-  secondname?: string
+  firstname: string
+  lastname?: string
   password: string
 }
 
