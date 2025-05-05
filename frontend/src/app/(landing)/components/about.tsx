@@ -38,7 +38,7 @@ export const About = () => {
               </div>
             </li>
             <li className="bg-muted/75 relative min-h-[206px] overflow-hidden rounded-[20px] md:min-h-[206px] lg:min-h-[auto] lg:rounded-[32px]">
-              <video preload="none" autoPlay loop muted className="size-full">
+              <video preload="none" autoPlay loop muted playsInline className="size-full">
                 <source src="/gns3/demo.mp4" type="video/mp4" />
                 <source src="/gns3/demo.webm" type="video/webm" />
               </video>
