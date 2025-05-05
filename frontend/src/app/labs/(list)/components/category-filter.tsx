@@ -25,12 +25,14 @@ export function CategoryFilter({ categoriesPromise }: Props) {
             })
           })
         }}
+        className="gap-2"
       >
         {list.map((category, idx) => (
           <ToggleGroupItem
             key={idx}
             value={category.label}
             aria-label={`Toggle ${category.label}`}
+            className="first:rounded-l-none last:rounded-r-none data-[variant=outline]:border-l data-[variant=outline]:first:border-l h-8 px-3 box-content min-w-[unset] w-auto"
           >
             {category.label}
           </ToggleGroupItem>
