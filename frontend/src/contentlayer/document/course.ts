@@ -28,5 +28,11 @@ export const Course = defineDocumentType(() => ({
       default: 0,
     },
   },
-  computedFields,
+  computedFields: {
+    ...computedFields,
+    isEntryPage: {
+      type: "boolean",
+      resolve: (doc) => doc._raw.sourceFileName === "index.mdx",
+    }
+  },
 }))
