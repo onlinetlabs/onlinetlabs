@@ -1,6 +1,7 @@
 'use client'
 
 import { projectsOptions } from "@entities/lab"
+import { getLabById } from "@lib/lab";
 import { cn } from "@lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
@@ -11,6 +12,7 @@ import {
 } from "@ui/accordion"
 import { buttonVariants } from "@ui/button";
 import { Card } from "@ui/card";
+import { Lab } from "contentlayer/generated";
 import { FlaskConicalIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -45,12 +47,20 @@ function ContentPlaceholder() {
 }
 
 export function Projects() {
-  const { data: projects } = useSuspenseQuery({
+  const { data: labs } = useSuspenseQuery({
     ...projectsOptions,
-    initialData: []
+    initialData: [],
+    select: (projects) => {
+      return projects
+        .map((project) => {
+          const lab = getLabById(project.labId);
+          return lab ? { ...lab, ...project } : undefined;
+        })
+        .filter((lab) => lab !== undefined)
+    }
   });
 
-  if (!projects.length) {
+  if (!labs.length) {
     return (
       <div className="relative">
         <ul
@@ -85,7 +95,7 @@ export function Projects() {
   }
 
   return (
-    <Accordion type="multiple" className="mt-6">
+    <Accordion type="multiple" className="mt-6" defaultValue={["recent"]}>
       <AccordionItem
         value="recent"
         className="border-border overflow-hidden rounded-md border px-4"
@@ -95,8 +105,8 @@ export function Projects() {
         </AccordionTrigger>
         <AccordionContent>
           <div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.slice(0, 3).map((item) => (
-              <Card key={item.projectId} className="relative p-2">
+            {labs.slice(0, 3).map((item) => (
+              <Card key={item.projectId} className="relative p-2 gap-2">
                 <div className="h-20">
                   <ContentPlaceholder />
                 </div>
@@ -106,7 +116,7 @@ export function Projects() {
                       className="absolute inset-0"
                       aria-hidden={true}
                     />
-                    {item.labId}
+                    {item.title}
                   </Link>
                 </h3>
                 <p className="text-muted-foreground">
@@ -119,15 +129,15 @@ export function Projects() {
       </AccordionItem>
       <AccordionItem
         value="all"
-        className="border-border mt-6 overflow-hidden rounded-md border px-4"
+        className="border-border mt-6 overflow-hidden rounded-md border px-4 last:border-b"
       >
         <AccordionTrigger className="text-foreground cursor-pointer text-sm font-medium hover:no-underline">
-          Все ({projects.length})
+          Все ({labs.length})
         </AccordionTrigger>
         <AccordionContent>
           <div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((item) => (
-              <Card key={item.projectId} className="relative p-2">
+            {labs.map((item) => (
+              <Card key={item.projectId} className="relative p-2 gap-2">
                 <div className="h-20">
                   <ContentPlaceholder />
                 </div>
@@ -137,7 +147,7 @@ export function Projects() {
                       className="absolute inset-0"
                       aria-hidden={true}
                     />
-                    {item.labId}
+                    {item.title}
                   </Link>
                 </h3>
                 <p className="text-muted-foreground text-sm">

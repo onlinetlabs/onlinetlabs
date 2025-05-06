@@ -32,8 +32,8 @@ export default async function IndexPage() {
             <HydrationBoundary state={dehydrate(queryClient)}>
               <ActiveCard />
             </HydrationBoundary>
-            <Card className="relative w-full p-6 md:w-7/12">
-              <div className="border-border inline-flex items-center justify-center rounded-md border p-2">
+            <Card className="relative w-full p-6 md:w-7/12 gap-0 opacity-50 cursor-not-allowed pointer-events-none">
+              <div className="border-border inline-flex items-center justify-center rounded-md border p-2 size-9.5">
                 <BookOpenIcon
                   className="text-foreground size-5"
                   aria-hidden={true}

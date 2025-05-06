@@ -22,15 +22,15 @@ export const ChapterNextUp = ({
   sortOrder,
 }: Props) => {
   return (
-    <Card className="mx-auto mt-8 flex w-full max-w-[640px] flex-col items-center justify-center gap-1 rounded-lg px-4 py-8 md:mt-12">
-      <CardHeader className="p-0">
-        <CardDescription className="text-muted-foreground text-center text-sm">
+    <Card className="mx-auto mt-8 w-full max-w-[640px] gap-1 rounded-lg px-4 py-8 md:mt-12">
+      <CardHeader className="p-0 items-center text-center">
+        <CardDescription className="text-muted-foreground text-sm">
           {description}
         </CardDescription>
         <CardTitle className="text-xl">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="max-w-[540px] pt-3 pb-4 md:pb-6">
-        <p className="text-muted-foreground text-center text-base">{content}</p>
+      <CardContent className="pt-3 pb-4 md:pb-6">
+        <p className="text-muted-foreground text-center text-base max-w-[540px]">{content}</p>
       </CardContent>
       <CardFooter className="w-full justify-center p-0">
         {/* TODO: Make sortOrder required */}

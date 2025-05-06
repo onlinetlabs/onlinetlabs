@@ -35,7 +35,7 @@ export function ActiveCard() {
       </CardHeader>
 
       <CardContent className="mt-auto flex flex-wrap gap-4">
-        <div className="flex items-center space-x-2">
+        {/* <div className="flex items-center space-x-2">
           <ProgressCircle
             variant="success"
             value={70}
@@ -43,7 +43,7 @@ export function ActiveCard() {
             strokeWidth={3.5}
           />
           <p className="text-sm font-medium">Успешные проверки (7/10)</p>
-        </div>
+        </div> */}
         <Link
           href={`/gns3/${project.projectId}`}
           className="text-ds-blue-900 decoration-chill ml-auto text-sm font-medium underline decoration-2 underline-offset-2"
