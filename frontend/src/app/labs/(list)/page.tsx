@@ -13,6 +13,8 @@ import { getCategories, getLabs } from "@lib/lab"
 
 import { CategoryFilter } from "./components/category-filter"
 import { SearchFilter } from "./components/search-filter"
+import { DUMMY_LABS } from "@shared/config/content"
+import { cn } from "@lib/utils"
 
 type SearchParams = Promise<{
   q?: string
@@ -35,6 +37,8 @@ export default async function Page({
     categories: toArray(category),
     q,
   })
+
+  const labs = (q || category) ? data : [...data, ...DUMMY_LABS]
 
   return (
     <div className="relative">
@@ -61,11 +65,16 @@ export default async function Page({
         </div>
       </div>
       <ul className="[&>li]:border-border grid h-auto list-none auto-rows-min sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [&>li]:border-r [&>li]:border-b xl:[&>li:nth-child(4n)]:border-r-0">
-        {data.map((lab, idx) => (
+        {labs.map((lab, idx) => (
           <li key={idx} className="min-h-[136px] list-none">
             <article className="h-full">
               <Link
-                className="group bg-background-100 hover:bg-accent relative flex h-full flex-col p-4 transition-all"
+                className={cn(
+                  "group bg-background-100 hover:bg-accent relative flex h-full flex-col p-4 transition-all",
+                  {
+                    "pointer-events-none opacity-50": lab.namespace === 'test'
+                  }
+                )}
                 href={lab.slug}
                 data-link
               >

@@ -24,6 +24,7 @@ export type ProjectInfo = {
   labId: string;
   labUser: string;
   labPasswd: string;
+  checkInProgress: boolean;
 }
 
 export type ProjectInfoParams = {

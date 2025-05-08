@@ -18,7 +18,7 @@ import * as API from "./api"
 import { useRouter } from "next/navigation"
 import { labKeys } from "@entities/lab"
 
-export function DeleteLabButton({ projectId, ...props }: { projectId: string; className?: string }) {
+export function DeleteLabButton({ projectId, ...props }: { projectId: string; disabled?: boolean; className?: string }) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { mutateAsync, isPending } = useMutation({

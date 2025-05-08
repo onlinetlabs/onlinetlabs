@@ -9,6 +9,7 @@ import {
   PageHeaderHeading,
 } from "@components/page-header"
 import { cn } from "@lib/utils"
+import { DUMMY_COURSES } from "@shared/config/content"
 
 export const metadata: Metadata = {
   title: "Список курсов",
@@ -25,7 +26,7 @@ export default function CoursesPage() {
         </PageHeaderDescription>
       </PageHeader>
       <div className="container mx-auto grid gap-4 py-4 sm:py-8 md:grid-cols-2 lg:grid-cols-3">
-        {allCourses
+        {[...allCourses, ...DUMMY_COURSES]
           .filter((page) => page.isEntryPage)
           .sort((a, b) => a.sortOrder - b.sortOrder)
           .map((course, idx) => {
@@ -45,6 +46,8 @@ export default function CoursesPage() {
                       !isFirst && !isEveryFifth,
                     "bg-muted/70 flex h-80 flex-col-reverse justify-between gap-4 rounded-lg p-8 lg:col-span-2 lg:grid lg:grid-cols-2":
                       isEveryFifth,
+                    "pointer-events-none opacity-50": course.namespace === 'test'
+
                   }
                 )}
               >

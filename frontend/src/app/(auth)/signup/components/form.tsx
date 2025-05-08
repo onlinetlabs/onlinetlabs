@@ -22,8 +22,11 @@ import { Input } from "@ui/input"
 import { Label } from "@ui/label"
 import { cn } from "@lib/utils"
 import { signup } from "@features/auth"
+import { useState } from "react"
 
 const formSchema = z.object({
+  firstname: z.string(),
+  lastname: z.string().optional(),
   email: z.string().email({ message: "Введите корректную почту" }),
   password: z.string().min(4).max(50),
 })
@@ -32,17 +35,30 @@ export function SignUpForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
+  const [loading, setLoading] = useState(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "test@test.com",
-      password: "1234",
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
     },
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { accessToken, refreshToken } = await signup(values)
-    await signIn("credentials", { accessToken, refreshToken, redirectTo: "/" })
+    setLoading(true)
+    try {
+      const { accessToken, refreshToken } = await signup(values)
+      await signIn("credentials", {
+        accessToken,
+        refreshToken,
+        redirectTo: "/",
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -59,6 +75,32 @@ export function SignUpForm({
           </h1>
         </div>
         <div className="grid gap-6">
+          <FormField
+            control={form.control}
+            name="firstname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Имя</FormLabel>
+                <FormControl>
+                  <Input placeholder="Иван" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lastname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Фамилия <span className="text-muted-foreground">(необязательно)</span></FormLabel>
+                <FormControl>
+                  <Input placeholder="Иванов" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -85,7 +127,7 @@ export function SignUpForm({
                   <Label htmlFor="password">Пароль</Label>
                   <a
                     href="#"
-                    className="ml-auto text-sm font-normal underline-offset-4 hover:underline"
+                    className="ml-auto text-sm font-normal underline-offset-4 hover:underline pointer-events-none opacity-50"
                   >
                     Забыли пароль?
                   </a>
@@ -99,7 +141,7 @@ export function SignUpForm({
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={loading}>
             Создать аккаунт
           </Button>
           <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

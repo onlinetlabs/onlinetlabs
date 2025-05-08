@@ -40,7 +40,7 @@ export function CredentialsInput({ label, defaultValue }: Props) {
           id={id}
           className="pe-9"
           type="text"
-          defaultValue={defaultValue}
+          value={defaultValue}
           readOnly
         />
         <TooltipProvider delayDuration={0}>

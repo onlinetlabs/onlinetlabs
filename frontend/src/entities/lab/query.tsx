@@ -1,4 +1,4 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import * as API from "./api";
 
 export const labKeys = {
@@ -7,25 +7,6 @@ export const labKeys = {
   projects: () => [...labKeys.all, "projects"] as const,
   info: () => [...labKeys.all, "info"] as const,
 }
-
-export const useChecklogs = (projectId: string) => {
-  const queryInfo = useQuery({
-    queryKey: [...labKeys.logs(), projectId] as const,
-    queryFn: async () => API.getUserChecklogs({ project_id: projectId }),
-    initialData: []
-  });
-
-  return queryInfo;
-};
-
-export const useProjectInfo = (projectId: string) => {
-  const queryInfo = useQuery({
-    queryKey: [...labKeys.info(), projectId] as const,
-    queryFn: async () => API.getProjectInfo({ project_id: projectId }),
-  });
-
-  return queryInfo;
-};
 
 export function checksOptions(projectId: string) {
   return queryOptions({

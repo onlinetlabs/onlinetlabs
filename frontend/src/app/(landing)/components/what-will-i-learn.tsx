@@ -4,6 +4,8 @@ import { ArrowRightIcon, ArrowUpRightIcon, SparkleIcon } from "lucide-react"
 
 import { Button } from "@ui/button"
 import { Circle } from "@ui/circle"
+import { DUMMY_COURSES } from "@shared/config/content"
+import { cn } from "@lib/utils"
 
 export const WhatWillILearn = () => {
   return (
@@ -15,13 +17,18 @@ export const WhatWillILearn = () => {
         </div>
       </div>
       <div className="grid grid-flow-row grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {allCourses
+        {[...allCourses, ...DUMMY_COURSES]
           .filter((page) => page.isEntryPage)
           .sort((a, b) => a.sortOrder - b.sortOrder)
           .map((item, idx) => (
             <div
               key={idx}
-              className="group group hover:bg-accent h-full rounded-[12px] border shadow-xs transition-all"
+              className={cn(
+                "group hover:bg-accent h-full rounded-[12px] border shadow-xs transition-all",
+                {
+                  "opacity-50 pointer-events-none": item.namespace === "test",
+                }
+              )}
             >
               <Link className="flex flex-col p-6" href={item.slug}>
                 <div className="mb-2 flex items-center">

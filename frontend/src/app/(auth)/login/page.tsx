@@ -5,6 +5,7 @@ import { siteConfig } from "@shared/config/site"
 import { Icons } from "@components/icons"
 
 import { LoginForm } from "./components/form"
+import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "Добро пожаловать",
@@ -30,10 +31,11 @@ export default async function LoginPage() {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
+        <Image
           src="/placeholder.svg"
           alt="Image"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          fill
         />
       </div>
     </div>

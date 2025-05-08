@@ -16,9 +16,9 @@ import {
   CommandList,
   CommandSeparator,
 } from "@ui/command"
-import { DialogProps } from "@ui/dialog"
+import { Dialog } from "@ui/dialog"
 
-export function CommandMenu(props: DialogProps) {
+export function CommandMenu(props: React.ComponentProps<typeof Dialog>) {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
   const { setTheme } = useTheme()
@@ -95,7 +95,6 @@ export function CommandMenu(props: DialogProps) {
           <CommandSeparator />
           <CommandGroup heading="Лабы">
             {allLabs
-              .filter((page) => page.isEntryPage)
               .map((lab, idx) => (
                 <CommandItem
                   key={idx}

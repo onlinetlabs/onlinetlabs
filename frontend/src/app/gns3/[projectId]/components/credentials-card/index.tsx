@@ -3,7 +3,7 @@ import { CredentialsInput } from "./credentials-input"
 
 export function CredentialsCard({ username, password }: Props) {
   return (
-    <Card className="relative flex w-full flex-col md:w-9/12">
+    <Card className="relative flex w-full flex-col justify-between md:w-9/12">
       <CardHeader>
         <CardTitle className="text-sm">
           Учетная запись GNS3

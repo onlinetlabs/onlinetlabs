@@ -16,8 +16,8 @@ export function LabCard({ labId }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Card className="group/preview relative w-full p-6 md:w-7/12 cursor-pointer">
-          <div className="border-border inline-flex items-center justify-center rounded-md border p-2">
+        <Card className="group/preview relative w-full p-6 md:w-7/12 cursor-pointer gap-0">
+          <div className="border-border inline-flex items-center justify-center rounded-md border p-2 size-9.5">
             <BookOpenIcon
               className="text-foreground size-5"
               aria-hidden={true}
@@ -32,7 +32,7 @@ export function LabCard({ labId }: Props) {
           </p>
         </Card>
       </DialogTrigger>
-      <DialogContent className="flex flex-col w-full max-w-4xl max-h-3/4">
+      <DialogContent className="flex flex-col w-full max-w-4xl! max-h-3/4">
         <DialogHeader className="sticky top-0">
           <DialogTitle>Лабораторная работа</DialogTitle>
           <DialogDescription>
