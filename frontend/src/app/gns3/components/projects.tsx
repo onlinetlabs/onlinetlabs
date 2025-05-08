@@ -12,7 +12,6 @@ import {
 } from "@ui/accordion"
 import { buttonVariants } from "@ui/button";
 import { Card } from "@ui/card";
-import { Lab } from "contentlayer/generated";
 import { FlaskConicalIcon } from "lucide-react";
 import Link from "next/link";
 
