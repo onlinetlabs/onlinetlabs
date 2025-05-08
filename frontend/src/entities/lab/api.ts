@@ -55,5 +55,6 @@ export async function getProjectInfo(params: ApiMapping<ProjectInfoParams>) {
     labId: data.lab_id,
     labUser: data.lab_user,
     labPasswd: data.lab_passwd,
+    checkInProgress: data.check_in_progress,
   };
 }

@@ -14,10 +14,10 @@ const nextConfig: NextConfig = {
     // !! WARN !!
     // ignoreBuildErrors: true,
   },
+  turbopack: {
+    // ...
+  },
   experimental: {
-    turbo: {
-      // ...
-    },
     authInterrupts: true,
   },
   transpilePackages: ["next-mdx-remote"],

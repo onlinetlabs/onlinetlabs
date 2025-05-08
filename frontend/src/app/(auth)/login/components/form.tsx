@@ -22,6 +22,7 @@ import { Input } from "@ui/input"
 import { Label } from "@ui/label"
 import { cn } from "@lib/utils"
 import { useSearchParams } from "next/navigation"
+import { useState } from "react"
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -32,6 +33,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
+  const [loading, setLoading] = useState(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,9 +46,13 @@ export function LoginForm({
   const redirectTo = useSearchParams().get("redirect") || "/"
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true)
     signIn("credentials", {
       ...values,
       redirectTo,
+    })
+    .finally(() => {
+      setLoading(false)
     })
   }
 
@@ -82,7 +89,7 @@ export function LoginForm({
                   <Label htmlFor="password">Пароль</Label>
                   <a
                     href="#"
-                    className="ml-auto text-sm font-normal underline-offset-4 hover:underline"
+                    className="ml-auto text-sm font-normal underline-offset-4 hover:underline pointer-events-none opacity-50"
                   >
                     Забыли пароль?
                   </a>
@@ -97,7 +104,7 @@ export function LoginForm({
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={loading}>
             Войти
           </Button>
           <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

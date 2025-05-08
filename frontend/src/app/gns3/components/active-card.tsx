@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 
-import { ProgressCircle } from "@components/progress-circle"
 import { Card, CardContent, CardHeader, CardTitle } from "@ui/card"
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { projectsOptions } from "@entities/lab";

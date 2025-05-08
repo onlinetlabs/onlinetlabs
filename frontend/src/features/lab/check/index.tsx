@@ -12,6 +12,7 @@ export function CheckLabButton({ projectId, ...props }: Props) {
     mutationFn: API.check,
     onSuccess: (_, { project_id }) => {
       queryClient.invalidateQueries({ queryKey: [...labKeys.logs(), project_id] });
+      queryClient.invalidateQueries({ queryKey: [...labKeys.info(), project_id] });
     }
   })
 
@@ -36,5 +37,6 @@ export function CheckLabButton({ projectId, ...props }: Props) {
 
 type Props = {
   className?: string;
+  loading?: boolean;
   projectId: string
 }

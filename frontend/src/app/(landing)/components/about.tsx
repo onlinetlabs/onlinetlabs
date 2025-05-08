@@ -24,11 +24,12 @@ export const About = () => {
           <ul className="lg:cols-[2/-1] mt-2 list-none grid-cols-2 gap-x-5 md:mt-5 md:grid lg:row-[1/-1] lg:mt-0 lg:grid-cols-1 lg:grid-rows-2 lg:gap-y-5 [&>*:not(:last-child)]:mb-2 md:[&>*:not(:last-child)]:mb-0">
             <li className="bg-muted/75 relative min-h-[206px] overflow-hidden rounded-[20px] p-5 md:min-h-[206px] lg:min-h-[auto] lg:rounded-[32px] lg:p-8">
               <div className="relative flex h-full flex-col gap-3">
-                <picture className="flex h-20 w-max items-center justify-center">
-                  <img
+                <picture className="relative flex h-20 w-auto items-center justify-center">
+                  <Image
                     src="/gns3.png"
-                    className="block h-auto max-h-full w-auto max-w-full overflow-hidden object-contain"
+                    className="block h-auto max-h-full max-w-fit overflow-hidden object-contain"
                     alt="GNS3"
+                    fill
                   />
                 </picture>
                 <p className="mt-4 text-base">
