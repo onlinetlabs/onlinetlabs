@@ -65,7 +65,7 @@ services:
       - GNS3_SUBDOMAIN=http://gns3.${DOMAIN}
     restart: always
     ports:
-      - '3000:≈'
+      - '3000:80'
     depends_on:
       - netlab_server
     cpu_shares: 256
