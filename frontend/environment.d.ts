@@ -3,6 +3,6 @@ declare namespace NodeJS {
     readonly API_URL: string
     readonly JWT_SECRET: string
     readonly NEXT_PUBLIC_API_URL: string
-    readonly NEXT_PUBLIC_GNS3_SUBDOMAIN: string
+    readonly GNS3_SUBDOMAIN: string
   }
 }
