@@ -114,7 +114,7 @@ const getExpiresAt = (token: string) => {
 }
 
 async function getUser(accessToken: string) {
-  return await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/user", {
+  return await fetch(process.env.API_URL + "/api/user", {
     method: "GET",
     headers: {
       Authorization: `Bearer ${accessToken}`,
