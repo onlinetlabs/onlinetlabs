@@ -61,8 +61,8 @@ services:
       - NODE_ENV=${NODE_ENV:-production}
       - AUTH_TRUST_HOST=1
       - AUTH_SECRET=2cIv6/W0QiqI7qHM+4Ux3HW4hwf2kyjQJ+JJZt4aWlE=
-      - API_URL=http://netlab_server:8000
-      - GNS3_SUBDOMAIN=http://gns3.${DOMAIN}
+      - NEXT_PUBLIC_API_URL=http://netlab_server:8000
+      - NEXT_PUBLIC_GNS3_SUBDOMAIN=http://gns3.${DOMAIN}
     restart: always
     ports:
       - '3000:80'

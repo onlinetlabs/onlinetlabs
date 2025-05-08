@@ -80,7 +80,7 @@ export default async function IndexPage({ params }: Props) {
               <CheckLabButton className="w-full md:w-fit" projectId={projectId} loading={info.checkInProgress} />
               <Link 
                 className={cn(buttonVariants({ variant: "link" }), "hidden md:flex")} 
-                href={`${process.env.GNS3_SUBDOMAIN}/static/web-ui/controller/1/project/${projectId}`} 
+                href={`${process.env.NEXT_PUBLIC_GNS3_SUBDOMAIN}/static/web-ui/controller/1/project/${projectId}`} 
                 target="_blank"
               >
                 Перейти
@@ -88,7 +88,7 @@ export default async function IndexPage({ params }: Props) {
               </Link>
               <Link 
                 className={cn(buttonVariants({ variant: "outline", size: "icon" }), "hidden sm:flex md:hidden shrink-0")} 
-                href={`${process.env.GNS3_SUBDOMAIN}/static/web-ui/controller/1/project/${projectId}`} 
+                href={`${process.env.NEXT_PUBLIC_GNS3_SUBDOMAIN}/static/web-ui/controller/1/project/${projectId}`} 
                 target="_blank"
               >
                 <SquareArrowOutUpRightIcon size={16} aria-hidden="true" />
