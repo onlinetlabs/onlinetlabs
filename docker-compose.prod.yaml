@@ -57,13 +57,11 @@ services:
     build:
       context: ./frontend
       dockerfile: ../docker/frontend/frontend.prod.dockerfile
-    env_file: .env.prod
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - AUTH_TRUST_HOST=1
       - AUTH_SECRET=2cIv6/W0QiqI7qHM+4Ux3HW4hwf2kyjQJ+JJZt4aWlE=
       - API_URL=http://netlab_server:8000
-      - NEXT_PUBLIC_API_URL=http://netlab_server:8000
       - GNS3_SUBDOMAIN=http://gns3.${DOMAIN}
     restart: always
     ports:
