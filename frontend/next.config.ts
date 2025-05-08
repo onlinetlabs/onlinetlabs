@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
     // !! WARN !!
     // ignoreBuildErrors: true,
   },
+  env: {
+    API_URL: process.env.API_URL,
+    GNS3_SUBDOMAIN: process.env.GNS3_SUBDOMAIN,
+  },
   turbopack: {
     // ...
   },
