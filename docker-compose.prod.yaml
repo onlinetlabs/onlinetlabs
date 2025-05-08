@@ -57,6 +57,7 @@ services:
     build:
       context: ./frontend
       dockerfile: ../docker/frontend/frontend.prod.dockerfile
+    env_file: .env.prod
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - AUTH_TRUST_HOST=1

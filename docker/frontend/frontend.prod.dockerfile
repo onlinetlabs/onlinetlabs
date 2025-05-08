@@ -20,15 +20,6 @@ FROM base AS builder
 WORKDIR /app
 
 # Accept build arguments (passed from docker-compose or build command)
-ARG API_URL
-ARG NEXT_PUBLIC_API_URL
-ARG GNS3_SUBDOMAIN
-
-# Set them as environment variables to be picked up in the build
-ENV API_URL=${API_URL}
-ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-ENV GNS3_SUBDOMAIN=${GNS3_SUBDOMAIN}
-
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
