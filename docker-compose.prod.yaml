@@ -79,6 +79,7 @@ services:
       - "443:443"
     volumes:
       - ./docker/nginx:/etc/nginx/templates
+      - ./docker/nginx/certs:/etc/nginx/certs
     environment:
       - MAIN_DOMAIN=${DOMAIN}
       - GNS3_SUBDOMAIN=gns3.${DOMAIN}

@@ -1,10 +1,18 @@
-# Main Application - Will replace Nginx's default configuration
+# HTTP → HTTPS redirect
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+    listen 80;
+    server_name ${MAIN_DOMAIN};
+    return 301 https://$host$request_uri;
+}
+
+# HTTPS Server
+server {
+    listen 443 ssl;
     server_name ${MAIN_DOMAIN};
 
-    # Frontend
+    ssl_certificate /etc/nginx/certs/onlinetlabs.crt;
+    ssl_certificate_key /etc/nginx/certs/onlinetlabs.key;
+
     location / {
         proxy_pass http://netlab_frontend:3000;
         proxy_set_header Host $host;
@@ -13,7 +21,6 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    # Backend API
     location /api/ {
         proxy_pass http://netlab_server:8000/api/;
         proxy_set_header Host $host;
