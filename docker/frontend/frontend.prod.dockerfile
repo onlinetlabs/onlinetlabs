@@ -18,6 +18,17 @@ RUN corepack enable pnpm && pnpm i
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
+
+# Accept build arguments (passed from docker-compose or build command)
+ARG API_URL
+ARG NEXT_PUBLIC_API_URL
+ARG GNS3_SUBDOMAIN
+
+# Set them as environment variables to be picked up in the build
+ENV API_URL=${API_URL}
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+ENV GNS3_SUBDOMAIN=${GNS3_SUBDOMAIN}
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -26,6 +37,7 @@ RUN corepack enable pnpm && pnpm run build
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
+
 
 ENV NODE_ENV=production
 # Read more at https://authjs.dev/getting-started/deployment#auth_trust_host
@@ -46,6 +58,7 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT=3000
+
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
