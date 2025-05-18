@@ -23,6 +23,7 @@ import { cn } from "@lib/utils"
 import { Badge } from "@ui/badge"
 import { Table, TableCell, TableHead, TableRow } from "@ui/table"
 import { GNS3Node } from "@components/gns3-node"
+import { Button } from "@ui/button"
 
 const components = {
   Accordion,
@@ -37,6 +38,7 @@ const components = {
   Quiz,
   Badge,
   GNS3Node,
+  Button,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
