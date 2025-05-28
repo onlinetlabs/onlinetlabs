@@ -134,7 +134,7 @@ class CheckerInterface:
         count = 0
         while True:
             # response = tn.read_until(b"\r\n", timeout=0.5)
-            response = tn.read_until(b"\r\n")
+            response = tn.read_until(b"\r\n", timeout=3)
             logger.core.debug(f"[DEBUG] Responce from ping:\n{response}")
             # b'84 bytes from 192.168.1.2 icmp_seq=5 ttl=64 time=0.337 ms\r\n'
             if b' bytes from' in response:

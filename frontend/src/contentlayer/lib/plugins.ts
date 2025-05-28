@@ -8,6 +8,8 @@ import rehypePrettyCode, {
 import rehypeSlug from "rehype-slug"
 import { codeImport } from "remark-code-import"
 import remarkGfm from "remark-gfm"
+import remarkMath from 'remark-math'
+import rehypeKatex from 'rehype-katex'
 import { Pluggable } from "unified"
 import { visit } from "unist-util-visit"
 
@@ -37,7 +39,7 @@ const autolinkHeadingsOptions: RehypeAutolinkHeadingsOptions = {
   },
 }
 
-export const remarkPlugins = [remarkGfm, codeImport]
+export const remarkPlugins = [remarkGfm, codeImport, remarkMath]
 
 export const rehypePlugins: Pluggable[] = [
   // [
@@ -84,4 +86,5 @@ export const rehypePlugins: Pluggable[] = [
     })
   },
   [rehypeAutolinkHeadings, autolinkHeadingsOptions],
+  rehypeKatex,
 ]

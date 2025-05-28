@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { auth } from 'auth';
 
-const isDev = process.env.NODE_ENV === 'development';
+console.log('API URL:', process.env.API_URL);
 
 const api = axios.create({
-  baseURL: isDev ? process.env.API_URL : '', // empty means relative path
+  baseURL: process.env.API_URL, // empty means relative path
   headers: {
     'Content-Type': 'application/json',
   },
