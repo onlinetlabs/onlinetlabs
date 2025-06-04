@@ -1,0 +1,210 @@
+version: '3.8'
+
+services:
+
+
+  #----------------------------#
+  #  CONTAINER | BACKEND CORE  #
+  #----------------------------#
+  
+  # The service is named server, which identifies it within the
+  # Docker Compose application and the network.
+  netlab_server:
+    # This option sets the name of the container to "server".
+    # It allows for easier identification of the container when
+    # managing it (e.g., starting, stopping, or viewing logs).
+    container_name: netlab_server
+    build:
+      # The context specifies where Docker should look for
+      # the files needed to build the image (Dockerfile etc).
+      context: ./backend/server/
+      # This specifies that Docker should use the Dockerfile
+      # located in the "context" directory to build the image.
+      dockerfile: Dockerfile
+
+
+    # This instructs Docker Compose to load environment variables
+    # from the .env file located in the same directory as the
+    # docker-compose.yaml.
+    env_file: ./backend/.env
+    environment:
+      # Setting this to 0 prevents Python from buffering stdout and stderr,
+      # which means logs can be viewed immediately.
+      # (Typically, it is set to 1 to enable unbuffered output.)
+      - PYTHONUNBUFFERED=0
+      # This variable tells Python where to look for modules when importing.
+      # In this case, /app is added to the Python path.
+      - PYTHONPATH=/app
+      #  This could control debug mode for the application; commonly used
+      # in web frameworks.
+      - DEBUG=False
+      # Set the hostname to connect to the database.
+      # - POSTGRES_HOST=netlab_database
+
+      # Use the default Docker bridge network's gateway address
+      # (172.17.0.1, which is the host-side representation of the
+      # Docker-default bridge network). This allows the container to
+      # communicate with services on the host as if they were on the
+      # network interface attached to the bridge.
+      - POSTGRES_HOST=172.17.0.1
+      - LAB_HOST=172.17.0.1
+
+    # Indicates that the service should restart automatically under
+    # certain conditions (e.g., if it crashes).
+    restart: always
+
+    # This specifies the command to run when the container starts.
+    # The working dir would be /app for container
+    # (here it is - src/server which contains main.py)
+    # The --host flag makes the server accessible from outside the
+    # container, and the port can be specified from an environment
+    # variable SERVER_PORT (defaulting to 8000 if not set).
+    command: uvicorn main:app --host 0.0.0.0 --port ${SERVER_PORT:-8000}
+
+    # Port Mapping: This line maps port 8000 on the host machine to
+    # port SERVER_PORT on the Docker container. The container listens
+    # on the specified port (defaulting to 8000), allowing external
+    # access through the specified port.
+    # ports:
+    #   - '8000:${SERVER_PORT:-8000}'   # No need because of network_mode: host
+
+      # To enable communication between two Docker containers,
+      # (core - server and database) don't necessarily need to map the
+      # ports to the host machine. Instead, you can use Docker's internal
+      # networking. Docker Compose automatically sets up a bridge network
+      # and allows containers to communicate with each other using their
+      # service names as hostnames. Check 'environment' - 'POSTGRES_HOST'
+
+    # This mounts the ./backend/src/server directory from the host machine to
+    # the /app directory within the container. This setup
+    # allows changes made to the code on the host to be reflected
+    # inside the container without the need to rebuild the image,
+    # which is useful for development.
+    # volumes:
+      # Common dir for scripts etc
+      # If using bind mount - .dockerignore will be ignored itself :)
+      # - ./backend/src/server:/app
+
+    # This indicates that the server service depends on another services.
+    # Docker Compose will wait until the depends services is up before
+    # starting this service.
+    depends_on:
+      - netlab_database
+      # - netlab_lab
+
+    # When you set network_mode: host for a service in a Docker Compose file,
+    # it means that the container will share the network namespace of
+    # the host machine. In other words, the container will not get its
+    # own private network (which is the default behavior), but rather it
+    # will use the host's network directly.
+    network_mode: host
+
+
+  #------------------------#
+  #  CONTAINER | DATABASE  #
+  #------------------------#
+   
+  # This is the name of the service defined in the Docker Compose file.
+  # It is used to refer to this particular service
+  # (in this case, a PostgreSQL database)
+  netlab_database:
+    # This assigns a specific name (netlab_database) to the container
+    # running this service. By default, Docker generates container
+    # names but specifying one makes it easier to manage.
+    container_name: netlab_database
+    build:
+      # The context specifies where Docker should look for
+      # the files needed to build the image (Dockerfile etc).
+      context: ./backend/database/
+      # This specifies that Docker should use the Dockerfile
+      # located in the "context" directory to build the image.
+      dockerfile: Dockerfile
+
+    
+    # Always restart if it stops or if Docker itself is restarted.
+    restart: always
+    
+    # This maps port 5432 of the host machine to port 5432 of the
+    # container. PostgreSQL's default port is 5432, so this allows
+    # external access to the database service running inside the container.
+    # ports:
+    #   - '5432:${POSTGRES_PORT:-5432}'   # No need because of network_mode: host
+    
+    # This defines a bind mount volume that maps a directory on the host
+    # (in this case, ./database_volume/data) to a directory in the container
+    # (/var/lib/postgresql/data). This allows for persistent storage
+    # of PostgreSQL data, meaning the data will be retained even if the
+    # container is stopped or removed. The data will be kept in the
+    # specified folder on the host.
+    volumes:
+      # Common dir for scripts etc
+      # If using bind mount - .dockerignore will be ignored itself :)
+      # Database volume. May be saved as regular folder and used as backup.
+      - ./volumes/database/data:/var/lib/postgresql/data
+        
+    # This instructs Docker Compose to load environment variables
+    # from the .env file located in the same directory as the
+    # docker-compose.yaml.
+    env_file: ./backend/.env
+
+    # When you set network_mode: host for a service in a Docker Compose file,
+    # it means that the container will share the network namespace of
+    # the host machine. In other words, the container will not get its
+    # own private network (which is the default behavior), but rather it
+    # will use the host's network directly.
+    network_mode: host
+  
+  
+  #----------------------------------#
+  #  CONTAINER | NETWORK LABORATORY  #
+  #----------------------------------#
+  
+  # This is the name of the service defined in the Docker Compose file.
+  # It is used to refer to this particular service
+  # (in this case, Network lab - GNS3)
+  netlab_lab:
+    # This assigns a specific name (netlab_database) to the container
+    # running this service. By default, Docker generates container
+    # names but specifying one makes it easier to manage.
+    container_name: netlab_lab
+    build:
+      # The context specifies where Docker should look for
+      # the files needed to build the image (Dockerfile etc).
+      context: ./backend/lab/
+      # This specifies that Docker should use the Dockerfile
+      # located in the "context" directory to build the image.
+      dockerfile: Dockerfile
+
+       
+    environment:
+      # Configure the internal NAT network bridge for GNS3
+      BRIDGE_ADDRESS: "172.21.1.1/24"
+
+    # Always restart if it stops or if Docker itself is restarted.
+    restart: always
+
+    # This defines a bind mount volume that maps a directory on the host
+    # (in this case, ./lab_data) to a directory in the container
+    # (/data). This allows for persistent storage
+    # of LAB (GNS3) data, meaning the data will be retained even if the
+    # container is stopped or removed. The data will be kept in the
+    # specified folder on the host.
+    volumes:
+      # Common dir for scripts etc
+      # If using bind mount - .dockerignore will be ignored itself :)
+      # Path to persistant data. May be saved as regular folder
+      # and used as backup.
+      - ./volumes/lab:/data
+      
+    # This instructs Docker Compose to load environment variables
+    # from the .env file located in the same directory as the
+    # docker-compose.yaml.
+    env_file: ./backend/.env
+    
+    # When you set network_mode: host for a service in a Docker Compose file,
+    # it means that the container will share the network namespace of
+    # the host machine. In other words, the container will not get its
+    # own private network (which is the default behavior), but rather it
+    # will use the host's network directly.
+    network_mode: host
+    privileged: true
