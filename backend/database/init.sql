@@ -94,6 +94,12 @@ VALUES (
     'routing-in-ip-networks',   -- Example lab ID (up to 64 chars)
     '4d655bbb-13be-45c7-be74-9486db187e7f'  -- Project_id
 );
+INSERT INTO user_projects (user_id, lab_id, project_id)
+VALUES (
+    1,                          -- DEMO user ID
+    'dynamic-routing-in-ip-networks',   -- Example lab ID (up to 64 chars)
+    '20aad301-f0f9-4ad9-999b-9370d568f6a8'  -- Project_id
+);
 
 
 -- CREATE DUMMY USER WITH LAB
