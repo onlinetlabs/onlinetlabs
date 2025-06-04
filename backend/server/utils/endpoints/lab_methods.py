@@ -2,7 +2,7 @@
 # System imports #
 
 import os
-from uuid               import uuid4
+from uuid               import uuid4, UUID
 import secrets
 import string
 
@@ -81,10 +81,44 @@ async def lab_user_project_create(
         lab_id:str, user_email:str,
         ) -> str|None:
     """
+    Creates brand new project.
     """
 
     project_name = lab_id + "__" + str( uuid4() )
     url = f"http://{LAB_HOST}:{port}/v3/projects"
+    
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "name": project_name,
+    }
+    
+    response = requests.post(url, headers=headers, json=payload)
+    
+    if response.ok:
+        project_id = response.json()["project_id"]
+        await database.lab.add_user_project(
+                user_email, lab_id, project_id)
+        return project_id
+    else:
+        return None
+
+
+async def lab_user_project_duplicate(
+        token:str, port:int,
+        lab_id:str, user_email:str,
+        project_id_template:UUID,
+        ) -> str|None:
+    """
+    Creates new project from another - 
+    aka copy project (or duplicate).
+    """
+
+    project_name = lab_id + "__" + str( uuid4() )
+    url = f"http://{LAB_HOST}:{port}/v3/projects/{project_id_template}/duplicate"
     
     headers = {
         "Authorization": f"Bearer {token}",

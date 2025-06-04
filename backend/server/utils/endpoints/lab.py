@@ -17,7 +17,7 @@ from fastapi.encoders   import jsonable_encoder
 from fastapi.responses  import JSONResponse
 
 from psycopg2.extras    import RealDictRow
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 # For gns3 project duplication
 import requests
@@ -36,6 +36,7 @@ from utils.endpoints.lab_methods    import (
         lab_check_project_exists,
         lab_user_get_token,
         lab_user_project_create,
+        lab_user_project_duplicate,
         lab_user_project_delete,
         lab_user_get_token,
         lab_get_roleid,
@@ -86,6 +87,13 @@ class LabDeleteRequestBody(BaseModel):
 
 class LabStartRequestBody(BaseModel):
     lab_id:str="routing-in-ip-networks"
+    project_id_template: UUID | None = Field(
+        default=None,
+        examples=[None],  # Explicitly show None as an example
+        json_schema_extra={
+            "description": "Optional template project UUID (default: None)"
+        }
+    )
 
 class LabCheckRequestBody(BaseModel):
     project_id:str="4d655bbb-13be-45c7-be74-9486db187e7f"
@@ -114,6 +122,8 @@ async def lab_start(
     
     user_email = payload.email
     lab_id = body.lab_id
+    project_id_template:UUID|None = body.project_id_template
+    print(f"[DEBUG] project_id_template: {project_id_template}")
 
     # 1. GET ACCESS TOKEN FOR GNS3 (LAB) API:
     access_token:str|None = lab_user_get_token(user_port)
@@ -149,6 +159,7 @@ async def lab_start(
 
     
     # 3. CREATE PROJECT:
+    # 3.1 Check for started project in DB:
     project_id:str|None = await database.lab.get_user_project(
             user_email=user_email,
             lab_id=lab_id,
@@ -157,22 +168,35 @@ async def lab_start(
         result:bool = await lab_check_project_exists(
                 access_token, user_port, project_id)
         if not result:
-            project_id = await lab_user_project_create(
-                    access_token, user_port,
-                    lab_id, user_email,
+            raise HTTPException(
+                    status_code=501,
+                    detail=f"Cant start lab: User project '{project_id}' exists in the DB but not in the gns3server.",
                     )
 
-    elif project_id is None:
+    # 3.2 If there is no one - create it:
+    # 3.2.1 Create from scratch:
+    elif project_id is None and project_id_template is None:
         project_id = await lab_user_project_create(
                 access_token, user_port,
                 lab_id, user_email,
                 )
+    # 3.2.2 Create project duplicate:
+    elif project_id is None and project_id_template is not None:
+        project_id = await lab_user_project_duplicate(
+                access_token, user_port,
+                lab_id, user_email,
+                project_id_template,
+                )
+
+
+    # 3.3 Last check that project was created:
     if project_id is None:
         raise HTTPException(
                 status_code=501,
                 detail=f"Cannot get project_id.",
                 )
     logger.core.debug(f"Got project_id: {project_id}")
+
 
     # 4. CREATE LAB USER ROLE:
     # 4.1 Get role_id
