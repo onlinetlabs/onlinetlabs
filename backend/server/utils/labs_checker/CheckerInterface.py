@@ -15,7 +15,17 @@ import requests
 # ------------- #
 # Local imports #
 
-from utils.datastructures   import logger
+
+try:
+    # Package mode import
+    from utils.datastructures   import logger
+except:
+    # Direct script mode import
+    from loguru import logger
+    class Logger:
+        def __init__(self):
+            self.core = logger
+    logger = Logger()
 
 
 # CONSTANTS #
@@ -64,7 +74,7 @@ class CheckerInterface:
             # _ = tn.read_until(b"\r\n", timeout=0.1)
             _ = tn.read_until(b"gateway", timeout=0.3)
             # _ = tn.read_very_eager()
-            logger.core.debug(f"Flushing tn buf:\n{_}")
+            # logger.core.debug(f"Flushing tn buf:\n{_}")
             if _ == b"":
                 break
             await asyncio.sleep(0.1)
@@ -225,6 +235,11 @@ class CheckerInterface:
     
         if response.ok:
             logger.core.debug(f"[DEBUG] Project nodes successfully started.")
+            logger.core.debug(f"[DEBUG] Now wait for 10 sec to give them fully deploy.")
+            #TODO: Make proper checking on noed startup completed.
+            # If the project is checked from down state
+            # Give routers some time to init web console
+            await asyncio.sleep(10)
             return True
         else:
             logger.core.debug("Error could not start the nodes:", response.status_code, response.text)
@@ -279,6 +294,59 @@ class CheckerInterface:
         tn.write(cmd)
         # Flush commant entered
         _ = tn.read_until(cmd, timeout=0.2)
+
+        # First reading stop at PC1 or watever vpcs name
+        # _ = tn.read_until(bytes(node["name"], "utf-8"), timeout=0.3)
+        _ = tn.read_until(bytes(node["name"], "utf-8"))
+        # Then extract its IP
+        # response:str = tn.read_until(b"\r\n", timeout=0.3).decode()
+        response:str = tn.read_until(b"\r\n").decode()
+        logger.core.debug(f"Node IP (not final): {response}")
+        # Get rid of spaces
+        response_refined = \
+                [item for item in response.split(" ") if len(item) > 0 and item != ":"]
+        try:
+            node_ip = response_refined[0].split("/")[0]
+        except IndexError as e:
+            return None
+
+        tn.write(b"\x03")   # Ctrl+C to interrupt
+        tn.close()
+
+        return node_ip
+
+
+    async def router_check_rip(
+            self,
+            node:dict,
+            ) -> bool:
+        """
+        Checks that router uses RIP protocol.
+        """
+
+        port    = node['console']
+
+        # tn = telnetlib.Telnet(self.lab_host, port)
+        tn = Telnet(self.lab_host, port)
+        # Sort of buffer flush
+        await self.telnet_buffer_flush(tn)
+        # tn.write(b"\x03")   # Ctrl+C to interrupt
+        
+        # If the project is checked from down state
+        # Routers stuck on the line:
+        # ... changed state to down
+        # And no one command could be written unless 'enter' is pressed.
+        tn.write(b"\r\n")
+        # Good. Now send the command:
+        cmd = b"show ip protocols\r\n"
+        tn.write(cmd)
+        # Flush commant entered
+        _ = tn.read_until(cmd, timeout=0.2)
+
+        response = tn.read_until(b'Routing Protocol is "rip"', timeout=2)
+        if b'Routing Protocol is "rip"' in response:
+            return True
+        return False
 
         # First reading stop at PC1 or watever vpcs name
         # _ = tn.read_until(bytes(node["name"], "utf-8"), timeout=0.3)

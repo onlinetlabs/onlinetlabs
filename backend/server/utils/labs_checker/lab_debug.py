@@ -23,8 +23,9 @@ from requests.models import HTTPError
 # ------------- #
 # Local imports #
 
-
-from utils.labs_checker     import checkers
+# from utils.labs_checker import checkers
+# from __init__ import checkers
+from Checker_02 import Checker02
 
 
 
@@ -116,11 +117,14 @@ def gns3_user_project_create(
 
 async def main():
 
-    lab_id = "routing-in-ip-networks"
-    project_id = "4d655bbb-13be-45c7-be74-9486db187e7f"
+    # lab_id = "routing-in-ip-networks"
+    # project_id = "4d655bbb-13be-45c7-be74-9486db187e7f"
+    lab_id = "dynamic-routing-in-ip-networks"
+    project_id = "20aad301-f0f9-4ad9-999b-9370d568f6a8"
 
     #TODO: lab_host
-    lab_host = "127.0.0.1"
+    # lab_host = "127.0.0.1"
+    lab_host = "172.17.0.1"
 
     #TODO: get port from DB
     user_port = 3080
@@ -128,14 +132,20 @@ async def main():
     # Duplicate target lab
     access_token = gns3_user_get_token(user_port)
 
-    if not lab_id in checkers:
-        check_result = [f"lab_id '{lab_id}' not found"]
-    else:
-        checker = checkers[lab_id](
-                lab_host, user_port)
-        check_result = await checker.lab_perform_check(
-                access_token, project_id,
-                )
+    # if not lab_id in checkers:
+    #     check_result = [f"lab_id '{lab_id}' not found"]
+    # else:
+    #     checker = checkers[lab_id](
+    #             lab_host, user_port)
+    #     check_result = await checker.lab_perform_check(
+    #             access_token, project_id,
+    #             )
+    checker = Checker02(
+            lab_host, user_port)
+    await checker.lab_perform_check(
+            access_token, project_id,
+            )
+    check_result = checker.checklog
 
     print(check_result)
 
