@@ -5,5 +5,6 @@ export type LabStart = {
 }
 
 export type LabStartParams = {
-  lab_id: string
+  lab_id: string;
+  project_id_template: string | null;
 }

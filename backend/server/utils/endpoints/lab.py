@@ -245,7 +245,7 @@ async def lab_check(
     """
 
     #TODO: lab_host
-    lab_host = "127.0.0.1"
+    lab_host = LAB_HOST
     #TODO: get port from DB
     user_port = 3080
 
@@ -387,7 +387,7 @@ async def lab_project_id_to_lab_id(
     """
 
     #TODO: lab_host
-    lab_host = "127.0.0.1"
+    lab_host = LAB_HOST
     #TODO: get port from DB
     user_port = 3080
 

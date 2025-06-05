@@ -38,8 +38,6 @@ export default async function Page({
     q,
   })
 
-  const labs = (q || category) ? data : [...data, ...DUMMY_LABS]
-
   return (
     <div className="relative">
       <PageHeader className="[&_[data-slot='page-header-container']]:max-[1800px]:mx-0">
@@ -65,7 +63,7 @@ export default async function Page({
         </div>
       </div>
       <ul className="[&>li]:border-border grid h-auto list-none auto-rows-min sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [&>li]:border-r [&>li]:border-b xl:[&>li:nth-child(4n)]:border-r-0">
-        {labs.map((lab, idx) => (
+        {data.map((lab, idx) => (
           <li key={idx} className="min-h-[136px] list-none">
             <article className="h-full">
               <Link

@@ -1,5 +1,5 @@
 # Use a multi-stage build to keep the final image clean
-FROM alpine:latest AS builder
+FROM alpine:3.21.0 AS builder
 
 # Copy all necessary files
 COPY start.sh /start.sh
@@ -35,7 +35,7 @@ RUN apk del --purge build-dependencies
 
 
 # Final stage
-FROM alpine:latest
+FROM alpine:3.21.0
 
 # Copy installed dependencies from builder
 COPY --from=builder / /
