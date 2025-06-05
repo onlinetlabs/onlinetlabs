@@ -13,7 +13,6 @@ import { getCategories, getLabs } from "@lib/lab"
 
 import { CategoryFilter } from "./components/category-filter"
 import { SearchFilter } from "./components/search-filter"
-import { DUMMY_LABS } from "@shared/config/content"
 import { cn } from "@lib/utils"
 
 type SearchParams = Promise<{
