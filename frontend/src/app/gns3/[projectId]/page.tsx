@@ -59,12 +59,14 @@ export default async function IndexPage({ params }: Props) {
 
   queryClient.prefetchQuery(checksOptions(projectId))
 
+  const lab = getLabById(info.labId);
+
   return (
     <>
       <div className="bg-muted p-4 sm:p-6 lg:p-8">
         <div>
           <h1 className="text-foreground text-lg font-semibold">
-          Маршрутизация в IP сетях
+            {lab?.title}
           </h1>
           <p className="text-muted-foreground text-sm">
             На этой странице вы можете запустить автоматическую проверку, остановить
